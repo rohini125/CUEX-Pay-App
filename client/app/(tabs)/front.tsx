@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { FontAwesome5, MaterialIcons } from '@expo/vector-icons';
 import { Link, useRouter } from 'expo-router';
 import CurrencyConverter from '../Home/currencyconverter';
-// import Header from '../Header';
+import Header from '../Header';
 
 const Home = () => {
   const router = useRouter();
@@ -20,7 +20,7 @@ const Home = () => {
   return (
      <View style={{flex:1}}>
       <StatusBar backgroundColor="#ADD8E6" barStyle="dark-content"  />
-       {/* <Header  /> */}
+       <Header  />
   
       <View style={styles.container}>
           <CurrencyConverter />
