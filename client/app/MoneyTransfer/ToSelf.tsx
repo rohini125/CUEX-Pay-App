@@ -1,9 +1,7 @@
 
 
-
-
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, TextInput, FlatList, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, TextInput, FlatList, Alert, StatusBar} from 'react-native';
 import { useRouter } from 'expo-router';
 import { AntDesign } from '@expo/vector-icons'; // Icon library for React Native
 
@@ -51,6 +49,7 @@ const SelfAccountPage = () => {
 
   return (
     <View style={styles.container}>
+       <StatusBar backgroundColor="#ADD8E6" barStyle="dark-content"  />
       <View style={styles.header}>
         {/* Back Arrow */}
         <TouchableOpacity style={styles.backButton} onPress={() => router.push('/front')}>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, StatusBar } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons'; // Import icons from react-icons
 
@@ -33,6 +33,7 @@ const ToMobilePay = () => {
 
   return (
     <View style={styles.container}>
+       <StatusBar backgroundColor="#ADD8E6" barStyle="dark-content"  />
       {/* Header with Back Arrow */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.push('/front')} style={styles.backButton}>
