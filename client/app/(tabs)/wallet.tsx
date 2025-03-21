@@ -688,7 +688,7 @@ const Wallet = () => {
           >
             <Text style={styles.actionText}>Withdraw</Text>
           </TouchableOpacity>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={styles.actionButton}
             activeOpacity={0.7}
           >
@@ -699,7 +699,7 @@ const Wallet = () => {
             activeOpacity={0.7}
           >
             <Text style={styles.actionText}>Transfer</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
 
         <View style={styles.currencies}>
@@ -730,7 +730,7 @@ const styles = StyleSheet.create({
   container: {
     padding: 20,
     flex: 1,
-    backgroundColor:'#ADD8E6',
+    backgroundColor:'#F4F6F9',
   },
   header: {
     alignItems: "center",

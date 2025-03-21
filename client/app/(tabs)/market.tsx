@@ -346,7 +346,7 @@ const Market = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ADD8E6',
+    backgroundColor: '#F4F6F9',
     padding: 16,
   },
   title: {
