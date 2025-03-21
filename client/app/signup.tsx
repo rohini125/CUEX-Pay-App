@@ -257,7 +257,7 @@
 
 
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Image, TextInput, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, Image, TextInput, ScrollView, TouchableOpacity, Alert, StatusBar } from 'react-native';
 import { Link, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
@@ -296,6 +296,7 @@ const SignUp = () => {
 
   return (
     <ScrollView style={styles.container}>
+       <StatusBar backgroundColor={'#F4F6F9'} barStyle={'dark-content'}/>
       <View style={{ padding: 20, gap: 20 }}>
         <Image source={require('@/assets/images/signup.jpg')} style={styles.image} resizeMode='cover' />
         <TextInput placeholder='Enter Your Name' style={styles.input} value={name} onChangeText={setName} />
@@ -347,7 +348,7 @@ export default SignUp;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ADD8E6',
+    backgroundColor: '#F4F6F9',
   },
   image: {
     width: '100%',
@@ -361,7 +362,7 @@ const styles = StyleSheet.create({
   },
   inputWrapper: {
     position: 'relative',
-    backgroundColor: '#ADD8E6',
+    backgroundColor: '#F4F6F9',
   },
   inputWithIcon: {
     height: 50,
@@ -376,7 +377,7 @@ const styles = StyleSheet.create({
     top: 12,
   },
   signUpButton: {
-    backgroundColor: 'black',
+    backgroundColor: '#004080',
     borderRadius: 10,
     alignItems: 'center',
     paddingVertical: 15,

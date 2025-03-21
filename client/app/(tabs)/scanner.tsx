@@ -136,6 +136,8 @@
 // });
 
 
+///////////////////// code - 1 /////////////////// 
+
 
 // import {
 //   View,
@@ -144,6 +146,7 @@
 //   TouchableOpacity,
 //   StatusBar,
 //   Image,
+//   Linking,
 // } from 'react-native';
 // import React, { useState } from 'react';
 // import * as ImagePicker from 'expo-image-picker';
@@ -158,7 +161,6 @@
 
 // const QrCodeScanner = () => {
 //   const router = useRouter();
-//   // const [selectedImage, setSelectedImage] = useState(null);
 //   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 //   const [flashOn, setFlashOn] = useState(false);
 
@@ -167,7 +169,8 @@
 //   };
 
 //   const onHelp = () => {
-//     router.push('/Sidebar/help');
+//     // router.push('./Sidebar/help/help');
+    
 //   };
 
 //   const pickImage = async () => {
@@ -185,6 +188,13 @@
 
 //   const toggleFlash = () => {
 //     setFlashOn(!flashOn);
+//   };
+
+//   const openAppSettings = async () => {
+//     const canOpen = await Linking.canOpenURL('app-settings:');
+//     if (canOpen) {
+//       Linking.openURL('app-settings:');
+//     }
 //   };
 
 //   return (
@@ -206,7 +216,7 @@
 //         <Ionicons name="camera" size={30} color="#333" style={{ marginBottom: 15 }} />
 //         <Text style={styles.title}>Allow Camera Permission</Text>
 //         <Text style={styles.description}>CuexPe needs permission to access camera to scan QR code.</Text>
-//         <TouchableOpacity activeOpacity={0.7} style={styles.button}>
+//         <TouchableOpacity activeOpacity={0.7} style={styles.button} onPress={openAppSettings}>
 //           <Text style={styles.Btntext}>Go to settings</Text>
 //         </TouchableOpacity>
 
@@ -295,8 +305,7 @@
 //   },
 // });
 
-
-
+//////////////////////////// code - 2 //////////////////////////////
 
 import {
   View,
@@ -329,7 +338,6 @@ const QrCodeScanner = () => {
 
   const onHelp = () => {
     // router.push('./Sidebar/help/help');
-    
   };
 
   const pickImage = async () => {
@@ -358,15 +366,15 @@ const QrCodeScanner = () => {
 
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor="#ADD8E6" barStyle="dark-content" />
+      <StatusBar backgroundColor="#004080" barStyle="light-content" />
       <View style={styles.header}>
         <View style={styles.subHeader}>
           <TouchableOpacity onPress={onclick} style={styles.backBtn}>
-            <Ionicons name="arrow-back" size={24} color="#333" />
+            <Ionicons name="arrow-back" size={24} color="#fff" />
           </TouchableOpacity>
-          <Text style={styles.title}>Scan & Pay</Text>
+          <Text style={styles.text}>Scan & Pay</Text>
           <TouchableOpacity style={styles.backBtn} onPress={onHelp}>
-            <Feather name="help-circle" size={24} color="#4A4A4A" />
+            <Feather name="help-circle" size={24} color="#fff" />
           </TouchableOpacity>
         </View>
       </View>
@@ -401,12 +409,12 @@ export default QrCodeScanner;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#F4F6F9',
   },
   header: {
     width: '100%',
-    height: verticalScale(85),
-    backgroundColor: '#ADD8E6',
+    height: verticalScale(80),
+    backgroundColor: '#004080',
     justifyContent: 'flex-end',
   },
   subHeader: {
@@ -419,6 +427,11 @@ const styles = StyleSheet.create({
     paddingRight: moderateScale(15),
     marginBottom: 20,
   },
+  text: {
+    fontWeight: '500',
+    fontSize: moderateScale(20),
+    color: '#ffffff',
+  },
   backBtn: {
     width: scale(50),
     height: scale(50),
@@ -430,11 +443,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 10,
-    backgroundColor: '#ADD8E6',
+    backgroundColor: '#F4F6F9',
   },
   title: {
     fontWeight: '500',
     fontSize: moderateScale(20),
+    color: '#333',
   },
   description: {
     fontSize: 16,
@@ -442,7 +456,7 @@ const styles = StyleSheet.create({
     color: '#666',
   },
   button: {
-    backgroundColor: '#000000',
+    backgroundColor: '#004080',
     padding: 8,
     marginTop: 10,
     borderRadius: 15,

@@ -1,5 +1,5 @@
 
-import { View, Text, TouchableOpacity, StyleSheet,StatusBar} from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet,StatusBar , ScrollView} from 'react-native';
 import React, { useState } from 'react';
 import { FontAwesome5, MaterialIcons } from '@expo/vector-icons';
 import { Link, useRouter } from 'expo-router';
@@ -19,10 +19,10 @@ const Home = () => {
 
   return (
      <View style={{flex:1}}>
-      <StatusBar backgroundColor="#ADD8E6" barStyle="dark-content"  />
+      <StatusBar backgroundColor="#004080" barStyle="light-content"  />
        <Header  />
   
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
           <CurrencyConverter />
         <View style={styles.Cardcontainer}>
           <Text style={styles.title}>Transfer Money</Text>
@@ -92,7 +92,7 @@ const Home = () => {
 
             </View>
           </View>
-        </View>
+        </ScrollView>
       </View>
     
   );
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width:'100%',
     // backgroundColor: '#F8F9FA',
-    backgroundColor: '#ADD8E6',
+    backgroundColor: '#F4F6F9',
     padding: 16,
   },
 
@@ -120,12 +120,14 @@ const styles = StyleSheet.create({
     elevation: 1,
     // borderWidth: 1,
     borderColor: '#ddd',
-    marginBottom:8,
+    // marginBottom:8,
+    // marginVertical:10,
   },
   title: {
     fontSize: 17,
     fontWeight: 'bold',
-    marginTop: 10,
+    marginTop: 18,
+    marginBottom: 10,
     // marginVertical:10,
     textAlign: 'center',
   },

@@ -1,3 +1,7 @@
+
+
+
+
 // import React, { useState } from 'react';
 // import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 // import { useRouter } from 'expo-router';
@@ -20,71 +24,105 @@
 //       return;
 //     }
 
-//     // Use params instead of query for navigation
+//     // Using params to pass data for the success page
 //     router.push({
-//       pathname: '/MoneyTransfer/banksuccess',
+//       pathname: '/MoneyTransfer/upiIdsuccess',
 //       params: {
-//         amount: numericAmount.toString(),
-//         paymentDetails: `UPI ID: ${upiId}`,
+//         amount,
+//         upiId,
 //         dateTime: new Date().toLocaleString(),
 //       },
 //     });
 //   };
 
 //   return (
-//     <View style={styles.container}>
-//       <TextInput
-//         placeholder="Enter UPI ID"
-//         style={styles.input}
-//         value={upiId}
-//         onChangeText={setUpiId}
-//       />
-//       <TextInput
-//         placeholder="Enter Amount"
-//         keyboardType="numeric"
-//         style={styles.input}
-//         value={amount}
-//         onChangeText={setAmount}
-//       />
-//       <TouchableOpacity style={styles.button} onPress={handleConfirm}>
-//         <Text style={styles.buttonText}>Confirm</Text>
-//       </TouchableOpacity>
-//     </View>
-//   );
-// };
-
-// export default UpiIdPaymentPage;
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     padding: 20,
-//     backgroundColor: '#f9f9f9',
-//   },
-//   input: {
-//     borderWidth: 1,
-//     borderColor: '#ddd',
-//     borderRadius: 10,
-//     height: 50,
-//     paddingHorizontal: 15,
-//     marginBottom: 20,
-//     fontSize: 16,
-//   },
-//   button: {
-//     backgroundColor: '#007BFF',
-//     borderRadius: 10,
-//     alignItems: 'center',
-//     paddingVertical: 15,
-//   },
-//   buttonText: {
-//     color: 'white',
-//     fontSize: 18,
-//     fontWeight: 'bold',
-//   },
-// });
-
-
-
+//       <View style={styles.container}>
+//         <Text style={styles.text}>Enter Payment Details</Text>
+  
+//         <View style={styles.card}>
+//           {/* Input for UPI id */}
+//           <TextInput
+//             style={styles.input}
+//             placeholder="Enter UPI ID"
+//             value={upiId}
+//             onChangeText={setUpiId}
+//           />
+    
+//           {/* Input for Amount */}
+//           <TextInput
+//             style={styles.input}
+//             placeholder="Enter Amount"
+//             value={amount}
+//             onChangeText={setAmount}
+//             keyboardType="number-pad"
+//           />
+    
+//           {/* Confirm Button */}
+//           <TouchableOpacity activeOpacity={0.7} style={styles.button} onPress={handleConfirm}>
+//             <Text style={styles.buttonText}>Confirm</Text>
+//           </TouchableOpacity>
+//         </View>
+//       </View>
+//     );
+//   };
+  
+//   export default UpiIdPaymentPage;
+  
+//   const styles = StyleSheet.create({
+//     container: {
+//       flex: 1,
+//       // justifyContent: 'center',
+//       // alignItems: 'center',
+//       // backgroundColor: '#f9f9f9',
+//       backgroundColor:'#F4F6F9',
+//       padding: 20,
+//     },
+//     text: {
+//       fontSize: 18,
+//       fontWeight: 'bold',
+//       alignSelf:'center',
+//       color: '#222',
+//       marginBottom: 20,
+//     },
+//     card: {
+//       backgroundColor: '#FFFFFF', 
+//       borderRadius: 15,
+//       padding: 20,
+//       shadowColor: '#000',
+//       shadowOpacity: 0.1,
+//       shadowRadius: 5,
+//       shadowOffset: { width: 0, height: 2 },
+//       elevation: 5,
+//     },
+//     input: {
+//       backgroundColor: '#F9FAFC',
+//       borderRadius: 10,
+//       height: 55,
+//       paddingHorizontal: 15,
+//       marginBottom: 20,
+//       fontSize: 16,
+//       elevation: 2,
+//       shadowColor: '#000',
+//       shadowOpacity: 0.1,
+//       shadowRadius: 4,
+//       shadowOffset: { width: 0, height: 2 },
+//     },
+//     button: {
+//       width: '100%',
+//       height: 50,
+//       // backgroundColor: '#007BFF',
+//       backgroundColor:'#004080',
+//       justifyContent: 'center',
+//       alignItems: 'center',
+//       borderRadius: 8,
+//     },
+//     buttonText: {
+//       color: '#fff',
+//       fontSize: 18,
+//       fontWeight: 'bold',
+//     },
+//   });
+  
 
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
@@ -123,27 +161,37 @@ const UpiIdPaymentPage = () => {
       <View style={styles.container}>
         <Text style={styles.text}>Enter Payment Details</Text>
   
-        {/* Input for UPI id */}
-        <TextInput
-          style={styles.input}
-          placeholder="Enter UPI ID"
-          value={upiId}
-          onChangeText={setUpiId}
-        />
-  
-        {/* Input for Amount */}
-        <TextInput
-          style={styles.input}
-          placeholder="Enter Amount"
-          value={amount}
-          onChangeText={setAmount}
-          keyboardType="number-pad"
-        />
-  
-        {/* Confirm Button */}
-        <TouchableOpacity activeOpacity={0.7} style={styles.button} onPress={handleConfirm}>
-          <Text style={styles.buttonText}>Confirm</Text>
-        </TouchableOpacity>
+        <View style={styles.card}>
+          {/* Input for UPI id */}
+          <TextInput
+            style={styles.input}
+            placeholder="Enter UPI ID"
+            value={upiId}
+            onChangeText={setUpiId}
+          />
+    
+          {/* Input for Amount */}
+          <TextInput
+            style={styles.input}
+            placeholder="Enter Amount"
+            value={amount}
+            onChangeText={setAmount}
+            keyboardType="number-pad"
+          />
+    
+          {/* Confirm Button */}
+          <TouchableOpacity activeOpacity={0.7} style={styles.button} onPress={handleConfirm}>
+            <Text style={styles.buttonText}>Confirm</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* User Helpful Information */}
+        <View style={styles.infoBox}>
+          <Text style={styles.infoText}>💡 Ensure your UPI ID is correct to avoid failed transactions.</Text>
+          <Text style={styles.infoText}>⚠️ Verify the amount before confirming the payment.</Text>
+          <Text style={styles.infoText}>🔒 Your transaction details are encrypted for security.</Text>
+          <Text style={styles.infoText}>⏳ Payments may take a few minutes to reflect in the recipient's account.</Text>
+        </View>
       </View>
     );
   };
@@ -153,34 +201,43 @@ const UpiIdPaymentPage = () => {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      // backgroundColor: '#f9f9f9',
-      backgroundColor:'#ADD8E6',
+      backgroundColor:'#F4F6F9',
       padding: 20,
     },
     text: {
       fontSize: 18,
       fontWeight: 'bold',
+      alignSelf:'center',
       color: '#222',
       marginBottom: 20,
     },
+    card: {
+      backgroundColor: '#FFFFFF', 
+      borderRadius: 15,
+      padding: 20,
+      shadowColor: '#000',
+      shadowOpacity: 0.1,
+      shadowRadius: 5,
+      shadowOffset: { width: 0, height: 2 },
+      elevation: 5,
+    },
     input: {
-      width: '100%',
-      height: 50,
-      borderWidth: 1,
-      borderColor: '#ccc', 
-      borderRadius: 8,
-      paddingHorizontal: 10,
-      marginBottom: 15,
-      backgroundColor: '#fff',
+      backgroundColor: '#F9FAFC',
+      borderRadius: 10,
+      height: 55,
+      paddingHorizontal: 15,
+      marginBottom: 20,
       fontSize: 16,
+      elevation: 2,
+      shadowColor: '#000',
+      shadowOpacity: 0.1,
+      shadowRadius: 4,
+      shadowOffset: { width: 0, height: 2 },
     },
     button: {
       width: '100%',
       height: 50,
-      // backgroundColor: '#007BFF',
-      backgroundColor:'#000000',
+      backgroundColor:'#004080',
       justifyContent: 'center',
       alignItems: 'center',
       borderRadius: 8,
@@ -190,65 +247,15 @@ const UpiIdPaymentPage = () => {
       fontSize: 18,
       fontWeight: 'bold',
     },
+    infoBox: {
+      marginTop: 20,
+      padding: 15,
+      backgroundColor: '#EAF0FB',
+      borderRadius: 10,
+    },
+    infoText: {
+      fontSize: 14,
+      color: '#004080',
+      marginBottom: 8,
+    },
   });
-  
-
-//   return (
-//     <View style={styles.container}>
-//       <Text style={styles.heading}> Enter Payment Details</Text>
-//       <TextInput
-//         placeholder="Enter UPI ID"
-//         style={styles.input}
-//         value={upiId}
-//         onChangeText={setUpiId}
-//       />
-//       <TextInput
-//         placeholder="Enter Amount"
-//         keyboardType="numeric"
-//         style={styles.input}
-//         value={amount}
-//         onChangeText={setAmount}
-//       />
-//       <TouchableOpacity style={styles.button} onPress={handleConfirm}>
-//         <Text style={styles.buttonText}>Confirm</Text>
-//       </TouchableOpacity>
-//     </View>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     padding: 20,
-//     backgroundColor: '#f9f9f9',
-//   },
-//   heading: {
-//     fontSize: 22,
-//     fontWeight: 'bold',
-//     color: '#333',
-//     marginBottom: 30,
-//   },
-//   input: {
-//     borderWidth: 1,
-//     borderColor: '#ddd',
-//     borderRadius: 10,
-//     height: 50,
-//     paddingHorizontal: 15,
-//     backgroundColor: '#fff',
-//     marginBottom: 20,
-//     fontSize: 16,
-//   },
-//   button: {
-//     backgroundColor: '#007BFF',
-//     borderRadius: 10,
-//     alignItems: 'center',
-//     paddingVertical: 15,
-//   },
-//   buttonText: {
-//     color: 'white',
-//     fontSize: 18,
-//     fontWeight: 'bold',
-//   },
-// });
-
-// export default UpiIdPaymentPage;
