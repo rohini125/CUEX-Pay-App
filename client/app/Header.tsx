@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   header: {
     width: '100%',
     height: verticalScale(50),
-    backgroundColor: '#ADD8E6',
+    backgroundColor: '#004080',
     justifyContent: 'flex-end',
   },
   header2: {
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
   },
   home: {
     fontSize: moderateScale(18),
-    color: 'black',
+    color: 'white',
     textAlign: 'center',
     fontWeight: '600',
   },
@@ -103,6 +103,6 @@ const styles = StyleSheet.create({
   icons: {
     width: scale(22),
     height: scale(22),
-    tintColor: 'black',
+    tintColor: 'white',
   },
 });

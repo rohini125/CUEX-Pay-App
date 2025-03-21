@@ -39,19 +39,38 @@ const About = () => {
       <View style={styles.section}>
         <Text style={styles.cardTitle}>Company Overview</Text>
         <Text style={styles.cardText}>
-          "At CUEX, we are redefining how people exchange and manage their money globally..."
-        </Text>
+          "CUEX is an innovative currency exchange and digital wallet application designed to provide seamless, secure, and real-time financial transactions. Built with cutting-edge technology, CUEX simplifies currency conversion and international payments, making cross-border transactions effortless."
+        <b>📲 Exchange. Pay. Earn. All in One Place - CUEX!</b></Text>
       </View>
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Meet Our Developers</Text>
         {/* Developer Cards */}
-        {['Parkale Sakshi', 'Salunke Yash', 'Navale Komal', 'Kandekar Rohini'].map((name, index) => (
-          <View key={index} style={styles.card}>
-            <Image source={require('../../assets/images/signup.jpg')} style={styles.profilePic} />
-            <Text style={styles.cardTitle}>{name}</Text>
+        
+          <View style={styles.card}>
+            <Image source={require('../../assets/images/sakshi.jpg')} style={styles.profilePic} />
+            <Text style={styles.cardTitle}>Parkale Sakshi Mohan</Text>
             <Text style={styles.cardText}>Role: Developer Role Here</Text>
           </View>
-        ))}
+
+          <View style={styles.card}>
+            <Image source={require('../../assets/images/sakshi.jpg')} style={styles.profilePic} />
+            <Text style={styles.cardTitle}>Navale Komal Jalindar</Text>
+            <Text style={styles.cardText}>Role: Developer Role Here</Text>
+          </View>
+
+          <View style={styles.card}>
+            <Image source={require('../../assets/images/sakshi.jpg')} style={styles.profilePic} />
+            <Text style={styles.cardTitle}>Salunke Yash Sudarshan</Text>
+            <Text style={styles.cardText}>Role: Developer Role Here</Text>
+          </View>
+
+          <View style={styles.card}>
+            <Image source={require('../../assets/images/sakshi.jpg')} style={styles.profilePic} />
+            <Text style={styles.cardTitle}>Kandekar Rohini Sukhadev</Text>
+            <Text style={styles.cardText}>Role: Developer Role Here</Text>
+          </View>
+          
+        
       </View>
       {/* Contact Form */}
       <View style={styles.section}>
@@ -192,9 +211,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   profilePic: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
+    width: 90,
+    height: 90,
+    borderRadius: 50,
     marginBottom: 16,
   },
 });
