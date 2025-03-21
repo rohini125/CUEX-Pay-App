@@ -132,7 +132,7 @@ const handleCreateAlert = () => {
     <View style={styles.container}>
       <View style={styles.header}>
               <TouchableOpacity activeOpacity={0.7} onPress={() => router.push('/Sidebar/menu')} style={styles.backButton}>
-                <Ionicons name="arrow-back" size={24} color="black" />
+                <Ionicons name="arrow-back" size={24} color="white" />
               </TouchableOpacity>
             {/* Header */}
             <Text style={styles.headerTitle}> Price Alerts</Text>
@@ -253,19 +253,20 @@ const handleCreateAlert = () => {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor:'#ADD8E6'
+    backgroundColor:'white'
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 16,
-    backgroundColor: '#ADD8E6',
+    height:90,
+    backgroundColor: '#004080',
     paddingHorizontal: 16,
     marginBottom:10
   },
   headerTitle: {
     fontSize: 25,
-    color: 'black',
+    color: 'white',
     fontWeight: 'bold',
   },
   backButton: {
@@ -281,7 +282,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   card: {
-    backgroundColor: "#E6F2FA",
+    backgroundColor: "#e2f1ff",
     borderRadius: 12,
     padding: 16,
     shadowColor: "#000",
@@ -325,7 +326,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   alertButton: {
-    backgroundColor: 'black',
+    backgroundColor: '#004080',
     padding: 10,
     borderRadius: 5,
     flex: 1,
@@ -333,7 +334,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   selectedButton: {
-    backgroundColor: 'black',
+    backgroundColor: '#004080',
   },
   alertButtonText: {
     color: '#fff',
@@ -351,7 +352,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   adjustButton: {
-    backgroundColor: 'black',
+    backgroundColor: '#004080',
     borderRadius: 5,
     padding: 10,
   },
@@ -365,7 +366,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   createButton: {
-    backgroundColor: 'black',
+    backgroundColor: '#004080',
     padding: 15,
     borderRadius: 5,
     alignItems: 'center',
@@ -387,7 +388,9 @@ const styles = StyleSheet.create({
   alertItem: {
     padding: 10,
     borderRadius: 5,
-    backgroundColor: '#e0e0e0',
+    backgroundColor: '#e2f1ff',
+    borderColor: 'black',
+    borderWidth: 1,
     marginBottom: 10,
   },
   alertDescription: {
