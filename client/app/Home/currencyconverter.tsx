@@ -477,8 +477,8 @@ const getCountryCode = (currency: CurrencyCode): string => {
 
 const CurrencyConverter = () => {
   const [currencies, setCurrencies] = useState<string[]>([]);
-  const [fromCurrency, setFromCurrency] = useState('INR');
-  const [toCurrency, setToCurrency] = useState('USD');
+  const [fromCurrency, setFromCurrency] = useState('USD');
+  const [toCurrency, setToCurrency] = useState('INR');
   const [amount, setAmount] = useState('');
   const [convertedAmount, setConvertedAmount] = useState('0');
   const [loading, setLoading] = useState(false);
@@ -677,12 +677,12 @@ const CurrencyConverter = () => {
             >
               <Text style={styles.buttonText}>Convert</Text>
             </TouchableOpacity>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={[styles.button, styles.shadow]}
               activeOpacity={0.7}
             >
               <Text style={styles.buttonText}>Add Funds</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </>
       )}
@@ -729,7 +729,8 @@ const CurrencyConverter = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginBottom: 15,
+    // marginBottom: 15,
+    marginVertical:15,
     padding: 20,
     justifyContent: 'center',
     // backgroundColor: '#f9f9f9',
@@ -763,12 +764,12 @@ const styles = StyleSheet.create({
   rowButtons: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 20,
+    marginTop: 10,
   },
   button: {
     flex: 1,
     // backgroundColor: '#007bff',
-    backgroundColor:'#000000',
+    backgroundColor:'#004080',
     padding: 10,
     borderRadius: 5,
     alignItems: 'center',
