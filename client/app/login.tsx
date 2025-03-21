@@ -37,7 +37,7 @@ const Login = () => {
   return (
     <ScrollView style={styles.container}>
 
-      <StatusBar backgroundColor={'#ADD8e6'} barStyle={'dark-content'}/>
+      <StatusBar backgroundColor={'#F4F6F9'} barStyle={'dark-content'}/>
       <View style={{ padding: 20, gap: 20 }}>
         <Image source={require("@/assets/images/login.jpg")} style={styles.image} resizeMode="cover" />
         <TextInput placeholder="Enter Your Email / Mobile no" style={styles.input} />
@@ -118,7 +118,7 @@ export default Login;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor:'#ADD8E6',
+    backgroundColor:'#F4F6F9',
   },
   image: {
     width: "100%",
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     backgroundColor:'#fff',
   },
   signInButton: {
-    backgroundColor: 'black',
+    backgroundColor: '#004080',
     borderRadius: 10,
     alignItems: 'center',
     paddingVertical: 15,
