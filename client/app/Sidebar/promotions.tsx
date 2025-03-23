@@ -27,7 +27,7 @@ const PromotionsPage = () => {
       {/* Header */}
       <View style={styles.header}>
       <TouchableOpacity onPress={() => router.push('/Sidebar/menu')} style={styles.backButton}>
-        <Ionicons name="arrow-back" size={24} color="black" />
+        <Ionicons name="arrow-back" size={24} color="white" />
       </TouchableOpacity>
       <Text style={styles.headerTitle}>Promotions</Text>
       </View><View style={styles.card}>
@@ -70,20 +70,21 @@ const PromotionsPage = () => {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor:'#ADD8E6'
+    backgroundColor:'white'
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 16,
-    backgroundColor: '#ADD8E6',
+    height:90,
+    backgroundColor: '#004080',
     paddingHorizontal: 16,
     marginBottom:10,
   
   },
   headerTitle: {
     fontSize: 25,
-    color: 'black',
+    color: 'white',
     fontWeight: 'bold',
   },
   backButton: {
@@ -124,7 +125,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   card: {
-    backgroundColor: "#E6F2FA",
+    backgroundColor: '#e2f1ff',
     borderRadius: 12,
     padding: 16,
     shadowColor: "#000",

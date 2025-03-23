@@ -31,7 +31,7 @@ const About = () => {
    {/* Back Button */}
    <View style={styles.header}>
       <TouchableOpacity activeOpacity={0.7} onPress={() => router.push('/Sidebar/menu')} style={styles.backButton}>
-        <Ionicons name="arrow-back" size={24} color="#black" />
+        <Ionicons name="arrow-back" size={24} color="#fff" />
       </TouchableOpacity>
       {/* About Section */}
         <Text style={styles.headerTitle}>About Us</Text>
@@ -116,7 +116,7 @@ const About = () => {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: '#ADD8E6',
+    backgroundColor: '#fff',
     
   },
   backButton: {
@@ -134,17 +134,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 16,
-    backgroundColor: '#ADD8E6',
+    height:90,
+    backgroundColor: '#004080',
     paddingHorizontal: 16,
     
   },
   headerTitle: {
     fontSize: 25,
-    color: 'black',
+    color: '#fff',
     fontWeight: 'bold',
   },
   section: {
-    backgroundColor: 'white',
+    backgroundColor: '#e2f1ff',
     padding: 16,
     borderRadius: 8,
     shadowColor: '#000',
@@ -162,7 +163,7 @@ const styles = StyleSheet.create({
   },
   card: {
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: '#e2f1ff',
     padding: 16,
     borderRadius: 8,
     borderColor: '#ddd',
@@ -200,7 +201,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'top',
   },
   button: {
-    backgroundColor: 'black',
+    backgroundColor: '#004080',
     paddingVertical: 12,
     borderRadius: 4,
     alignItems: 'center',

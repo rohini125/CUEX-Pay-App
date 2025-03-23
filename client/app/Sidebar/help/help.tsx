@@ -78,7 +78,7 @@ const help = () => {
       
       <View style={styles.header}>
         <TouchableOpacity  activeOpacity={0.7} onPress={() => router.push('/Sidebar/menu')} style={styles.backButton}>
-          <Ionicons name="arrow-back" size={24} color="black" />
+          <Ionicons name="arrow-back" size={24} color="white" />
         </TouchableOpacity>
         {/* Help Section */}
         <Text style={styles.headerTitle}>Help</Text>
@@ -114,20 +114,21 @@ const { width } = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ADD8E6',
+    backgroundColor: 'white',
   },
  
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 16,
-    backgroundColor: '#ADD8E6',
+    height:90,
+    backgroundColor: '#004080',
     paddingHorizontal: 16,
     marginBottom:10
   },
   headerTitle: {
     fontSize: 25,
-    color: 'black',
+    color: 'white',
     fontWeight: 'bold',
   },
   backButton: {
@@ -142,7 +143,7 @@ const styles = StyleSheet.create({
     marginLeft:20
   },
   section: {
-    backgroundColor: '#E6F2FA',
+    backgroundColor: '#e2f1ff',
     padding: 16,
     borderRadius: 8,
     shadowColor: '#000',
@@ -150,7 +151,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 2,
     marginBottom: 16,
-    margin:10
+    margin:20
   },
   optionsGrid: {
     alignItems: 'center',
@@ -177,7 +178,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   assistanceContainer: {
-    backgroundColor: '#E6F2FA',
+    backgroundColor: '#e2f1ff',
   padding: 16,
   borderRadius: 8,
   shadowColor: '#000',
@@ -186,7 +187,7 @@ const styles = StyleSheet.create({
   elevation: 2,
   alignItems: 'center',
   marginBottom: 16,
-  margin:10
+  margin:20
   },
  
   assistanceText: {
@@ -200,7 +201,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   callButton: {
-    backgroundColor: 'black',
+    backgroundColor: '#004080',
     paddingVertical: 12,
     paddingHorizontal: 24,
     borderRadius: 8,
