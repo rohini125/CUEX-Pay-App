@@ -123,69 +123,116 @@ export const loginUser = async (req, res) => {
   }
 };
 
-// OTP Verification
+
+// Verify OTP
 export const verifyOtp = async (req, res) => {
-  try {
-    const { otp } = req.body;
+  const { otp } = req.body;
+  const emailOrPhone = req.session?.emailOrPhone; // Retrieve from session or a secure source
 
-    // Check if OTP is provided
-    if (!otp) {
-      return res.status(400).json({ message: "OTP is required." });
-    }
-
-    // Find the user by OTP
-    const user = await User.findOne({ otp });
-
-    // If no user is found with the given OTP
-    if (!user) {
-      return res
-        .status(404)
-        .json({ message: "User not found for the provided OTP." });
-    }
-
-    // Validate the OTP expiration time
-    if (Date.now() > user.otpExpiry) {
-      return res.status(400).json({ message: "OTP has expired." });
-    }
-
-    // Generate Access Token and Refresh Token
-    const accessToken = generateAccessToken(user._id);
-    const refreshToken = generateRefreshToken(user._id);
-
-    // Hash the Refresh Token before saving to the database
-    const hashedRefreshToken = await bcrypt.hash(refreshToken, 10);
-    user.refreshToken = hashedRefreshToken; // Save hashed Refresh Token in database
-    await user.save();
-
-    // Set tokens as cookies (httpOnly for security)
-    res.cookie("accessToken", accessToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      maxAge: 15 * 60 * 1000, // 15 minutes
-    });
-
-    res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-    });
-
-    // Clear OTP fields in the user record after successful verification
-    user.otp = null;
-    user.otpExpiry = null;
-    await user.save();
-
-    res.status(200).json({
-      message: "OTP verified successfully! You are now login successfully !.",
-    });
-  } catch (error) {
-    console.error("Error in verifyOtp:", error.message);
-    res.status(500).json({
-      message: "Failed to verify OTP.",
-      error: error.message,
-    });
+  if (!emailOrPhone) {
+    return res.status(400).json({ message: 'User session expired or invalid' });
   }
+
+  if (userOTPData[emailOrPhone] && userOTPData[emailOrPhone] === otp) {
+    let user = await User.findOne({ emailOrPhone });
+    if (!user) {
+      user = new User({ emailOrPhone });
+      await user.save();
+    }
+
+    delete userOTPData[emailOrPhone]; // Remove used OTP
+    return res.status(200).json({ message: 'Login successful', user });
+  }
+
+  return res.status(400).json({ message: 'Invalid OTP or expired' });
 };
+
+
+
+
+
+// // Verify OTP
+// export const verifyOTP = async (req, res) => {
+//   const { emailOrPhone, otp } = req.body;
+
+//   if (userOTPData[emailOrPhone] && userOTPData[emailOrPhone] === otp) {
+//     let user = await User.findOne({ emailOrPhone });
+//     if (!user) {
+//       user = new User({ emailOrPhone });
+//       await user.save();
+//     }
+
+//     delete userOTPData[emailOrPhone];
+//     return res.status(200).json({ message: 'Login successful', user });
+//   }
+
+//   return res.status(400).json({ message: 'Invalid OTP or expired' });
+// };
+
+
+// OTP Verification
+// export const verifyOtp = async (req, res) => {
+//   try {
+//     const { otp } = req.body;
+
+//     // Check if OTP is provided
+//     if (!otp) {
+//       return res.status(400).json({ message: "OTP is required." });
+//     }
+
+//     // Find the user by OTP
+//     const user = await User.findOne({ otp });
+
+//     // If no user is found with the given OTP
+//     if (!user) {
+//       return res
+//         .status(404)
+//         .json({ message: "User not found for the provided OTP." });
+//     }
+
+//     // Validate the OTP expiration time
+//     if (Date.now() > user.otpExpiry) {
+//       return res.status(400).json({ message: "OTP has expired." });
+//     }
+
+//     // Generate Access Token and Refresh Token
+//     const accessToken = generateAccessToken(user._id);
+//     const refreshToken = generateRefreshToken(user._id);
+
+//     // Hash the Refresh Token before saving to the database
+//     const hashedRefreshToken = await bcrypt.hash(refreshToken, 10);
+//     user.refreshToken = hashedRefreshToken; // Save hashed Refresh Token in database
+//     await user.save();
+
+//     // Set tokens as cookies (httpOnly for security)
+//     res.cookie("accessToken", accessToken, {
+//       httpOnly: true,
+//       secure: process.env.NODE_ENV === "production",
+//       maxAge: 15 * 60 * 1000, // 15 minutes
+//     });
+
+//     res.cookie("refreshToken", refreshToken, {
+//       httpOnly: true,
+//       secure: process.env.NODE_ENV === "production",
+//       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+//     });
+
+//     // Clear OTP fields in the user record after successful verification
+//     user.otp = null;
+//     user.otpExpiry = null;
+//     await user.save();
+
+//     res.status(200).json({
+//       message: "OTP verified successfully! You are now login successfully !.",
+//     });
+//   } catch (error) {
+//     console.error("Error in verifyOtp:", error.message);
+//     res.status(500).json({
+//       message: "Failed to verify OTP.",
+//       error: error.message,
+//     });
+//   }
+// };
 
 //request to send link for reset  password
 
