@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#ADD8E6',
+        backgroundColor: '#fff',
         padding: 20,
     },
     header: {
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
         textAlign:'center'
     },
     card: {
-        backgroundColor: '#E6F2FA',
+        backgroundColor: '#e2f1ff',
         borderRadius: 12,
         padding: 16,
         shadowColor: '#000',
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     subText: {
         fontSize: 16,
         textAlign: 'center',
-        color: '#555',
+        color: 'black',
         marginBottom: 40,
     },
     logoutButton: {

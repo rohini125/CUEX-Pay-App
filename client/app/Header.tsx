@@ -68,6 +68,7 @@ const styles = StyleSheet.create({
   header: {
     width: '100%',
     height: verticalScale(50),
+    paddingBottom:10,
     backgroundColor: '#004080',
     justifyContent: 'flex-end',
   },

@@ -106,7 +106,7 @@ const contact = () => {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: '#ADD8E6',
+    backgroundColor: '#fff',
     
   },
   backButton: {
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: 'bold',
     marginBottom: 20,
-    color: '#333',
+    color: 'black',
     textAlign: 'center',
   },
   header: {
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   section: {
-    backgroundColor: '#E6F2FA',
+    backgroundColor: '#e2f1ff',
     padding: 16,
     borderRadius: 8,
     shadowColor: '#000',
@@ -146,14 +146,15 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 20,
-    fontWeight: '600',
+    fontWeight: 'bold',
     marginBottom: 10,
-    color: '#007BFF',
+    color: 'black',
     textAlign: 'center',
+    
   },
   card: {
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: '#e2f1ff',
     padding: 16,
     borderRadius: 8,
     borderColor: '#ddd',
@@ -175,7 +176,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 8,
-    color: '#555',
+    color: 'black',
   },
   input: {
     height: 40,
@@ -191,7 +192,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'top',
   },
   button: {
-    backgroundColor: 'black',
+    backgroundColor: '#004080',
     paddingVertical: 12,
     borderRadius: 4,
     alignItems: 'center',
