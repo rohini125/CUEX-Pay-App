@@ -147,27 +147,56 @@ export const verifyOtp = async (req, res) => {
   return res.status(400).json({ message: 'Invalid OTP or expired' });
 };
 
+export const resendOTP = async (req, res) => {
+  try {
+    // Retrieve emailOrPhone from session or a secure source
+    const emailOrPhone = req.session?.emailOrPhone;
 
+    if (!emailOrPhone) {
+      return res.status(400).json({ message: "Session expired. Please log in again." });
+    }
 
+    const user = await User.findOne({ emailOrPhone });
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
+    }
 
+    // Check if existing OTP is still valid
+    if (user.otp && user.otpExpiry > Date.now()) {
+      return res.status(400).json({ message: "Please wait, OTP is still valid." });
+    }
 
-// // Verify OTP
-// export const verifyOTP = async (req, res) => {
-//   const { emailOrPhone, otp } = req.body;
+    // Generate a new OTP
+    const newOtp = Math.floor(100000 + Math.random() * 900000).toString();
+    const otpExpiry = Date.now() + 3 * 60 * 1000; // OTP valid for 3 minutes
 
-//   if (userOTPData[emailOrPhone] && userOTPData[emailOrPhone] === otp) {
-//     let user = await User.findOne({ emailOrPhone });
-//     if (!user) {
-//       user = new User({ emailOrPhone });
-//       await user.save();
-//     }
+    // Update user record with new OTP
+    user.otp = newOtp;
+    user.otpExpiry = otpExpiry;
+    await user.save();
 
-//     delete userOTPData[emailOrPhone];
-//     return res.status(200).json({ message: 'Login successful', user });
-//   }
+    // Send OTP via SMS or Email
+    if (emailOrPhone.includes("+")) {
+      await twilioClient.messages.create({
+        body: `Your OTP is ${newOtp}. It is valid for 3 minutes.`,
+        from: process.env.TWILIO_PHONE_NUMBER,
+        to: emailOrPhone,
+      });
+    } else {
+      await transporter.sendMail({
+        from: process.env.EMAIL_USER,
+        to: emailOrPhone,
+        subject: "Your OTP for Login Verification",
+        text: `Your OTP is ${newOtp}. It is valid for 3 minutes.`,
+      });
+    }
 
-//   return res.status(400).json({ message: 'Invalid OTP or expired' });
-// };
+    res.status(200).json({ message: "New OTP sent successfully." });
+  } catch (error) {
+    res.status(500).json({ message: "Server error.", error });
+  }
+};
+
 
 
 // OTP Verification
