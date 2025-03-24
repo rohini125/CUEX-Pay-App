@@ -477,8 +477,8 @@ const getCountryCode = (currency: CurrencyCode): string => {
 
 const CurrencyConverter = () => {
   const [currencies, setCurrencies] = useState<string[]>([]);
-  const [fromCurrency, setFromCurrency] = useState('USD');
-  const [toCurrency, setToCurrency] = useState('INR');
+  const [fromCurrency, setFromCurrency] = useState('INR');
+  const [toCurrency, setToCurrency] = useState('USD');
   const [amount, setAmount] = useState('');
   const [convertedAmount, setConvertedAmount] = useState('0');
   const [loading, setLoading] = useState(false);
@@ -585,7 +585,7 @@ const CurrencyConverter = () => {
     convertedAmount: number
   ) => {
     try {
-      const response = await fetch('http://192.168.52.190:9000/api/convert', {
+      const response = await fetch('http://192.168.52.190:7000/api/convert', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

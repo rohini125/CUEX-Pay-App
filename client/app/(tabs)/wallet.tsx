@@ -556,7 +556,7 @@ const Wallet = () => {
     useEffect(() => {
       const fetchCurrencies = async () => {
         try {
-          const response = await axios.get("http://192.168.52.190:9000/api/wallet/currencies");
+          const response = await axios.get("http://192.168.52.190:7000/api/wallet/currencies");
           const currencyData: Currency[] = response.data;
           setCurrencies(currencyData);
       
@@ -598,7 +598,7 @@ const Wallet = () => {
     }
 
     try {
-      const response = await axios.post("http://192.168.52.190:9000/api/wallet/deposit", {
+      const response = await axios.post("http://192.168.52.190:7000/api/wallet/deposit", {
         currency: "INR",
         amount,
       });
@@ -631,7 +631,7 @@ const Wallet = () => {
     }
 
     try {
-      const response = await axios.post("http://192.168.52.190:9000/api/wallet/withdraw", {
+      const response = await axios.post("http://192.168.52.190:7000/api/wallet/withdraw", {
         currency: "INR",
         amount,
       });

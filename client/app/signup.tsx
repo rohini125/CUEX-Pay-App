@@ -281,7 +281,7 @@ const SignUp = () => {
       return;
     }
     try {
-      const response = await axios.post('http://172.27.16.1:7000/api/auth/signup', {
+      const response = await axios.post('http://192.168.52.190:7000/api/auth/signup', {
         name,
         emailOrPhone,
         password,
