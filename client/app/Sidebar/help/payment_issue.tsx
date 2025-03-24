@@ -45,7 +45,7 @@ const PaymentIssues = () => {
       <View style={styles.header}>
         {/* Back Button */}
       <TouchableOpacity onPress={() => router.push('/Sidebar/help/help')} style={styles.backButton}>
-        <Ionicons name="arrow-back" size={24} color="black" />
+        <Ionicons name="arrow-back" size={24} color="#fff" />
       </TouchableOpacity>
         <Text style={styles.headerTitle}>Payment Issues</Text>
       </View>
@@ -100,18 +100,18 @@ const PaymentIssues = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ADD8E6',
+    backgroundColor: '#fff',
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 16,
-    backgroundColor: '#ADD8E6',
+    backgroundColor: '#004080',
     paddingHorizontal: 16,
   },
   headerTitle: {
     fontSize: 25,
-    color: 'black',
+    color: '#fff',
     fontWeight: 'bold',
   },
   backButton: {
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
   },
   issuesList: {
     padding: 16,
-    backgroundColor:'#E6F2FA',
+    backgroundColor:'#e2f1ff',
     margin:20
   },
   issueContainer: {
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     marginRight: 12,
-    tintColor: '#6200ee',
+    tintColor: '#004080',
   },
   issueText: {
     fontSize: 16,
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
   },
   card: {
     marginTop: 8,
-    backgroundColor: '#fff',
+    backgroundColor: '#e2f1ff',
     padding: 12,
     borderRadius: 8,
     shadowColor: '#000',
