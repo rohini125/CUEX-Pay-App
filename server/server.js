@@ -49,7 +49,7 @@ app.use("/api", conversionRoutes);
 app.use("/api/nominees", nomineeRoutes);
 
 // kyc Routes
-app.use("/api/kyc", kycRoutes);
+// app.use("/api/kyc", kycRoutes);
 
 // upi-pin Routes
 app.use("/api/upi-pin", upiPinRoutes);
