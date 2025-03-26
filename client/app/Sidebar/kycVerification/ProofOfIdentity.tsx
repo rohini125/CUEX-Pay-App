@@ -29,7 +29,7 @@ export default function ProofOfIdentityScreen() {
   const handleNext = () => {
     if (selectedDoc && frontImage && backImage) {
       alert('Documents uploaded successfully!');
-      router.push('/Sidebar/kycVerification/IdCardUpload');
+      router.push('/Sidebar/kycVerification/BiometricVerification');
     } else {
       alert('Please select a document type and upload both front and back images.');
     }
@@ -38,6 +38,7 @@ export default function ProofOfIdentityScreen() {
   return (
     <ScrollView>
     <View style={styles.container}>
+      <View style={styles.card}>
       <Text style={styles.title}>Proof of Identity</Text>
       <Text style={styles.subtitle}>Choose the type of document you want to upload.</Text>
 
@@ -86,6 +87,7 @@ export default function ProofOfIdentityScreen() {
         <Text style={styles.nextButtonText}>Next</Text>
       </TouchableOpacity>
     </View>
+    </View>
     </ScrollView>
   );
 }
@@ -111,6 +113,17 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     lineHeight: 22,
   },
+  card: {
+    backgroundColor: '#e2f1ff',
+    borderRadius: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    padding: 24,
+    width: '80%',
+    alignItems: 'center',
+  },
   buttonGroup: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -118,7 +131,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   docButton: {
-    backgroundColor: '#fff',
+    backgroundColor: '#004080',
     paddingVertical: 12,
     paddingHorizontal: 15,
     borderRadius: 8,
@@ -132,7 +145,7 @@ const styles = StyleSheet.create({
   },
   docText: {
     fontSize: 16,
-    color: '#007BFF',
+    color: 'white',
     textAlign: 'center',
   },
   selectedText: {
@@ -148,7 +161,7 @@ const styles = StyleSheet.create({
     width: 250,
     height: 150,
     borderWidth: 2,
-    borderColor: '#007BFF',
+    borderColor: '#004080',
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#e0e0e0',
@@ -164,7 +177,7 @@ const styles = StyleSheet.create({
     color: '#555',
   },
   button: {
-    backgroundColor: '#007BFF',
+    backgroundColor: '#004080',
     paddingVertical: 12,
     paddingHorizontal: 30,
     borderRadius: 10,
@@ -182,7 +195,7 @@ const styles = StyleSheet.create({
   },
   nextButton: {
     marginTop: 20,
-    backgroundColor: '#28A745',
+    backgroundColor: '#004080',
     paddingVertical: 12,
     paddingHorizontal: 40,
     borderRadius: 10,

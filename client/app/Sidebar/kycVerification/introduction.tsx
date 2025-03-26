@@ -33,20 +33,21 @@ const KYCIntroScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ADD8E6',
+    backgroundColor: '#fff',
     justifyContent: 'center',
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 16,
-    backgroundColor: '#ADD8E6',
+    height:90,
+    backgroundColor: '#004080',
     paddingHorizontal: 16,
     justifyContent: 'center',
   },
   headerTitle: {
     fontSize: 25,
-    color: 'black',
+    color: '#fff',
     fontWeight: 'bold',
   },
   backButton: {
@@ -55,7 +56,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   card: {
-    backgroundColor: 'white',
+    backgroundColor: '#e2f1ff',
     borderRadius: 20,
     flex: 1,
     shadowColor: '#000',
@@ -71,7 +72,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   title: {
-    fontSize: 18,
+    fontSize: 25,
     fontWeight: 'bold',
     color: '#333',
     marginBottom: 12,
@@ -79,12 +80,12 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 14,
-    color: '#666',
+    color: 'black',
     textAlign: 'center',
     marginBottom: 20,
   },
   button: {
-    backgroundColor: '#0056d2',
+    backgroundColor: '#004080',
     paddingVertical: 14,
     paddingHorizontal: 28,
     borderRadius: 12,

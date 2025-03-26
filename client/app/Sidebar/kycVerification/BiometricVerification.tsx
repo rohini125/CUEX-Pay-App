@@ -16,13 +16,14 @@ export default function BiometricVerificationScreen() {
       setIsVerified(true);
 
       setTimeout(() => {
-        router.push('/Sidebar/kycVerification/verificationSuccess'); // Navigate to the success page
+        router.push('/Sidebar/kycVerification/VerificationSuccess'); // Navigate to the success page
       }, 1500);
     }, 3000);
   };
 
   return (
     <View style={styles.container}>
+      <View style={styles.card}>
       <Text style={styles.title}>Biometric Verification</Text>
       <Text style={styles.subtitle}>Place your finger on the sensor to verify your identity.</Text>
 
@@ -41,6 +42,7 @@ export default function BiometricVerificationScreen() {
       <Text style={styles.instruction}>
         {isVerifying ? 'Verifying...' : isVerified ? 'Verification Successful!' : 'Tap to scan'}
       </Text>
+    </View>
     </View>
   );
 }
@@ -63,6 +65,17 @@ const styles = StyleSheet.create({
     color: '#555',
     textAlign: 'center',
     marginBottom: 20,
+  },
+  card: {
+    backgroundColor: '#e2f1ff',
+    borderRadius: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    padding: 24,
+    width: '80%',
+    alignItems: 'center',
   },
   fingerprintContainer: {
     alignItems: 'center',

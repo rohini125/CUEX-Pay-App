@@ -50,7 +50,7 @@ export default function NomineeDetails() {
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity activeOpacity={0.7} onPress={() => router.push('/Sidebar/AccountSetting')} style={styles.backButton}>
-          <Ionicons name="arrow-back" size={24} color="black" />
+          <Ionicons name="arrow-back" size={24} color="#fff" />
         </TouchableOpacity>
       {/* Header */}
       <Text style={styles.headerTitle}>Nominee Details</Text>
@@ -103,19 +103,20 @@ export default function NomineeDetails() {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor:'#ADD8E6'
+    backgroundColor:'#fff'
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 16,
-    backgroundColor: '#ADD8E6',
+    height:90,
+    backgroundColor: '#004080',
     paddingHorizontal: 16,
     marginBottom:10
   },
   headerTitle: {
     fontSize: 25,
-    color: 'black',
+    color: '#fff',
     fontWeight: 'bold',
   },
   backButton: {
@@ -123,7 +124,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   card: {
-    backgroundColor: "#E6F2FA",
+    backgroundColor: "#e2f1ff",
     borderRadius: 12,
     padding: 16,
     shadowColor: "#000",
@@ -152,7 +153,7 @@ const styles = StyleSheet.create({
     borderColor: "#D1D5DB", // Light border
   },
   button: {
-    backgroundColor: "black", // Indigo color
+    backgroundColor: "#004080", // Indigo color
     borderRadius: 24,
     paddingVertical: 14,
     shadowColor: "#4F46E5",

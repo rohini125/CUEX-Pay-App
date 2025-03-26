@@ -190,11 +190,11 @@ const SetUpiPinScreen = () => {
   };
 
   return (
-    <View style={{flex:1, backgroundColor:'#ADD8E6', padding:15}}>
+    <View style={{flex:1, backgroundColor:'#fff', padding:15}}>
         {/* Header with Back Arrow */}
         <View style={styles.header}>
             <TouchableOpacity onPress={() => router.push('/Sidebar/AccountSetting')} style={styles.backButton}>
-                <Ionicons name="arrow-back" size={24} color="#333" />
+                <Ionicons name="arrow-back" size={24} color="black" />
             </TouchableOpacity>
             {/* <Text style={{fontSize:22 , fontWeight:'bold'}}>UPI Pin Set</Text> */}
         </View>
@@ -232,9 +232,19 @@ const SetUpiPinScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: "center", alignItems: "center", padding: 20},
+  container: { 
+    flex: 1, 
+    justifyContent: "center", 
+    alignItems: "center", 
+    padding: 20
+  },
 
-  title: { fontSize: 24, fontWeight: "bold", marginBottom: 20, textAlign:'center' },
+  title: { 
+    fontSize: 24, 
+    fontWeight: "bold", 
+    marginBottom: 20, 
+    textAlign:'center' 
+  },
   input:{ 
         width: "100%",
         // borderWidth: 1, 
@@ -243,10 +253,18 @@ const styles = StyleSheet.create({
         marginBottom: 15 ,
         backgroundColor:'#fff',
     },
-  button: { backgroundColor: "#000000", padding: 15, borderRadius: 10 },
-  buttonText: { color: "#fff", fontSize: 18, textAlign: "center" },
+  button: {
+     backgroundColor: "#004080",
+     padding: 15,
+     borderRadius: 10 
+    },
+  buttonText: { 
+     color: "#fff",
+     fontSize: 18, 
+     textAlign: "center" 
+    },
     Content: {
-    backgroundColor: "#E6F2FA",
+    backgroundColor: "#e2f1ff",
     padding: 28,
     borderRadius: 10,
     shadowOpacity: 0.3,

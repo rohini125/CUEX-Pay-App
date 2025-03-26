@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   card: {
-    backgroundColor: "#E6F2FA",
+    backgroundColor: "#e2f1ff",
     borderRadius: 12,
     padding: 16,
     shadowColor: "#000",
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
   Button:{
     alignItems: 'center',
     textAlign:'center',
-    backgroundColor: 'black',
+    backgroundColor: '#004080',
     color:'#fff',
     padding: 6,
     borderRadius: 6,

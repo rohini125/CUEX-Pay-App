@@ -10,9 +10,9 @@ export default function ContactInfoScreen() {
         <Text style={styles.title}>Contact Information</Text>
         <Text style={styles.subtitle}>Enter your information below</Text>
         
-        <TextInput style={styles.input} placeholder="Full Name" placeholderTextColor="#999" />
-        <TextInput style={styles.input} placeholder="Email Address" keyboardType="email-address" placeholderTextColor="#999" />
-        <TextInput style={styles.input} placeholder="Mobile Number" keyboardType="phone-pad" placeholderTextColor="#999" />
+        <TextInput style={styles.input} placeholder="Full Name" placeholderTextColor="black" />
+        <TextInput style={styles.input} placeholder="Email Address" keyboardType="email-address" placeholderTextColor="black" />
+        <TextInput style={styles.input} placeholder="Mobile Number" keyboardType="phone-pad" placeholderTextColor="black" />
         
         <TouchableOpacity
           style={styles.button}
@@ -30,11 +30,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#ebf5fc',
+    backgroundColor: '#fff',
     padding: 16,
   },
   card: {
-    backgroundColor: 'white',
+    backgroundColor: '#e2f1ff',
     borderRadius: 20,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
@@ -47,13 +47,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
+    color: 'black',
     marginBottom: 12,
     textAlign: 'center',
   },
   subtitle: {
     fontSize: 14,
-    color: '#666',
+    color: 'black',
     textAlign: 'center',
     marginBottom: 20,
   },
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   button: {
-    backgroundColor: '#007bff',
+    backgroundColor: '#004080',
     paddingVertical: 12,
     paddingHorizontal: 24,
     borderRadius: 10,
