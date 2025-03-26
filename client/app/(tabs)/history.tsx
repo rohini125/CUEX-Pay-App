@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
   tabContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    backgroundColor: '#E6F2FA',
+    backgroundColor: '#e2f1ff',
     padding: 10,
     shadowOpacity: 0.1,
     shadowColor: 'rgba(0,0,0,0.5)',
@@ -144,7 +144,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 15,
-    backgroundColor: '#E6F2FA',
+    // backgroundColor: '#E6F2FA',
+    backgroundColor:'#e2f1ff',
     borderBottomWidth: 1,
     borderBottomColor: '#e0e0e0',
     borderRadius: 8,

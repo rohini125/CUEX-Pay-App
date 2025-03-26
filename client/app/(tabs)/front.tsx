@@ -112,8 +112,8 @@ const styles = StyleSheet.create({
   Cardcontainer: {
   
     // justifyContent: 'center',
-    // backgroundColor: '#f9f9f9',
-    backgroundColor: '#E6F2FA',
+    backgroundColor: '#e2f1ff',
+    // backgroundColor: '#E6F2FA',
     borderRadius: 10,
     // shadowOpacity: 0.3,
     // shadowRadius: 8,
