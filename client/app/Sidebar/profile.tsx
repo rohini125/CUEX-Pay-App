@@ -24,7 +24,6 @@ const Profile = () => {
   const [username, setUsername] = useState<string>('komal 123');
   const [email, setEmail] = useState<string>('komal123e@example.com');
   const [mobile, setMobile] = useState<string>('1234567890');
-  const [idNumber, setIdNumber] = useState<string>('A12345678');
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [newAddress, setNewAddress] = useState<string>('');
@@ -32,7 +31,7 @@ const Profile = () => {
   const [showAddressInput, setShowAddressInput] = useState<boolean>(false);
   const router = useRouter();
   const [countryCode, setCountryCode] = useState('+91'); // Default to India
-  const [upiId, setUpiId] = useState<string>(''); // Dynamically generated UPI ID
+  const [upiId, setUpiId] = useState<string>(' 1234567890@upi'); // Dynamically generated UPI ID
 
   
   // Function to dynamically update UPI ID based on phone number
@@ -179,7 +178,7 @@ const Profile = () => {
       Alert.alert('Success', 'Your changes have been saved!', [
         {
           text: 'OK',
-          onPress: () => router.push('/profile'),
+          onPress: () => router.push('./profile'),
         },
       ]);
   
@@ -506,7 +505,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: '#ADD8E6',
+    backgroundColor: '#fff',
   },
   row: {
     flexDirection: 'row',
@@ -564,7 +563,7 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 50,
     borderWidth: 2,
-    borderColor: 'black',
+    borderColor: '#004080',
     marginBottom: 8, // Adds spacing between the image and the text
   },
   changePictureText: {
@@ -578,7 +577,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 8,
-    backgroundColor: 'black',
+    backgroundColor: '#004080',
     position: 'absolute',
     right: 10, // Align save button to the right
     top: '50%',
@@ -589,7 +588,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   section: {
-    backgroundColor: '#E6F2FA',
+    backgroundColor: '#e2f1ff',
     padding: 16,
     borderRadius: 8,
     marginBottom: 10,
@@ -645,7 +644,7 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     paddingHorizontal: 12,
     borderRadius: 8,
-    backgroundColor: 'black',
+    backgroundColor: '#004080',
   },
   editButtonText: {
     color: '#fff',
@@ -667,7 +666,7 @@ const styles = StyleSheet.create({
     paddingBottom: 24,
   },
   saveButton: {
-    backgroundColor: 'black',
+    backgroundColor: '#004080',
     padding: 7,
     borderRadius: 8,
     marginBottom: 16,
@@ -677,7 +676,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   cancelButton: {
-    backgroundColor: 'black',
+    backgroundColor: '#004080',
     padding: 10,
     borderRadius: 8,
     marginTop: 10,
@@ -688,7 +687,7 @@ const styles = StyleSheet.create({
   },
   addAddressBox: {
     borderWidth: 1,
-    borderColor: '#ccc',
+    backgroundColor:"#004080",
     borderRadius: 8,
     padding: 16,
     alignItems: 'center',
@@ -696,7 +695,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   addAddressText: {
-    color: 'black',
+    color: '#fff',
     fontWeight: 'bold',
   },
   addressInputContainer: {

@@ -122,7 +122,7 @@
 
 
 
-
+////////////////////////////wiith backend//////////////////////////////
 
 
 import React, { useCallback, useState } from "react";
@@ -223,14 +223,14 @@ export default function AccountDelete() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ADD8E6",
+    backgroundColor: "#fff",
     justifyContent: "center",
     alignItems: "center",
     padding: 16,
   },
   card: {
     width: "90%",
-    backgroundColor: "#E6F2FA",
+    backgroundColor: "#e2f1ff",
     borderRadius: 12,
     padding: 24,
     shadowColor: "#000",

@@ -70,6 +70,7 @@ export default function FaceRecognitionScreen() {
 
   return (
     <View style={styles.container}>
+      <View style={styles.card}>
       <Text style={styles.title}>Face Recognition</Text>
       <Text style={styles.subtitle}>Take a selfie or upload a clear photo.</Text>
 
@@ -93,6 +94,7 @@ export default function FaceRecognitionScreen() {
         <Text style={styles.nextButtonText}>Next</Text>
       </TouchableOpacity>
     </View>
+    </View>
   );
 }
 
@@ -102,17 +104,18 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#f5f7fa',
+    backgroundColor: '#fff',
     padding: 20,
   },
   title: {
     fontSize: 22,
     fontWeight: 'bold',
     marginBottom: 10,
+     textAlign: 'center',
   },
   subtitle: {
     fontSize: 16,
-    color: '#555',
+    color: 'black',
     textAlign: 'center',
     marginBottom: 20,
   },
@@ -132,20 +135,33 @@ const styles = StyleSheet.create({
     height: '100%',
     borderRadius: 75,
   },
+  card: {
+    backgroundColor: '#e2f1ff',
+    borderRadius: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    padding: 24,
+    width: '80%',
+    alignItems: 'center',
+  },
   placeholderText: {
     color: '#555',
   },
   button: {
-    backgroundColor: '#007BFF',
+    backgroundColor: '#004080',
     paddingVertical: 12,
     paddingHorizontal: 30,
     borderRadius: 10,
     marginVertical: 8,
+    textAlign:'center',
   },
   buttonText: {
     color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',
+    textAlign:'center'
   },
   nextButton: {
     marginTop: 20,
@@ -158,6 +174,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
     fontWeight: 'bold',
+    textAlign:'center'
   },
 });
 
