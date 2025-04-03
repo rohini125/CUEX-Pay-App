@@ -3,7 +3,7 @@ import {
   registerUser,
   loginUser,
   verifyOtp,
-  requestSendOtp,
+  // requestSendOtp,
   resendOtp,
   deleteUserAccount,
   logoutUser,
@@ -16,7 +16,7 @@ const router = express.Router();
 
 router.post("/signup", registerUser);
 router.post("/login", loginUser);
-router.post("/request-send-otp",requestSendOtp);
+// router.post("/request-send-otp",requestSendOtp);
 router.post("/verify-otp", verifyOtp);
 router.post("/resend-otp", resendOtp,);
 router.post("/deleteAccount", deleteUserAccount);
