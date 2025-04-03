@@ -10,13 +10,14 @@ import {
   ScrollView, Pressable,
   ActivityIndicator,
   Alert,
+  StatusBar
 } from 'react-native';
 import { List, Divider, RadioButton, Button } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import RNPickerSelect from 'react-native-picker-select';
-
+import CountryCodePicker from './CountryCodePicker'; // Import the picker
 
 
 const Profile = () => {
@@ -188,24 +189,25 @@ const Profile = () => {
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.scrollContent}>
     <View style={styles.container}>
-      {loading && (
+       <StatusBar backgroundColor="#004080" barStyle="light-content"  />
+
+  <View style={styles.header}>
+        <TouchableOpacity activeOpacity={0.7} onPress={() => router.push('/Sidebar/AccountSetting')} style={styles.backButton}>
+          <Ionicons name="arrow-back" size={24} color="#fff" />
+        </TouchableOpacity>
+      {/* Header */}
+      <Text style={styles.headerTitle}>Profile</Text>
+      <TouchableOpacity  activeOpacity={0.7} onPress={handleFinalSave} style={styles.finalSaveButton}>
+          <Text style={styles.finalSaveButtonText}>Save</Text>
+        </TouchableOpacity>
+      </View>
+
+        {loading && (
         <View style={styles.loadingOverlay}>
           <ActivityIndicator size="large" color="#6200ee" />
         </View>
       )}
-       <View style={styles.backButton}>
-        <View>
-      <TouchableOpacity  activeOpacity={0.7} onPress={() => router.push('/Sidebar/menu')} >
-        <Ionicons name="arrow-back" size={24} color="black" />
-      </TouchableOpacity>
-      </View>
-      <View>
-      <TouchableOpacity  activeOpacity={0.7} onPress={handleFinalSave} style={styles.finalSaveButton}>
-          <Text style={styles.finalSaveButtonText}>Save</Text>
-        </TouchableOpacity></View>
-        </View>
-
-      <View style={styles.header}>
+      
        
   <View style={styles.profileContainer}>
         <TouchableOpacity onPress={pickImage}>
@@ -213,7 +215,7 @@ const Profile = () => {
           <Text style={styles.changePictureText}>Change Picture</Text>
         </TouchableOpacity>
         </View> 
-      </View>
+      
 
   <View style={styles.section}>
     <Text style={styles.sectionTitle}>Basic Information</Text>
@@ -233,22 +235,19 @@ const Profile = () => {
           keyboardType="email-address"
         />
         <View style={styles.inputContainer}>
-            <RNPickerSelect
-              onValueChange={(value) => setCountryCode(value)}
-              items={[
-                { label: '+91 (India)', value: '+91' },
-                { label: '+1 (USA)', value: '+1' },
-                { label: '+44 (UK)', value: '+44' },
-              ]}
-              placeholder={{ label: 'Select Country Code', value: null }}
-              value={countryCode}
-              style={{
-                inputIOS: styles.pickerInput,
-                inputAndroid: styles.pickerInput, // Ensure styles are defined for Android
-              }}
-            />
-            <TextInput
-              style={[styles.input, styles.flexInput]}
+        
+            <CountryCodePicker setCountryCode={setCountryCode} countryCode={countryCode} />
+
+            <TextInput style={{
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 8,
+    padding: 10,
+    marginTop:7,
+    width:150,
+    marginBottom: 10,
+    fontSize: 14,
+  }}
               value={mobile}
               onChangeText={(text) => {
                 const formattedText = text.replace(/[^0-9]/g, ''); // Allow only numbers
@@ -261,14 +260,13 @@ const Profile = () => {
               keyboardType="phone-pad"
             />
           </View>
-        <Text
-  style={{
+        <Text style={{
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 8,
     padding: 10,
     marginBottom: 10,
-    fontSize: 16,
+    fontSize: 14,
   }}
 >
   {upiId ? `UPI ID: ${upiId}` : ''}
@@ -283,12 +281,12 @@ const Profile = () => {
       </>
     ) : (
       <>
-        <Text style={styles.detailText}>Username: {username}</Text>
-        <Text style={styles.detailText}>Email: {email}</Text>
-        <Text style={styles.detailText}>
+         <Divider/><Text style={styles.detailText}>Username: {username}</Text> <Divider/>
+        <Text style={styles.detailText}>Email: {email}</Text> <Divider/>
+        <Text style={styles.detailText}> <Divider/>
           Mobile: {countryCode} {mobile}
-        </Text>
-        <Text style={styles.detailText}>UPI ID: {upiId}</Text>
+        </Text> <Divider/>
+        <Text style={styles.detailText}>UPI ID: {upiId}</Text> <Divider/>
         <TouchableOpacity activeOpacity={0.7}
           style={styles.editButton}
           onPress={() => setIsEditing(true)}
@@ -504,18 +502,19 @@ const Profile = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
-    backgroundColor: '#fff',
+    backgroundColor: '#F4F6F9',
+    // padding: 16,
+    // backgroundColor: '#fff',
   },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 16,
-    padding: 12,
-    borderWidth: 1,
-    borderRadius: 8,
-    borderColor: '#ccc',
-  },
+  // row: {
+  //   flexDirection: 'row',
+  //   justifyContent: 'space-between',
+  //   marginBottom: 16,
+  //   padding: 12,
+  //   borderWidth: 1,
+  //   borderRadius: 8,
+  //   borderColor: '#ccc',
+  // },
   label: {
      fontSize: 16, 
      color: '#333'
@@ -540,12 +539,32 @@ const styles = StyleSheet.create({
      marginLeft: 8
      },
 
+  // header: {
+  //   flexDirection: 'row',
+  //   alignItems: 'center',
+  //   justifyContent:'center',
+  //   marginBottom: 20,
+  //   marginTop:50
+  // },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent:'center',
-    marginBottom: 20,
-    marginTop:50
+    backgroundColor: '#004080',
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 3 },
+  },
+  headerTitle: {
+   fontSize: 20,
+    fontWeight: 'bold',
+    color: '#fff',
+    marginLeft: 10,
+   
+
   },
   backButton: {
     marginRight: 10,
@@ -556,7 +575,10 @@ const styles = StyleSheet.create({
   profileContainer: {
     alignItems: 'center', // Centers the content horizontally
     justifyContent: 'center', // Centers the content vertically if needed
-    marginBottom: 16, // Adds spacing below the profile section
+    margin: 16, // Adds spacing below the profile section
+    backgroundColor:"#e2f1ff",
+    padding:15,
+    borderRadius:10
   },
   profileImage: {
     width: 100,
@@ -574,7 +596,7 @@ const styles = StyleSheet.create({
   },
   
   finalSaveButton: {
-    paddingVertical: 10,
+    
     paddingHorizontal: 20,
     borderRadius: 8,
     backgroundColor: '#004080',
@@ -586,12 +608,13 @@ const styles = StyleSheet.create({
   finalSaveButtonText: {
     color: '#fff',
     fontWeight: 'bold',
+    fontSize: 20,
   },
   section: {
     backgroundColor: '#e2f1ff',
     padding: 16,
     borderRadius: 8,
-    marginBottom: 10,
+    margin: 15,
     elevation: 3,
   },
   sectionTitle: {
@@ -602,6 +625,7 @@ const styles = StyleSheet.create({
   },
   detailText: {
     fontSize: 16,
+    margin:15,
     color: 'black',
     marginBottom: 8,
      justifyContent: 'space-between',
@@ -618,20 +642,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 10,
-    paddingHorizontal: 2,
+    justifyContent:"space-evenly"
     
   },
-  pickerInput: {
-    width: 100, // Fixed width for picker
-    borderColor: '#ddd',
-    height:50,
-    padding: 10, // Increased padding for better touch area
-    borderRadius: 5,
-    flex: 0.5, // Adjusted flex to make the picker take more space
-    marginRight: 10,
-    backgroundColor: '#fff', // Optional: Add background for better visibility
-   
-  },
+ 
   flexInput: {
     flex: 0.5,
     borderColor: '#ddd',
@@ -644,10 +658,12 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     paddingHorizontal: 12,
     borderRadius: 8,
+    marginTop:15,
     backgroundColor: '#004080',
   },
   editButtonText: {
     color: '#fff',
+    fontSize:16,
     fontWeight: 'bold',
   }, 
   subheader: {
@@ -657,39 +673,48 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   subheaderTitle: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
-    marginTop: 8,
+    marginTop: 5,
     color:'black'
   },
   scrollContent: {
-    paddingBottom: 24,
+    paddingBottom: 20,
   },
   saveButton: {
     backgroundColor: '#004080',
-    padding: 7,
+    padding: 8,
     borderRadius: 8,
+    textAlign:"center",
     marginBottom: 16,
+    alignSelf: 'center',
+    // alignItems:"center",
+   
+ 
   },
   saveButtonText: {
     color: '#fff',
     fontWeight: 'bold',
+    fontSize:16,
   },
   cancelButton: {
     backgroundColor: '#004080',
-    padding: 10,
+    padding: 8,
     borderRadius: 8,
-    marginTop: 10,
+    textAlign:"center",
+    marginBottom: 16,
+    alignSelf: 'center',
   },
   cancelButtonText: {
     color: '#fff',
     fontWeight: 'bold',
+    fontSize:16,
   },
   addAddressBox: {
     borderWidth: 1,
     backgroundColor:"#004080",
     borderRadius: 8,
-    padding: 16,
+    padding: 10,
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 8,
@@ -697,6 +722,7 @@ const styles = StyleSheet.create({
   addAddressText: {
     color: '#fff',
     fontWeight: 'bold',
+    fontSize:16,
   },
   addressInputContainer: {
     marginTop: 10,

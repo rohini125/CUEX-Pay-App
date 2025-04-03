@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet,StatusBar } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router'; // Import router for navigation
 import axios from 'axios';
@@ -48,6 +48,8 @@ export default function NomineeDetails() {
   
   return (
     <ScrollView contentContainerStyle={styles.container}>
+      
+      <StatusBar backgroundColor="#004080" barStyle="light-content"  />
       <View style={styles.header}>
         <TouchableOpacity activeOpacity={0.7} onPress={() => router.push('/Sidebar/AccountSetting')} style={styles.backButton}>
           <Ionicons name="arrow-back" size={24} color="#fff" />
@@ -89,13 +91,17 @@ export default function NomineeDetails() {
             onChangeText={setContactNumber}
             keyboardType="phone-pad"
           />
+          
         </View>
-      </View>
 
+        
       {/* Save Button */}
       <TouchableOpacity activeOpacity={0.7} style={styles.button} onPress={handleSave}>
         <Text style={styles.buttonText}>Save Nominee</Text>
       </TouchableOpacity>
+      </View>
+
+   
     </ScrollView>
   );
 }
@@ -108,20 +114,26 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 16,
-    height:90,
     backgroundColor: '#004080',
-    paddingHorizontal: 16,
-    marginBottom:10
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 3 },
   },
   headerTitle: {
-    fontSize: 25,
-    color: '#fff',
+   fontSize: 20,
     fontWeight: 'bold',
+    color: '#fff',
+    marginLeft: 10,
+   
+
   },
   backButton: {
     marginRight: 10,
-    padding: 10,
+  
   },
   card: {
     backgroundColor: "#e2f1ff",
@@ -138,7 +150,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   label: {
-    fontSize: 16,
+    fontSize: 14,
     color: "black", // Gray text
     marginBottom: 8,
     fontWeight:'bold'
@@ -153,17 +165,18 @@ const styles = StyleSheet.create({
     borderColor: "#D1D5DB", // Light border
   },
   button: {
-    backgroundColor: "#004080", // Indigo color
-    borderRadius: 24,
-    paddingVertical: 14,
-    shadowColor: "#4F46E5",
-    shadowOpacity: 0.3,
-    shadowRadius: 6,
-    shadowOffset: { width: 0, height: 3 },
+    backgroundColor: '#004080',
+    borderRadius: 12,
+    alignItems: 'center',
+    paddingVertical: 15,
     elevation: 4,
+    shadowColor: '#000',
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    shadowOffset: { width: 0, height: 2 },
   },
   buttonText: {
-    color: "#FFFFFF",
+    color: "#FFF",
     textAlign: "center",
     fontSize: 16,
     fontWeight: "bold",

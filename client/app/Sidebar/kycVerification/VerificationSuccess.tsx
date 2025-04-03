@@ -14,7 +14,7 @@ export default function VerificationSuccessScreen() {
         Your identity has been verified. You can now proceed with secure transactions.
       </Text>
 
-      <TouchableOpacity style={styles.button} activeOpacity={0.8} onPress={() => router.push('/dashboard')}>
+      <TouchableOpacity style={styles.button} activeOpacity={0.8} onPress={() => router.push('/front')}>
         <Text style={styles.buttonText}>Go to Dashboard</Text>
       </TouchableOpacity>
     </View>
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#f5f7fa',
+    backgroundColor: '#fff',
     padding: 20,
   },
   title: {
@@ -38,13 +38,13 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 16,
-    color: '#555',
+    color: '#000',
     textAlign: 'center',
     marginBottom: 30,
     lineHeight: 22,
   },
   button: {
-    backgroundColor: '#007BFF',
+    backgroundColor: '#004080',
     paddingVertical: 12,
     paddingHorizontal: 30,
     borderRadius: 10,

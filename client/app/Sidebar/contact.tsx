@@ -62,6 +62,15 @@ const contact = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
+
+     <View style={styles.header}>
+           <TouchableOpacity activeOpacity={0.7} onPress={() => router.push('/Sidebar/help/help')} style={styles.backButton}>
+             <Ionicons name="arrow-back" size={24} color="#fff" />
+           </TouchableOpacity>
+         {/* Header */}
+         <Text style={styles.headerTitle}>Contact</Text>
+         </View>
+
       {/* Contact Form */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Contact Us</Text>
@@ -123,16 +132,22 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 16,
-    backgroundColor: '#ADD8E6',
-    paddingHorizontal: 16,
-    marginBottom:10
+    backgroundColor: '#004080',
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 3 },
   },
   headerTitle: {
-    fontSize: 18,
-    color: 'black',
+    fontSize: 20,
     fontWeight: 'bold',
+    color: '#fff',
+    marginLeft: 10,
   },
+
   section: {
     backgroundColor: '#e2f1ff',
     padding: 16,
@@ -199,15 +214,10 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
   },
-  profilePic: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    marginBottom: 16,
-  },
+
 });
 
 export default contact;

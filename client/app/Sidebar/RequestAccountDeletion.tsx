@@ -126,9 +126,10 @@
 
 
 import React, { useCallback, useState } from "react";
-import { View, Text, TouchableOpacity, Alert, StyleSheet, ActivityIndicator } from "react-native";
+import { View, Text, TouchableOpacity, Alert, StyleSheet, ActivityIndicator,StatusBar } from "react-native";
 import { useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Ionicons } from '@expo/vector-icons';
 
 export default function AccountDelete() {
   const router = useRouter();
@@ -197,8 +198,16 @@ export default function AccountDelete() {
 
   return (
     <View style={styles.container}>
+      <StatusBar backgroundColor="#004080" barStyle="light-content"  />
+      <View style={styles.header}>
+          <TouchableOpacity onPress={() => router.push('/Sidebar/AccountSetting')} style={styles.backButton}>
+          <Ionicons name="arrow-back" size={24} color="white" />
+        </TouchableOpacity>
+      <Text style={styles.headerTitle}> Delete Account </Text>
+      </View>
       <View style={styles.card}>
-        <Text style={styles.header}>Delete Account</Text>
+        <Text style={styles.subheader}>Delete Account</Text>
+        
         <Text style={styles.warning}>
           Deleting your account will remove all your data permanently.
         </Text>
@@ -223,28 +232,57 @@ export default function AccountDelete() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 16,
+    // backgroundColor: "#fff",
+    // justifyContent: "center",
+    // alignItems: "center",
+    // padding: 16,
   },
   card: {
     width: "90%",
     backgroundColor: "#e2f1ff",
     borderRadius: 12,
     padding: 24,
+    marginTop:30,
     shadowColor: "#000",
     shadowOpacity: 0.1,
     shadowRadius: 8,
     shadowOffset: { width: 0, height: 4 },
     elevation: 5,
     alignItems: "center",
+    alignSelf:'center',
+    justifyContent:'center',
   },
   header: {
-    fontSize: 22,
-    fontWeight: "bold",
-    color: "#DC2626",
-    marginBottom: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#004080',
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 3 },
+  },
+  headerTitle: {
+    fontSize: 25,
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  backButton: {
+    marginRight: 10,
+  },
+  // subheader: {
+  //   fontSize: 14,
+  //   color: 'black',
+  //   textAlign: 'center',
+  //   marginBottom: 16,
+  // },
+  subheader: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginTop: 5,
+    color:'black'
   },
   warning: {
     fontSize: 14,
