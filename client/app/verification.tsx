@@ -1,96 +1,184 @@
 //////////////////////////// with backend //////////////////////////////////////////////////
 
-// import React, { useState } from "react";
-// import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from "react-native";
-// import axios from "axios";
-// import { useRouter } from "expo-router";
+// import { router } from 'expo-router';
+// import React, { useState, useEffect, useRef } from 'react';
+// import { View, StyleSheet, Text, TextInput, TouchableOpacity, StatusBar, Alert } from 'react-native';
 
-// const VerifyOtpScreen: React.FC = () => {
-//   const [otp, setOtp] = useState<string>("");
-//   const router = useRouter();
+// export default function VerificationPage() {
+//   const [otp, setOtp] = useState('');
+//   const [timer, setTimer] = useState(120);
+//   const otpRefs = useRef<(TextInput | null)[]>([]);
 
-//   const handleVerifyOtp = async () => {
-//     if (otp.length !== 6) {
-//       Alert.alert("Error", "Please enter a valid 6-digit OTP.");
-//       return;
+//   useEffect(() => {
+//     requestOtp();
+//   }, []);
+
+//   useEffect(() => {
+//     let interval: NodeJS.Timeout | null = null;
+//     if (timer > 0) {
+//       interval = setInterval(() => setTimer((prev) => prev - 1), 1000);
+//     } else if (interval) {
+//       clearInterval(interval);
 //     }
+//     return () => {
+//       if (interval) clearInterval(interval);
+//     };
+//   }, [timer]);
 
+//   const requestOtp = async () => {
 //     try {
-//       const response = await axios.post("http://192.168.52.190:9000/api/auth/verify-otp", { otp }, { withCredentials: true });
+//       const response = await fetch('https://192.168.52.190:7000/api/auth/verify-otp', {
+//         method: 'POST',
+//         headers: { 'Content-Type': 'application/json' },
+//         body: JSON.stringify({ phoneNumber: 'your-phone-number' }),
+//       });
 
-//       if (response.status === 200) {
-//         Alert.alert("Success", response.data.message);
-//         router.push("/home"); // Login successful, navigate to Home Screen
+//       const data = await response.json();
+//       if (data.success) {
+//         setTimer(120);
 //       } else {
-//         Alert.alert("Error", response.data.message || "OTP verification failed.");
+//         Alert.alert('Error', 'Failed to send OTP');
 //       }
-//     } catch (error: any) {
-//       console.error("OTP Verification Error:", error.message);
-//       Alert.alert("Error", error.response?.data?.message || "Failed to verify OTP.");
+//     } catch (error) {
+//       Alert.alert('Error', 'Something went wrong');
+//     }
+//   };
+
+//   const handleVerify = async () => {
+//     try {
+//       const response = await fetch('https://192.168.52.190:7000/api/auth/verify-otp', {
+//         method: 'POST',
+//         headers: { 'Content-Type': 'application/json' },
+//         body: JSON.stringify({ otp }),
+//       });
+
+//       const data = await response.json();
+//       if (data.success) {
+//         router.navigate('/front');
+//       } else {
+//         Alert.alert('Error', 'Invalid OTP');
+//       }
+//     } catch (error) {
+//       Alert.alert('Error', 'Something went wrong');
 //     }
 //   };
 
 //   return (
 //     <View style={styles.container}>
-//       <Text style={styles.header}>Enter OTP</Text>
-//       <TextInput
-//         style={styles.input}
-//         placeholder="Enter 6-digit OTP"
-//         keyboardType="numeric"
-//         maxLength={6}
-//         value={otp}
-//         onChangeText={setOtp}
-//       />
-//       <TouchableOpacity style={styles.button} onPress={handleVerifyOtp}>
-//         <Text style={styles.buttonText}>Verify OTP</Text>
-//       </TouchableOpacity>
+//       <StatusBar backgroundColor={'#F4F6F9'} barStyle={'dark-content'} />
+//       <View style={styles.Content}>
+//         <Text style={styles.header}>OTP</Text>
+//         <Text style={styles.description}>Please enter the OTP sent to your phone.</Text>
+//         <View style={styles.otpContainer}>
+//           {[...Array(6)].map((_, index) => (
+//             <TextInput
+//               key={index}
+//               ref={(ref) => (otpRefs.current[index] = ref)}
+//               style={styles.otpBox}
+//               keyboardType="numeric"
+//               maxLength={1}
+//               value={otp[index] || ''}
+//               onChangeText={(value) => {
+//                 let newOtp = otp.split('');
+//                 newOtp[index] = value;
+//                 setOtp(newOtp.join(''));
+//                 if (value && otpRefs.current[index + 1]) otpRefs.current[index + 1]?.focus();
+//               }}
+//             />
+//           ))}
+//         </View>
+//         <TouchableOpacity activeOpacity={0.7} style={styles.verifyButton} onPress={handleVerify}>
+//           <Text style={styles.verifyButtonText}>Verify OTP</Text>
+//         </TouchableOpacity>
+//         <Text style={styles.retryText}>
+//           {timer > 0
+//             ? `Didn't receive OTP? Retry in (${Math.floor(timer / 60)}:${(timer % 60).toString().padStart(2, '0')})`
+//             : "Didn't receive OTP?"}
+//         </Text>
+//         {timer === 0 && (
+//           <TouchableOpacity activeOpacity={0.7} style={styles.resendButton} onPress={requestOtp}>
+//             <Text style={styles.resendButtonText}>Resend OTP</Text>
+//           </TouchableOpacity>
+//         )}
+//       </View>
 //     </View>
 //   );
-// };
+// }
 
 // const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     justifyContent: "center",
-//     alignItems: "center",
-//     backgroundColor: "#f5f5f5",
-//     padding: 20,
+//   container: { 
+//     flex: 1, 
+//     padding: 16, 
+//     backgroundColor: '#F4F6F9', 
+//     justifyContent: 'center' },
+//   Content: { 
+//     backgroundColor: '#E6F2FA', 
+//     borderRadius: 15, 
+//     padding: 20, 
+//     elevation: 5 
 //   },
-//   header: {
-//     fontSize: 24,
-//     fontWeight: "bold",
-//     marginBottom: 20,
+//   header: { 
+//     fontSize: 22, 
+//     fontWeight: 'bold', 
+//     marginBottom: 20, 
+//     textAlign: 'center' 
 //   },
-//   input: {
-//     width: "100%",
-//     padding: 12,
-//     borderWidth: 1,
-//     borderColor: "#ddd",
-//     borderRadius: 8,
-//     backgroundColor: "#fff",
-//     textAlign: "center",
-//     fontSize: 18,
+//   description: { 
+//     fontSize: 16, 
+//     color: '#333333', 
+//     textAlign: 'center', 
+//     marginBottom: 32 
 //   },
-//   button: {
-//     marginTop: 20,
-//     backgroundColor: "#007BFF",
-//     paddingVertical: 12,
-//     paddingHorizontal: 30,
-//     borderRadius: 8,
+//   otpContainer: { 
+//     flexDirection: 'row', 
+//     justifyContent: 'center', 
+//     marginBottom: 16 
 //   },
-//   buttonText: {
-//     color: "#fff",
-//     fontSize: 18,
-//     fontWeight: "bold",
+//   otpBox: { 
+//     backgroundColor: '#fff', 
+//     width: 40, 
+//     height: 50, 
+//     marginHorizontal: 6, 
+//     fontSize: 18, 
+//     textAlign: 'center', 
+//     borderRadius: 5 },
+//   verifyButton: { 
+//     backgroundColor: '#004080', 
+//     paddingVertical: 12, 
+//     marginBottom: 12, 
+//     borderRadius: 10 
+//   },
+//   verifyButtonText: { 
+//     color: '#fff', 
+//     fontWeight: 'bold', 
+//     textAlign: 'center' 
+//   },
+//   retryText: { 
+//     fontSize: 14, 
+//     textAlign: 'center', 
+//     marginTop: 8 
+//   },
+//   resendButton: { 
+//     alignSelf: 'center', 
+//     marginTop: 12, 
+//     padding: 10, 
+//     borderWidth: 1, 
+//     borderColor: 'black', 
+//     borderRadius: 8 
+//   },
+//   resendButtonText: {
+//     color: 'blue', 
+//     fontWeight: 'bold', 
+//     textAlign: 'center' 
 //   },
 // });
 
-// export default VerifyOtpScreen;
 
 
 
 
-////////////////////correct backend code /////////////////////////////////////
+
+//////////////////correct backend code /////////////////////////////////////
 
 
 
@@ -342,7 +430,12 @@
 // });
 
 
+
+
+
 /////////////////////////// without backend //////////////////////////////////////////////////
+
+
 
 
 import { router } from 'expo-router';

@@ -124,6 +124,141 @@ export const loginUser = async (req, res) => {
 };
 
 
+// export const requestSendOtp = async (req, res) => {
+//   try {
+//     const { emailOrPhone } = req.body;
+
+//     if (!emailOrPhone) {
+//       return res.status(400).json({ message: "Email or phone number is required." });
+//     }
+
+//     let user = await User.findOne({ emailOrPhone });
+
+//     if (!user) {
+//       // If user doesn't exist, create a new one (optional based on your use case)
+//       user = new User({ emailOrPhone });
+//       await user.save();
+//     }
+
+//     // Generate 6-digit OTP
+//     const otp = Math.floor(100000 + Math.random() * 900000).toString();
+//     const otpExpiry = Date.now() + OTP_EXPIRY;
+
+//     // Save OTP and expiry in the user record
+//     user.otp = otp;
+//     user.otpExpiry = otpExpiry;
+//     await user.save();
+
+//     // Store emailOrPhone in session for verification
+//     req.session.emailOrPhone = emailOrPhone;
+
+//     // Send OTP via SMS or Email
+//     if (emailOrPhone.includes("+")) {
+//       await twilioClient.messages.create({
+//         body: `Your OTP is ${otp}. It is valid for 3 minutes.`,
+//         from: process.env.TWILIO_PHONE_NUMBER,
+//         to: emailOrPhone,
+//       });
+//     } else {
+//       await transporter.sendMail({
+//         from: process.env.EMAIL_USER,
+//         to: emailOrPhone,
+//         subject: "Your OTP for Login Verification",
+//         text: `Your OTP is ${otp}. It is valid for 3 minutes.`,
+//       });
+//     }
+
+//     res.status(200).json({ message: "OTP sent via email and/or SMS." });
+//   } catch (error) {
+//     res.status(500).json({ message: "Server error.", error });
+//   }
+// };
+
+// // Verify OTP and login user
+// export const verifyOtp = async (req, res) => {
+//   try {
+//     const { otp } = req.body;
+//     const emailOrPhone = req.session?.emailOrPhone;
+
+//     if (!emailOrPhone) {
+//       return res.status(400).json({ message: "Session expired. Please request OTP again." });
+//     }
+
+//     const user = await User.findOne({ emailOrPhone });
+
+//     if (!user || !user.otp || user.otpExpiry < Date.now()) {
+//       return res.status(400).json({ message: "Invalid or expired OTP." });
+//     }
+
+//     if (user.otp !== otp) {
+//       return res.status(400).json({ message: "Incorrect OTP." });
+//     }
+
+//     // OTP verification successful, clear OTP from the database
+//     user.otp = null;
+//     user.otpExpiry = null;
+//     await user.save();
+
+//     // Clear session
+//     req.session.emailOrPhone = null;
+
+//     res.status(200).json({ message: "Login successful", user });
+//   } catch (error) {
+//     res.status(500).json({ message: "Server error.", error });
+//   }
+// };
+
+// // Resend OTP
+// export const resendOtp = async (req, res) => {
+//   try {
+//     const emailOrPhone = req.session?.emailOrPhone;
+
+//     if (!emailOrPhone) {
+//       return res.status(400).json({ message: "Session expired. Please request OTP again." });
+//     }
+
+//     const user = await User.findOne({ emailOrPhone });
+
+//     if (!user) {
+//       return res.status(404).json({ message: "User not found." });
+//     }
+
+//     // Check if existing OTP is still valid
+//     if (user.otp && user.otpExpiry > Date.now()) {
+//       return res.status(400).json({ message: "Please wait, OTP is still valid." });
+//     }
+
+//     // Generate a new OTP
+//     const newOtp = Math.floor(100000 + Math.random() * 900000).toString();
+//     const otpExpiry = Date.now() + OTP_EXPIRY;
+
+//     // Update user record with new OTP
+//     user.otp = newOtp;
+//     user.otpExpiry = otpExpiry;
+//     await user.save();
+
+//     // Send OTP via SMS or Email
+//     if (emailOrPhone.includes("+")) {
+//       await twilioClient.messages.create({
+//         body: `Your OTP is ${newOtp}. It is valid for 3 minutes.`,
+//         from: process.env.TWILIO_PHONE_NUMBER,
+//         to: emailOrPhone,
+//       });
+//     } else {
+//       await transporter.sendMail({
+//         from: process.env.EMAIL_USER,
+//         to: emailOrPhone,
+//         subject: "Your OTP for Login Verification",
+//         text: `Your OTP is ${newOtp}. It is valid for 3 minutes.`,
+//       });
+//     }
+
+//     res.status(200).json({ message: "New OTP sent successfully." });
+//   } catch (error) {
+//     res.status(500).json({ message: "Server error.", error });
+//   }
+// };
+
 // Verify OTP
 export const verifyOtp = async (req, res) => {
   const { otp } = req.body;
@@ -147,7 +282,7 @@ export const verifyOtp = async (req, res) => {
   return res.status(400).json({ message: 'Invalid OTP or expired' });
 };
 
-export const resendOTP = async (req, res) => {
+export const resendOtp = async (req, res) => {
   try {
     // Retrieve emailOrPhone from session or a secure source
     const emailOrPhone = req.session?.emailOrPhone;
@@ -194,6 +329,7 @@ export const resendOTP = async (req, res) => {
     res.status(200).json({ message: "New OTP sent successfully." });
   } catch (error) {
     res.status(500).json({ message: "Server error.", error });
+
   }
 };
 
