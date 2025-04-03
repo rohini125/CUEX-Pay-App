@@ -1,39 +1,42 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet,StatusBar } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet, StatusBar } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router'; // Import router for navigation
 import axios from 'axios';
 
 export default function NomineeDetails() {
   const router = useRouter();
-
   const [nomineeName, setNomineeName] = useState("");
   const [relationship, setRelationship] = useState("");
   const [contactNumber, setContactNumber] = useState("");
 
-  // const handleSave = () => {
-  //   if (!nomineeName || !relationship || !contactNumber) {
-  //     alert("Please fill in all fields.");
-  //     return;
-  //   }
-  //   alert("Nominee details saved successfully!");
-  //   router.push("/Sidebar/AccountSetting"); // Navigate to another page
-  // };
+  const API_URL = 'http://172.20.80.1:7000/api/nominees';
 
-  const API_URL = 'http://172.27.16.1:7000/api/nominees';
+  // Function to validate 10-digit phone number
+  const isValidPhoneNumber = (number: string) => { 
+    const phoneRegex = /^[0-9]{10}$/; 
+    return phoneRegex.test(number);
+  };
+  
+
   const handleSave = async () => {
     if (!nomineeName || !relationship || !contactNumber) {
       alert("Please fill in all fields.");
       return;
     }
-  
+
+    if (!isValidPhoneNumber(contactNumber)) {
+      alert("Please enter a valid 10-digit mobile number.");
+      return;
+    }
+
     try {
       const response = await axios.post(API_URL, {
         nomineeName,
         relationship,
         contactNumber,
       });
-  
+
       if (response.status === 201) {
         alert("Nominee details saved successfully!");
         router.push("/Sidebar/AccountSetting");
@@ -45,18 +48,17 @@ export default function NomineeDetails() {
       alert("An error occurred while saving nominee details.");
     }
   };
-  
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      
-      <StatusBar backgroundColor="#004080" barStyle="light-content"  />
+      <StatusBar backgroundColor="#004080" barStyle="light-content" />
       <View style={styles.header}>
         <TouchableOpacity activeOpacity={0.7} onPress={() => router.push('/Sidebar/AccountSetting')} style={styles.backButton}>
           <Ionicons name="arrow-back" size={24} color="#fff" />
         </TouchableOpacity>
-      {/* Header */}
-      <Text style={styles.headerTitle}>Nominee Details</Text>
+        <Text style={styles.headerTitle}>Nominee Details</Text>
       </View>
+
       {/* Card Container */}
       <View style={styles.card}>
         {/* Nominee Name */}
@@ -91,17 +93,13 @@ export default function NomineeDetails() {
             onChangeText={setContactNumber}
             keyboardType="phone-pad"
           />
-          
         </View>
 
-        
-      {/* Save Button */}
-      <TouchableOpacity activeOpacity={0.7} style={styles.button} onPress={handleSave}>
-        <Text style={styles.buttonText}>Save Nominee</Text>
-      </TouchableOpacity>
+        {/* Save Button */}
+        <TouchableOpacity activeOpacity={0.7} style={styles.button} onPress={handleSave}>
+          <Text style={styles.buttonText}>Save Nominee</Text>
+        </TouchableOpacity>
       </View>
-
-   
     </ScrollView>
   );
 }
@@ -109,7 +107,7 @@ export default function NomineeDetails() {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor:'#fff'
+    backgroundColor: '#fff'
   },
   header: {
     flexDirection: 'row',
@@ -124,20 +122,18 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 3 },
   },
   headerTitle: {
-   fontSize: 20,
+    fontSize: 20,
     fontWeight: 'bold',
     color: '#fff',
     marginLeft: 10,
-   
-
   },
   backButton: {
     marginRight: 10,
-  
   },
   card: {
     backgroundColor: "#e2f1ff",
     borderRadius: 12,
+    height:"60%",
     padding: 16,
     shadowColor: "#000",
     shadowOpacity: 0.1,
@@ -147,27 +143,28 @@ const styles = StyleSheet.create({
     margin: 20,
   },
   inputGroup: {
-    marginBottom: 12,
+    marginBottom: 18,
   },
   label: {
     fontSize: 14,
-    color: "black", // Gray text
+    color: "black",
     marginBottom: 8,
-    fontWeight:'bold'
+    fontWeight: 'bold'
   },
   input: {
-    backgroundColor: "#F3F4F6", // Light gray input background
+    backgroundColor: "#F3F4F6",
     borderRadius: 8,
     padding: 12,
     fontSize: 16,
-    color: "#111827", // Dark text
+    color: "#111827",
     borderWidth: 1,
-    borderColor: "#D1D5DB", // Light border
+    borderColor: "#D1D5DB",
   },
   button: {
     backgroundColor: '#004080',
     borderRadius: 12,
     alignItems: 'center',
+    marginTop:30,
     paddingVertical: 15,
     elevation: 4,
     shadowColor: '#000',

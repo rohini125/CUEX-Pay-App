@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView,StatusBar } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Feather } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
 const menu = () => {
   const router = useRouter();
@@ -13,7 +14,13 @@ const menu = () => {
 
   return (
     <View style={styles.container}>
-
+       <StatusBar backgroundColor="#004080" barStyle="light-content" />
+      <View style={styles.header}>
+        <TouchableOpacity activeOpacity={0.7} onPress={() => router.push('/front')} style={styles.backButton}>
+          <Ionicons name="arrow-back" size={24} color="#fff" />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>Menu</Text>
+      </View>
       <View style={styles.menuList}>
         {/* Profile */}
         <TouchableOpacity style={styles.menuItem} onPress={() => navigateTo('/Sidebar/profile')}>
@@ -64,22 +71,47 @@ const menu = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    padding: 16,
+    // backgroundColor: '#fff',
+    // padding: 16,
    
   },
+  // header: {
+  //   fontSize: 25,
+  //   fontWeight: 'bold',
+  //   color: '#ADD8E6',
+  //   marginBottom: 16,
+  // },
+
   header: {
-    fontSize: 25,
-    fontWeight: 'bold',
-    color: '#ADD8E6',
-    marginBottom: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#004080',
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 3 },
   },
+  headerTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#fff',
+    marginLeft: 10,
+  },
+  backButton: {
+    marginRight: 10,
+  },
+
   menuList: {
     padding: 20,
-    margin:10,
+    margin:20,
+    borderRadius:20,
     backgroundColor:'#e2f1ff',
-     height:'100%'
+     height:'85%'
   },
+
   menuItem: {
     flexDirection: 'row',
     alignItems: 'center',
