@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Image, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Image, TextInput, TouchableOpacity, Alert,StatusBar } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 
@@ -15,7 +15,6 @@ const About = () => {
   const handleInputChange = (field: string, value: string) => {
     setFormData({ ...formData, [field]: value });
   };
-  
 
   const handleSubmit = () => {
     if (formData.name && formData.email && formData.subject && formData.message) {
@@ -26,52 +25,45 @@ const About = () => {
     }
   };
 
+  const developers = [
+    { name: 'Parkale Sakshi Mohan', role: 'Frontend Developer', image: require('../../assets/images/sakshi.jpg') },
+    { name: 'Navale Komal Jalindar', role: 'Backend Developer', image: require('../../assets/images/sakshi.jpg') },
+    { name: 'Salunke Yash Sudarshan', role: 'Project Manager', image: require('../../assets/images/sakshi.jpg') },
+    { name: 'Kandekar Rohini Sukhadev', role: 'UI/UX Designer', image: require('../../assets/images/sakshi.jpg') },
+  ];
+
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-   {/* Back Button */}
-   <View style={styles.header}>
-      <TouchableOpacity activeOpacity={0.7} onPress={() => router.push('/Sidebar/menu')} style={styles.backButton}>
-        <Ionicons name="arrow-back" size={24} color="#fff" />
-      </TouchableOpacity>
-      {/* About Section */}
+    <ScrollView style={styles.container}>
+      <StatusBar backgroundColor="#004080" barStyle="light-content" />
+      
+      <View style={styles.header}>
+        <TouchableOpacity activeOpacity={0.7} onPress={() => router.push('/Sidebar/menu')} style={styles.backButton}>
+          <Ionicons name="arrow-back" size={24} color="#fff" />
+        </TouchableOpacity>
         <Text style={styles.headerTitle}>About Us</Text>
-    </View>
+      </View>
+
+      {/* Company Overview */}
       <View style={styles.section}>
         <Text style={styles.cardTitle}>Company Overview</Text>
         <Text style={styles.cardText}>
           "CUEX is an innovative currency exchange and digital wallet application designed to provide seamless, secure, and real-time financial transactions. Built with cutting-edge technology, CUEX simplifies currency conversion and international payments, making cross-border transactions effortless."
-        <b>📲 Exchange. Pay. Earn. All in One Place - CUEX!</b></Text>
+        </Text>
+        <Text style={[styles.cardText, styles.boldText]}>📲 Exchange. Pay. Earn. All in One Place - CUEX!</Text>
       </View>
+
+      {/* Developers Section */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Meet Our Developers</Text>
-        {/* Developer Cards */}
-        
-          <View style={styles.card}>
-            <Image source={require('../../assets/images/sakshi.jpg')} style={styles.profilePic} />
-            <Text style={styles.cardTitle}>Parkale Sakshi Mohan</Text>
-            <Text style={styles.cardText}>Role: Developer Role Here</Text>
+        {developers.map((dev, index) => (
+          <View key={index} style={styles.card}>
+            <Image source={dev.image} style={styles.profilePic} />
+            <Text style={styles.cardTitle}>{dev.name}</Text>
+            <Text style={styles.cardText}>{dev.role}</Text>
           </View>
-
-          <View style={styles.card}>
-            <Image source={require('../../assets/images/sakshi.jpg')} style={styles.profilePic} />
-            <Text style={styles.cardTitle}>Navale Komal Jalindar</Text>
-            <Text style={styles.cardText}>Role: Developer Role Here</Text>
-          </View>
-
-          <View style={styles.card}>
-            <Image source={require('../../assets/images/sakshi.jpg')} style={styles.profilePic} />
-            <Text style={styles.cardTitle}>Salunke Yash Sudarshan</Text>
-            <Text style={styles.cardText}>Role: Developer Role Here</Text>
-          </View>
-
-          <View style={styles.card}>
-            <Image source={require('../../assets/images/sakshi.jpg')} style={styles.profilePic} />
-            <Text style={styles.cardTitle}>Kandekar Rohini Sukhadev</Text>
-            <Text style={styles.cardText}>Role: Developer Role Here</Text>
-          </View>
-          
-        
+        ))}
       </View>
+
       {/* Contact Form */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Contact Us</Text>
@@ -115,33 +107,30 @@ const About = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
-    backgroundColor: '#fff',
-    
+    // flexGrow: 1,
+    flex: 1, // Ensures full screen height
+    // backgroundColor: '#fff',
   },
   backButton: {
     marginRight: 10,
     padding: 10,
   },
-  title: {
-    fontSize: 25,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    color: '#333',
-    textAlign: 'center',
-  },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 16,
-    height:90,
     backgroundColor: '#004080',
-    paddingHorizontal: 16,
-    
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 3 },
   },
   headerTitle: {
-    fontSize: 25,
+    fontSize: 20,
     color: '#fff',
+    marginLeft: 10,
     fontWeight: 'bold',
   },
   section: {
@@ -155,8 +144,8 @@ const styles = StyleSheet.create({
     margin: 16,
   },
   sectionTitle: {
-    fontSize: 22,
-    fontWeight: '600',
+    fontSize: 20,
+    fontWeight: 'bold',
     marginBottom: 10,
     color: 'black',
     textAlign: 'center',
@@ -171,21 +160,26 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   cardTitle: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 8,
-    marginTop:10
+    textAlign:'center',
+    margin: 15,
   },
   cardText: {
-    fontSize: 14,
+    fontSize: 16,
     color: 'black',
     textAlign: 'center',
   },
+  boldText: {
+    fontWeight: 'bold',
+    marginTop: 10,
+    textAlign: 'center',
+  },
   label: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: 'bold',
     marginBottom: 8,
-    color: '#555',
+    color: 'black',
   },
   input: {
     height: 40,
@@ -202,8 +196,8 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: '#004080',
-    paddingVertical: 12,
-    borderRadius: 4,
+    paddingVertical: 15,
+    borderRadius: 6,
     alignItems: 'center',
   },
   buttonText: {

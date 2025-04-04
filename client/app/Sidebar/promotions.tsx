@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, ScrollView, FlatList, Image, StyleSheet , TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, ScrollView, FlatList, Image, StyleSheet , TouchableOpacity,StatusBar } from 'react-native';
 import { Link } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router'; // Import router for navigation
@@ -24,6 +24,7 @@ const PromotionsPage = () => {
   
   return (
     <ScrollView style={styles.container}>
+      <StatusBar backgroundColor="#004080" barStyle="light-content" />
       {/* Header */}
       <View style={styles.header}>
       <TouchableOpacity onPress={() => router.push('/Sidebar/menu')} style={styles.backButton}>
@@ -72,20 +73,24 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     backgroundColor:'white'
   },
+  
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 16,
-    height:90,
     backgroundColor: '#004080',
-    paddingHorizontal: 16,
-    marginBottom:10,
-  
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 3 },
   },
   headerTitle: {
-    fontSize: 25,
-    color: 'white',
+    fontSize: 20,
     fontWeight: 'bold',
+    color: '#fff',
+    marginLeft: 10,
   },
   backButton: {
     marginRight: 10,

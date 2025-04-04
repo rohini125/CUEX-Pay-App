@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView,StatusBar } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -43,6 +43,7 @@ const OtherIssues = () => {
   return (
     <ScrollView style={styles.container}>
       {/* Header */}
+      <StatusBar backgroundColor="#004080" barStyle="light-content" />
       <View style={styles.header}>
         {/* Back Button */}
         <TouchableOpacity onPress={() => router.push('/Sidebar/help/help')} style={styles.backButton}>
@@ -103,17 +104,24 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 16,
     backgroundColor: '#004080',
-    paddingHorizontal: 16,
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 3 },
   },
   headerTitle: {
-    fontSize: 25,
-    color: '#fff',
+    fontSize: 20,
     fontWeight: 'bold',
+    color: '#fff',
+    marginLeft: 10,
   },
   backButton: {
     marginRight: 10,

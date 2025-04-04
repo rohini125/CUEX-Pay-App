@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Image, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Image, TextInput, TouchableOpacity, Alert,StatusBar } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 
@@ -62,7 +62,7 @@ const contact = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-
+<StatusBar backgroundColor="#004080" barStyle="light-content" />
      <View style={styles.header}>
            <TouchableOpacity activeOpacity={0.7} onPress={() => router.push('/Sidebar/help/help')} style={styles.backButton}>
              <Ionicons name="arrow-back" size={24} color="#fff" />
@@ -156,8 +156,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 2,
-    margin: 16,
-    marginTop:100
+    margin: 10,
+    marginTop:10,
   },
   sectionTitle: {
     fontSize: 20,

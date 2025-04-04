@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, FlatList, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, FlatList, Dimensions,StatusBar } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { GestureHandlerRootView, ScrollView } from 'react-native-gesture-handler';
@@ -74,7 +74,7 @@ const help = () => {
   return (
     <GestureHandlerRootView>
     <ScrollView style={styles.container}>
-      {/* Back Button */}
+      <StatusBar backgroundColor="#004080" barStyle="light-content" />
       
       <View style={styles.header}>
         <TouchableOpacity  activeOpacity={0.7} onPress={() => router.push('/Sidebar/menu')} style={styles.backButton}>
@@ -120,14 +120,17 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 16,
-    height:90,
     backgroundColor: '#004080',
-    paddingHorizontal: 16,
-    marginBottom:10
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 3 },
   },
   headerTitle: {
-    fontSize: 25,
+    fontSize: 20,
     color: 'white',
     fontWeight: 'bold',
   },
@@ -144,7 +147,6 @@ const styles = StyleSheet.create({
   },
   section: {
     backgroundColor: '#e2f1ff',
-    padding: 16,
     borderRadius: 8,
     shadowColor: '#000',
     shadowOpacity: 0.1,
@@ -155,7 +157,7 @@ const styles = StyleSheet.create({
   },
   optionsGrid: {
     alignItems: 'center',
-    flexWrap: 'wrap',
+    padding:5,
   },
   optionContainer: {
     width: width / 2 - 20,

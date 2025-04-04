@@ -192,7 +192,7 @@ const Profile = () => {
        <StatusBar backgroundColor="#004080" barStyle="light-content"  />
 
   <View style={styles.header}>
-        <TouchableOpacity activeOpacity={0.7} onPress={() => router.push('/Sidebar/AccountSetting')} style={styles.backButton}>
+        <TouchableOpacity activeOpacity={0.7} onPress={() => router.push('/Sidebar/menu')} style={styles.backButton}>
           <Ionicons name="arrow-back" size={24} color="#fff" />
         </TouchableOpacity>
       {/* Header */}
