@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, StatusBar } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -7,15 +7,16 @@ const KYCIntroScreen = () => {
 
   return (
     <View style={styles.container}>
+       <StatusBar backgroundColor="#004080" barStyle="light-content"  />
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.push('/Sidebar/AccountSetting')} style={styles.backButton}>
-          <Ionicons name="arrow-back" size={24} color="black" />
+          <Ionicons name="arrow-back" size={24} color="#fff" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>KYC Verification</Text>
       </View>
 
       <View style={styles.card}>
-        <Text style={styles.title}>You are almost ready to start your transactions</Text>
+        <Text style={styles.title}>You are almost ready to start your Verification</Text>
         <Text style={styles.subtitle}>
           Please complete the KYC verification to continue using our services.
         </Text>
@@ -39,21 +40,23 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 16,
-    height:90,
     backgroundColor: '#004080',
-    paddingHorizontal: 16,
-    justifyContent: 'center',
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 3 },
   },
   headerTitle: {
-    fontSize: 25,
-    color: '#fff',
+    fontSize: 20,
     fontWeight: 'bold',
+    color: '#fff',
+    marginLeft: 10,
   },
   backButton: {
-    position: 'absolute',
-    left: 16,
-    padding: 10,
+    marginRight: 10,
   },
   card: {
     backgroundColor: '#e2f1ff',
@@ -72,7 +75,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   title: {
-    fontSize: 25,
+    fontSize: 18,
     fontWeight: 'bold',
     color: '#333',
     marginBottom: 12,
@@ -97,7 +100,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: 'white',
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
   },
 });

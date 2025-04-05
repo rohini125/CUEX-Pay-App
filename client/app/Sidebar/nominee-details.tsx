@@ -10,7 +10,7 @@ export default function NomineeDetails() {
   const [relationship, setRelationship] = useState("");
   const [contactNumber, setContactNumber] = useState("");
 
-  const API_URL = 'http://172.20.80.1:7000/api/nominees';
+  const API_URL = 'http://172.20.80.1:7000/api/nominees/N';
 
   // Function to validate 10-digit phone number
   const isValidPhoneNumber = (number: string) => { 

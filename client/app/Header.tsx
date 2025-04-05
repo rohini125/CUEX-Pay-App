@@ -69,6 +69,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: verticalScale(50),
     paddingBottom:10,
+    paddingTop:40,
     backgroundColor: '#004080',
     justifyContent: 'flex-end',
   },
@@ -91,7 +92,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   home: {
-    fontSize: moderateScale(18),
+    fontSize:20,
     color: 'white',
     textAlign: 'center',
     fontWeight: '600',

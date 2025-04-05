@@ -37,7 +37,7 @@ const contact = () => {
     try {
       console.log("Sending request to API:", formData);
   
-      const response = await fetch('http://172.27.16.1:7000/newuser/user', {  
+      const response = await fetch('http://192.168.43.174:7000/user', {  
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),

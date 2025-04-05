@@ -21,7 +21,7 @@ const menu = () => {
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Menu</Text>
       </View>
-      <View style={styles.menuList}>
+      <View style={styles.menuList} >
         {/* Profile */}
         <TouchableOpacity style={styles.menuItem} onPress={() => navigateTo('/Sidebar/profile')}>
           <Feather name="user" size={20} color="black" />
@@ -43,7 +43,7 @@ const menu = () => {
         {/* Promotions */}
         <TouchableOpacity style={styles.menuItem} onPress={() => navigateTo('/Sidebar/promotions')}>
           <Feather name="gift" size={20} color="black" />
-          <Text style={styles.menuText}>Promotions</Text>
+          <Text style={styles.menuText}>Rewards</Text>
         </TouchableOpacity>
 
         {/* Help */}

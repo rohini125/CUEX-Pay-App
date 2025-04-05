@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, Image, StyleSheet,ScrollView,StatusBar } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from 'expo-router';
-import { ScrollView } from 'react-native-gesture-handler';
+import { Ionicons } from '@expo/vector-icons';
+// import { ScrollView } from 'react-native-gesture-handler';
 
 export default function ProofOfIdentityScreen() {
   const [selectedDoc, setSelectedDoc] = useState<string | null>(null);
@@ -38,6 +39,14 @@ export default function ProofOfIdentityScreen() {
   return (
     <ScrollView>
     <View style={styles.container}>
+       <StatusBar backgroundColor="#004080" barStyle="light-content"  />
+
+    <View style={styles.header}>
+        <TouchableOpacity onPress={() => router.push('/Sidebar/kycVerification/faceRecognition')} style={styles.backButton}>
+          <Ionicons name="arrow-back" size={24} color="#fff" />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>KYC Verification</Text>
+      </View> 
       <View style={styles.card}>
       <Text style={styles.title}>Proof of Identity</Text>
       <Text style={styles.subtitle}>Choose the type of document you want to upload.</Text>
@@ -95,10 +104,31 @@ export default function ProofOfIdentityScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    // alignItems: 'center',
+    // justifyContent: 'center',
+    // backgroundColor: '#f5f7fa',
+    // padding: 20,
+  },
+  header: {
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#f5f7fa',
-    padding: 20,
+    backgroundColor: '#004080',
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 3 },
+  },
+  headerTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#fff',
+    marginLeft: 10,
+  },
+  backButton: {
+    marginRight: 10,
   },
   title: {
     fontSize: 22,
@@ -116,18 +146,23 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: '#e2f1ff',
     borderRadius: 20,
+    flex: 1,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.15,
     shadowRadius: 6,
+    elevation: 4,
     padding: 24,
-    width: '80%',
+    margin:30,
+    width: '95%',
+    alignSelf: 'center',
     alignItems: 'center',
+    justifyContent: 'center',
   },
   buttonGroup: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'center',
+    justifyContent: "space-evenly",
     marginBottom: 20,
   },
   docButton: {

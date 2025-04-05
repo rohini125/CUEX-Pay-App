@@ -266,7 +266,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 3 },
   },
   headerTitle: {
-    fontSize: 25,
+    fontSize: 20,
     color: 'white',
     fontWeight: 'bold',
   },

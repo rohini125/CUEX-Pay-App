@@ -30,11 +30,13 @@ const PromotionsPage = () => {
       <TouchableOpacity onPress={() => router.push('/Sidebar/menu')} style={styles.backButton}>
         <Ionicons name="arrow-back" size={24} color="white" />
       </TouchableOpacity>
-      <Text style={styles.headerTitle}>Promotions</Text>
-      </View><View style={styles.card}>
+      <Text style={styles.headerTitle}>Rewards</Text>
+      </View>
+      
+      <View style={styles.card}>
         <TextInput
           style={styles.searchBar}
-          placeholder="Search Promotions..."
+          placeholder="Search Rewards..."
           value={searchQuery}
           onChangeText={setSearchQuery}
         />

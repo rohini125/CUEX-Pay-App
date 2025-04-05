@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity, Button, Alert } from 'react-native';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, Button, Alert,StatusBar } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
+
 
 interface Notification {
   id: string;
   message: string;
 }
-
+  const router = useRouter();
 const NotificationPage = () => {
   const [notifications, setNotifications] = useState<Notification[]>([
     { id: '1', message: 'Currency exchange rates updated.' },
@@ -36,7 +39,6 @@ const NotificationPage = () => {
       prevNotifications.filter((notification) => notification.id !== id)
     );
   };
-
   const renderNotification = ({ item }: { item: Notification }) => (
     <View style={styles.notificationItem}>
       <Text style={styles.notificationText}>{item.message}</Text>
@@ -50,14 +52,25 @@ const NotificationPage = () => {
   );
 
   return (
+
     <View style={styles.container}>
-      <Text style={styles.title}>Notifications</Text>
+           <StatusBar backgroundColor="#004080" barStyle="light-content" />
+            <View style={styles.header}>
+              <TouchableOpacity activeOpacity={0.7} onPress={() => router.push('/front')} style={styles.backButton}>
+                <Ionicons name="arrow-back" size={24} color="#fff" />
+              </TouchableOpacity>
+              <Text style={styles.headerTitle}>Notification</Text>
+            </View>
       <FlatList
         data={notifications}
         renderItem={renderNotification}
         keyExtractor={(item) => item.id}
       />
-      <Button title="Clear Notifications" onPress={() => setNotifications([])} />
+
+<TouchableOpacity activeOpacity={0.7} onPress={() =>  setNotifications([])} style={styles.Button}>
+<Text style={styles.ButtonText}> Clear Notifications</Text>
+   </TouchableOpacity>
+      
     </View>
   );
 };
@@ -65,13 +78,33 @@ const NotificationPage = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: '#f9f9f9',
+    // padding: 20,
+    // backgroundColor: '#f9f9f9',
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#004080',
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 3 },
+  },
+  headerTitle: {
+    fontSize: 20,
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  backButton: {
+    marginRight: 10,
   },
   notificationItem: {
     flexDirection: 'row',
@@ -101,6 +134,19 @@ const styles = StyleSheet.create({
   deleteButtonText: {
     fontSize: 16,
     color: '#666',
+  },
+  Button: {
+    backgroundColor: '#004080',
+    paddingVertical: 15,
+    borderRadius: 6,
+    alignItems: 'center',
+    justifyContent:'center',
+    margin:10,
+  },
+  ButtonText: {
+    color: "#FFFFFF",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });
 
