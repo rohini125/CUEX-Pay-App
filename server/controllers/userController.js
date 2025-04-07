@@ -123,7 +123,6 @@ export const loginUser = async (req, res) => {
   }
 };
 
-
 // export const requestSendOtp = async (req, res) => {
 //   try {
 //     const { emailOrPhone } = req.body;
@@ -265,7 +264,7 @@ export const verifyOtp = async (req, res) => {
   const emailOrPhone = req.session?.emailOrPhone; // Retrieve from session or a secure source
 
   if (!emailOrPhone) {
-    return res.status(400).json({ message: 'User session expired or invalid' });
+    return res.status(400).json({ message: "User session expired or invalid" });
   }
 
   if (userOTPData[emailOrPhone] && userOTPData[emailOrPhone] === otp) {
@@ -276,10 +275,10 @@ export const verifyOtp = async (req, res) => {
     }
 
     delete userOTPData[emailOrPhone]; // Remove used OTP
-    return res.status(200).json({ message: 'Login successful', user });
+    return res.status(200).json({ message: "Login successful", user });
   }
 
-  return res.status(400).json({ message: 'Invalid OTP or expired' });
+  return res.status(400).json({ message: "Invalid OTP or expired" });
 };
 
 export const resendOtp = async (req, res) => {
@@ -288,7 +287,9 @@ export const resendOtp = async (req, res) => {
     const emailOrPhone = req.session?.emailOrPhone;
 
     if (!emailOrPhone) {
-      return res.status(400).json({ message: "Session expired. Please log in again." });
+      return res
+        .status(400)
+        .json({ message: "Session expired. Please log in again." });
     }
 
     const user = await User.findOne({ emailOrPhone });
@@ -298,7 +299,9 @@ export const resendOtp = async (req, res) => {
 
     // Check if existing OTP is still valid
     if (user.otp && user.otpExpiry > Date.now()) {
-      return res.status(400).json({ message: "Please wait, OTP is still valid." });
+      return res
+        .status(400)
+        .json({ message: "Please wait, OTP is still valid." });
     }
 
     // Generate a new OTP
@@ -329,11 +332,8 @@ export const resendOtp = async (req, res) => {
     res.status(200).json({ message: "New OTP sent successfully." });
   } catch (error) {
     res.status(500).json({ message: "Server error.", error });
-
   }
 };
-
-
 
 // OTP Verification
 // export const verifyOtp = async (req, res) => {
@@ -535,32 +535,65 @@ export const logoutUser = async (req, res) => {
   }
 };
 
-// Delete User Account
+// Delete user
 export const deleteUserAccount = async (req, res) => {
   try {
-    // Extract user ID from the authenticated request (assuming JWT authentication)
-    const userId = req.user.id;
+    const { emailOrPhone } = req.body;
 
-    if (!userId) {
-      return res.status(400).json({ message: "User authentication required." });
+    // 1. Input validation
+    if (!emailOrPhone || emailOrPhone.trim() === "") {
+      return res
+        .status(400)
+        .json({ message: "Email or phone number is required." });
     }
 
-    // Find user by ID
-    const user = await User.findById(userId);
-    if (!user) {
+    // 2. Debug log
+    console.log("Delete request for:", emailOrPhone);
+
+    // 3. Find and delete user
+    const deletedUser = await User.findOneAndDelete({ emailOrPhone });
+
+    if (!deletedUser) {
+      console.log("User not found for:", emailOrPhone);
       return res.status(404).json({ message: "User not found." });
     }
 
-    // Delete the user
-    await User.findByIdAndDelete(userId);
-
-    res.status(200).json({ message: "User account deleted successfully." });
+    // 4. Success response
+    console.log("User deleted:", deletedUser.emailOrPhone || deletedUser._id);
+    return res.status(200).json({ message: "User deleted successfully." });
   } catch (error) {
-    console.error("Error deleting user account:", error.message);
-    res.status(500).json({
-      message: "Failed to delete user account.",
-      error: error.message,
-    });
+    console.error("Error deleting user:", error);
+    return res
+      .status(500)
+      .json({ message: "Internal server error.", error: error.message });
   }
 };
 
+// Delete User Account
+// export const deleteUserAccount = async (req, res) => {
+//   try {
+//     // Extract user ID from the authenticated request (assuming JWT authentication)
+//     const userId = req.user.id;
+
+//     if (!userId) {
+//       return res.status(400).json({ message: "User authentication required." });
+//     }
+
+//     // Find user by ID
+//     const user = await User.findById(userId);
+//     if (!user) {
+//       return res.status(404).json({ message: "User not found." });
+//     }
+
+//     // Delete the user
+//     await User.findByIdAndDelete(userId);
+
+//     res.status(200).json({ message: "User account deleted successfully." });
+//   } catch (error) {
+//     console.error("Error deleting user account:", error.message);
+//     res.status(500).json({
+//       message: "Failed to delete user account.",
+//       error: error.message,
+//     });
+//   }
+// };
