@@ -352,6 +352,7 @@ import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, ScrollView,
 import axios from 'axios';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = () => {
   const router = useRouter();
@@ -371,6 +372,8 @@ const Login = () => {
         emailOrPhone,
         password,
       });
+      await AsyncStorage.setItem('emailOrPhone', emailOrPhone);
+
       Alert.alert('Success', response.data.message);
       router.push({ pathname: '/verification', params: { emailOrPhone } });
     } catch (error) {
