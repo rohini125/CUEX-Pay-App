@@ -1,160 +1,170 @@
-// import { Text, View,StyleSheet } from 'react-native';
-// import Mybutton from "@/components/Mybutton";
-// import { useRouter} from 'expo-router';
-// import { Link } from 'expo-router'
-
-// const index = () => {
-
-//   const router = useRouter();
-//   const onContinue = () =>{
-//       router.navigate("/login");
-//   }
-
-//   return (
-//     <View style={styles.container}>
-//       <Text style={styles.text}>WelCome To CUEX App </Text>
-//       {/* <Mybutton title={"Continue"} onPress={onContinue}/> */}
-//       <Text>
-//         <Link href="/login" asChild>
-//           <Mybutton title={"Login"} onPress={onContinue}/>
-//         </Link>
-//       </Text>
-//     </View>
-//   );
-// };
-
-// export default index;
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex:1,
-//     justifyContent:'center',
-//     alignItems:'center'
-//   },
-//   text:{
-//     fontSize:20,
-//     fontWeight:'bold',
-//     marginBottom:20
-//   }
-// });
-
-
-// import React from "react";
-// import { Text, View, StyleSheet, ImageBackground } from "react-native";
-// import Mybutton from "@/components/Mybutton";
-// import { useRouter } from "expo-router";
-// import { BlurView } from "expo-blur"; // BlurView वापरणे
-
-// const index = () => {
-//   const router = useRouter();
-//   const onContinue = () => {
-//     router.navigate("/login");
-//   };
-
-//   return (
-//     <ImageBackground
-//       source={require("../assets/images/StaringPage.jpg")} // इमेज
-//       style={styles.background}
-//     >
-//       <BlurView intensity={10} style={styles.overlay}> {/* ब्लर कमी केला */}
-//         <Text style={styles.text}>Welcome to CUEX App</Text>
-//         <Mybutton title={"Get Started"} onPress={onContinue} />
-//       </BlurView>
-//     </ImageBackground>
-//   );
-// };
-
-// export default index;
-
-// const styles = StyleSheet.create({
-//   background: {
-//     flex: 1,
-//     resizeMode: "cover", // इमेजचा पूर्ण पृष्ठावर लागू होण्यासाठी
-//     height: "100%", // इमेज पूर्ण स्क्रीनवर व्यापावी
-//     width:"auto",
-//   },
-//   overlay: {
-//     flex: 1,
-//     justifyContent: "center",
-//     alignItems: "center",
-//     backgroundColor: "rgba(0,0,0,0.5)", // डार्क ओव्हरले आणि ब्लरचा प्रभाव
-//   },
-//   text: {
-//     fontSize: 24,
-//     fontWeight: "bold",
-//     color: "white",
-//     marginBottom: 20,
-//   },
-// });
-
-
-import React from "react";
-import { StyleSheet, ImageBackground, StatusBar , TouchableOpacity, Text } from "react-native";
+import React, { useEffect, useState } from "react";
+import { 
+  StyleSheet, 
+  ImageBackground, 
+  StatusBar, 
+  TouchableOpacity, 
+  Text, 
+  View, 
+  ActivityIndicator, 
+  Alert,
+  AppState
+} from "react-native";
 import { useRouter } from "expo-router";
 import { BlurView } from "expo-blur";
-import * as Animatable from "react-native-animatable"; // Animatable import 
+import * as Animatable from "react-native-animatable";
+import * as LocalAuthentication from "expo-local-authentication";
+import { AppStateStatus } from "react-native";
 
-const index = () => {
+const Index = () => {
   const router = useRouter();
-  const onContinue = () => {
-    router.navigate("/login");
+  const [authenticated, setAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [biometricEnabled, setBiometricEnabled] = useState(true); // Use this for security settings
+
+  useEffect(() => {
+    checkAuthentication();
+    
+    // Listen for app state changes (Lock app if phone is locked)
+    const subscription = AppState.addEventListener("change", handleAppStateChange);
+    return () => subscription.remove();
+  }, []);
+
+  // 🔹 Function to check biometric hardware & enrollments
+  const checkBiometricSupport = async () => {
+    const hasHardware = await LocalAuthentication.hasHardwareAsync();
+    const isEnrolled = await LocalAuthentication.isEnrolledAsync();
+    console.log("Biometric Hardware:", hasHardware);
+    console.log("Biometric Enrolled:", isEnrolled);
+
+    if (!hasHardware || !isEnrolled) {
+      Alert.alert("Biometric Not Available", "Your device does not support biometric authentication.");
+      return false;
+    }
+    return true;
   };
 
-  return (
+  // 🔹 Function to authenticate user
+  const authenticateUser = async () => {
+    setLoading(true);
+    try {
+      const isSupported = await checkBiometricSupport();
+      if (!isSupported || !biometricEnabled) {
+        setAuthenticated(true); // Allow access if biometrics are disabled in settings
+        return;
+      }
+
+      const result = await LocalAuthentication.authenticateAsync({
+        promptMessage: "Unlock CUEX App",
+        fallbackLabel: "Use PIN",
+        disableDeviceFallback: false, // Allows PIN fallback if biometrics fail
+        cancelLabel: "Cancel",
+        requireConfirmation: false, // Avoids unnecessary confirmation
+      });
+
+      console.log("Biometric Result:", result);
+
+      if (result.success) {
+        setAuthenticated(true);
+      } else {
+        Alert.alert("Authentication Failed", "Try again.");
+        setAuthenticated(false); // Keep app locked
+      }
+    } catch (error) {
+      console.error("Biometric Error:", error);
+      Alert.alert("Error", "An error occurred during authentication.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 🔹 Lock app when phone is locked
+  
+
+const handleAppStateChange = (nextAppState: AppStateStatus) => {
+  if (nextAppState === "inactive" || nextAppState === "background") {
+    console.log("App Locked due to phone lock.");
+    setAuthenticated(false);
+  }
+};
+
+
+  // 🔹 Check authentication when the app starts
+  const checkAuthentication = async () => {
+    await authenticateUser();
+  };
+
+  if (loading) {
+    return (
+      <View style={styles.loaderContainer}>
+        <ActivityIndicator size="large" color="#4CAF50" />
+      </View>
+    );
+  }
+
+  return authenticated ? (
     <ImageBackground
       source={require("../assets/images/StaringPage.jpg")}
       style={styles.background}
     >
-      <StatusBar barStyle="dark-content"/>
-      <BlurView intensity={10} style={styles.overlay}>
+      <StatusBar barStyle="light-content" />
+      <BlurView intensity={15} style={styles.overlay}>
         <Animatable.Text 
-          // animation type [fadeIn,bounce , zoomIn , slideInDown , pulse , shake]
-          animation="pulse"
-          duration={2500} // animation time
-          iterationCount="infinite" // To make the animation run continuously.
-          iterationDelay={1000}
+          animation="zoomInUp"
+          duration={2000}
           style={styles.text}
         >
           Welcome to CUEX App
         </Animatable.Text>
-        <TouchableOpacity activeOpacity={0.7} style={styles.GetStartBtn}  onPress={onContinue}>
+        <TouchableOpacity activeOpacity={0.8} style={styles.GetStartBtn} onPress={() => router.navigate("/login")}>
           <Text style={styles.GetStartText}>Get Started</Text>
         </TouchableOpacity>
-        {/* <Mybutton title={"Get Started"} onPress={onContinue} /> */}
       </BlurView>
     </ImageBackground>
-  );
+  ) : null;
 };
 
-export default index;
+export default Index;
 
 const styles = StyleSheet.create({
+  loaderContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#000", 
+  },
   background: {
     flex: 1,
-    resizeMode: "cover",
+    width: "100%",
     height: "100%",
-    width: "auto",
+    resizeMode: "cover",
   },
   overlay: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.5)",
+    backgroundColor: "rgba(0,0,0,0.6)",
   },
   text: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: "bold",
     color: "white",
-    marginBottom: 20,
+    marginBottom: 30,
   },
   GetStartBtn: {
-    backgroundColor: 'blue',
-    borderRadius: 10,
-    alignItems: 'center',
-    padding: 15,
+    backgroundColor: "#4CAF50",
+    borderRadius: 20,
+    paddingVertical: 12,
+    paddingHorizontal: 30,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5,
   },
   GetStartText: {
-    color: 'white',
-    fontSize: 16,
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
   },
 });
