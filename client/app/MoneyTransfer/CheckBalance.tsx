@@ -394,8 +394,7 @@
 
 
 
-/////////////// code - 2 with out backend correct code /////////////////////////
-
+///////////////  backend code /////////////////////////
 
 import React, { useState, useEffect } from "react";
 import {
@@ -404,36 +403,49 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  Image,
-  StatusBar
+  StatusBar,
+  Alert
 } from "react-native";
-import * as SecureStore from "expo-secure-store";
+import axios from "axios";
 import { FontAwesome } from "@expo/vector-icons";
-import { useRouter } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+// const API_URL = "http://your-server-ip:5000"; // Replace with your backend IP
 
 const CheckBalance = () => {
-  const router = useRouter();
+  const navigation = useNavigation();
+  const [userId, setUserId] = useState('');
   const [balance, setBalance] = useState(0);
   const [balanceVisible, setBalanceVisible] = useState(false);
   const [depositAmount, setDepositAmount] = useState("");
 
   useEffect(() => {
-    const fetchBalance = async () => {
+    const fetchUserAndBalance = async () => {
       try {
-        const storedBalance = await SecureStore.getItemAsync("balance");
-        if (storedBalance !== null) {
-          setBalance(parseFloat(storedBalance));
+        const storedValue = await AsyncStorage.getItem('emailOrPhone');
+        if (storedValue) {
+          setUserId(storedValue);
+          fetchBalance(storedValue);
+        } else {
+          Alert.alert("Error", "User not logged in.");
         }
       } catch (error) {
-        console.error("Error fetching balance:", error);
+        console.error("❌ Error fetching userId:", error);
       }
     };
-    fetchBalance();
+
+    fetchUserAndBalance();
   }, []);
 
-  const handleCheckBalance = () => {
-    setBalanceVisible(true);
+  const fetchBalance = async (id:any) => {
+    try {
+      const response = await axios.get(`http://192.168.52.190:7000/api/auth/login/balance/${id}`);
+      setBalance(response.data.balance);
+    } catch (error) {
+      console.error("Error fetching balance:", error);
+    }
   };
 
   const handleDeposit = async () => {
@@ -443,10 +455,9 @@ const CheckBalance = () => {
       return;
     }
 
-    const newBalance = balance + amount;
     try {
-      await SecureStore.setItemAsync("balance", newBalance.toString());
-      setBalance(newBalance);
+      const response = await axios.post(`http://192.168.52.190:7000/api/auth/login/deposit`, { userId, amount });
+      setBalance(response.data.balance);
       setDepositAmount("");
       alert(`₹${amount} successfully deposited!`);
     } catch (error) {
@@ -458,7 +469,7 @@ const CheckBalance = () => {
     <View style={styles.container}>
       <StatusBar backgroundColor="#004080" barStyle="light-content" />
       <View style={styles.headerContainer}>
-        <TouchableOpacity onPress={() => router.push('/front')}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <Ionicons name="arrow-back" size={24} color="#fff" />
         </TouchableOpacity>
         <Text style={styles.headerText}>Check Balance</Text>
@@ -468,7 +479,7 @@ const CheckBalance = () => {
           Check your current balance and add money to your wallet.
         </Text>
         {!balanceVisible ? (
-          <TouchableOpacity style={styles.button} onPress={handleCheckBalance}>
+          <TouchableOpacity style={styles.button} onPress={() => setBalanceVisible(true)}>
             <FontAwesome name="eye" size={20} color="#fff" />
             <Text style={styles.buttonText}>Check Balance</Text>
           </TouchableOpacity>
@@ -476,12 +487,6 @@ const CheckBalance = () => {
           <View style={styles.balanceContainer}>
             <Text style={styles.label}>Available Balance</Text>
             <Text style={styles.balance}>₹{balance.toFixed(2)}</Text>
-            <Image
-              source={{
-                uri: "https://img.icons8.com/ios-filled/50/000000/wallet--v1.png",
-              }}
-              style={styles.walletIcon}
-            />
             <Text style={styles.label}>Add Money</Text>
             <TextInput
               style={styles.input}
@@ -578,11 +583,6 @@ const styles = StyleSheet.create({
     color: "#543250",
     marginBottom: 10,
   },
-  walletIcon: {
-    width: 50,
-    height: 50,
-    marginBottom: 15,
-  },
   input: {
     width: "80%",
     padding: 10,
@@ -593,6 +593,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
 });
+
 
 
 
