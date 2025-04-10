@@ -12,6 +12,7 @@ import contactRoute from "./routes/contactRoute.js";
 
 import historyRoute from "./routes/historyRoute.js";
 import walletRoute from "./routes/walletRoute.js";
+import balanceRoute from "./routes/balanceRoutes.js";
 import cookieParser from "cookie-parser";
 dotenv.config();
 
@@ -54,12 +55,14 @@ app.use("/api/nominees", nomineeRoutes);
 // upi-pin Routes
 app.use("/api/upi-pin", upiPinRoutes);
 
-//wallet Route 
-app.use("/api/wallet",walletRoute);
-
+//wallet Route
+app.use("/api/wallet", walletRoute);
 
 // History Routes
 app.use("/history", historyRoute);
+
+//Balance Routes
+app.use("/balance", balanceRoute);
 
 // Connect to MongoDB
 connectDB();
