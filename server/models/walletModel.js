@@ -1,10 +1,18 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
-const WalletSchema = new mongoose.Schema({
-  currency: { type: String, required: true },
-  amount: { type: Number, required: true, default: 0 },
+const walletSchema = new mongoose.Schema({
+  emailOrPhone: {
+    type: String,
+    required: true,
+  },
+  currency: {
+    type: String,
+    required: true,
+  },
+  amount: {
+    type: Number,
+    required: true,
+  },
 });
 
-const Wallet = mongoose.model("Wallet", WalletSchema);
-
-export default Wallet;
+module.exports = mongoose.model("Wallet", walletSchema);
