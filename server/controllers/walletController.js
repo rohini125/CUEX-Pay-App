@@ -1,52 +1,113 @@
-import Wallet from "../models/walletModel.js";
+//////////////////// wallet final code ////////////////
 
-// Get Wallet Data
-export const getWallet = async (req, res) => {
+const Wallet = require("../models/walletModel.js");
+const mongoose = require("mongoose");
+
+// GET user model dynamically to avoid circular dependency
+const User = mongoose.model("User");
+
+// Get wallet currencies for specific user
+const getUserWallet = async (req, res) => {
+  const { emailOrPhone } = req.query;
+
+  if (!emailOrPhone) {
+    return res.status(400).json({ error: "Missing emailOrPhone parameter" });
+  }
+
   try {
-    const wallet = await Wallet.find();
-    res.json(wallet);
+    const userCurrencies = await Wallet.find({ emailOrPhone });
+    res.json(userCurrencies);
   } catch (error) {
-    res.status(500).json({ message: "Error fetching wallet data" });
+    console.error("Error fetching wallet data", error);
+    res.status(500).json({ error: "Server error" });
   }
 };
 
-// Deposit Money
-export const depositMoney = async (req, res) => {
-  const { currency, amount } = req.body;
+// Deposit currency (wallet मध्ये add + check balance मधून minus)
+const depositCurrency = async (req, res) => {
+  const { emailOrPhone, currency, amount } = req.body;
+
+  if (!emailOrPhone || !currency || amount == null || amount <= 0) {
+    return res.status(400).json({ error: "Invalid deposit request" });
+  }
 
   try {
-    let wallet = await Wallet.findOne({ currency });
+    const user = await User.findOne({ emailOrPhone });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
 
-    if (wallet) {
-      wallet.amount += amount;
-      await wallet.save();
+    if ((user.balance || 0) < amount) {
+      return res.status(400).json({ error: "Insufficient main balance" });
+    }
+
+    // Wallet update
+    const existing = await Wallet.findOne({ emailOrPhone, currency });
+
+    if (existing) {
+      existing.amount += amount;
+      await existing.save();
     } else {
-      wallet = new Wallet({ currency, amount });
-      await wallet.save();
+      const newWallet = new Wallet({ emailOrPhone, currency, amount });
+      await newWallet.save();
     }
 
-    res.status(200).json({ message: "Deposit successful", wallet });
+    // Main balance update (minus)
+    user.balance -= amount;
+    await user.save();
+
+    res.status(200).json({
+      message: "Deposit to wallet successful",
+      walletAmount: existing ? existing.amount : amount,
+      mainBalance: user.balance,
+    });
   } catch (error) {
-    res.status(500).json({ message: "Deposit failed" });
+    console.error("Error in deposit", error);
+    res.status(500).json({ error: "Server error" });
   }
 };
 
-// Withdraw Money
-export const withdrawMoney = async (req, res) => {
-  const { currency, amount } = req.body;
+// Withdraw currency (wallet मधून minus + check balance मध्ये add)
+const withdrawCurrency = async (req, res) => {
+  const { emailOrPhone, currency, amount } = req.body;
+
+  if (!emailOrPhone || !currency || amount == null || amount <= 0) {
+    return res.status(400).json({ error: "Invalid withdraw request" });
+  }
 
   try {
-    let wallet = await Wallet.findOne({ currency });
-
-    if (!wallet || wallet.amount < amount) {
-      return res.status(400).json({ message: "Insufficient balance" });
+    const user = await User.findOne({ emailOrPhone });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
     }
 
-    wallet.amount -= amount;
-    await wallet.save();
+    const existing = await Wallet.findOne({ emailOrPhone, currency });
 
-    res.status(200).json({ message: "Withdrawal successful", wallet });
+    if (!existing || existing.amount < amount) {
+      return res.status(400).json({ error: "Insufficient wallet balance" });
+    }
+
+    // Wallet update
+    existing.amount -= amount;
+    await existing.save();
+
+    // Main balance update (add)
+    user.balance = (user.balance || 0) + amount;
+    await user.save();
+
+    res.status(200).json({
+      message: "Withdrawal from wallet successful",
+      walletAmount: existing.amount,
+      mainBalance: user.balance,
+    });
   } catch (error) {
-    res.status(500).json({ message: "Withdrawal failed" });
+    console.error("Error in withdrawal", error);
+    res.status(500).json({ error: "Server error" });
   }
+};
+
+module.exports = {
+  getUserWallet,
+  depositCurrency,
+  withdrawCurrency,
 };

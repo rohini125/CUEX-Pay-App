@@ -4,13 +4,23 @@ import Wallet from "../models/walletModel.js";
 
 // Convert currency and save history based on wallet balance
 export const convertCurrency = async (req, res) => {
-  const { fromCurrency, toCurrency, amount } = req.body;
+  const { emailOrPhone, fromCurrency, toCurrency, amount } = req.body;
+
+  if (
+    !emailOrPhone ||
+    !fromCurrency ||
+    !toCurrency ||
+    amount == null ||
+    amount <= 0
+  ) {
+    return res.status(400).json({ error: "Missing or invalid parameters" });
+  }
 
   try {
-    // Check if the wallet has enough balance
-    let wallet = await Wallet.findOne({ currency: fromCurrency });
+    // Find sender's wallet
+    let wallet = await Wallet.findOne({ emailOrPhone, currency: fromCurrency });
 
-    if (!wallet || wallet.amount <= amount) {
+    if (!wallet || wallet.amount < amount) {
       return res.status(400).json({ error: "Insufficient wallet balance" });
     }
 
@@ -18,32 +28,41 @@ export const convertCurrency = async (req, res) => {
     const response = await axios.get(
       `https://api.exchangerate-api.com/v4/latest/${fromCurrency}`
     );
-    const data = response.data;
 
+    const data = response.data;
     const rate = data.rates[toCurrency];
+
     if (!rate) {
       return res.status(400).json({ error: "Invalid currency selection" });
     }
 
-    const convertedAmount = (amount * rate).toFixed(2);
+    const convertedAmount = parseFloat((amount * rate).toFixed(2));
 
-    // Deduct amount from wallet
+    // Update sender's wallet
     wallet.amount -= amount;
     await wallet.save();
 
-    // Find or create the wallet for the converted currency
-    let targetWallet = await Wallet.findOne({ currency: toCurrency });
+    // Update receiver's wallet
+    let targetWallet = await Wallet.findOne({
+      emailOrPhone,
+      currency: toCurrency,
+    });
 
     if (targetWallet) {
-      targetWallet.amount += parseFloat(convertedAmount);
+      targetWallet.amount += convertedAmount;
       await targetWallet.save();
     } else {
-      targetWallet = new Wallet({ currency: toCurrency, amount: parseFloat(convertedAmount) });
+      targetWallet = new Wallet({
+        emailOrPhone,
+        currency: toCurrency,
+        amount: convertedAmount,
+      });
       await targetWallet.save();
     }
 
     // Save conversion history
     const newConversion = new Conversion({
+      emailOrPhone,
       fromCurrency,
       toCurrency,
       amount,
@@ -58,7 +77,7 @@ export const convertCurrency = async (req, res) => {
       convertedAmount,
       rate,
       historyId: newConversion._id,
-      walletBalance: wallet.amount, // Return updated wallet balance
+      walletBalance: wallet.amount,
     });
   } catch (error) {
     console.error("Error converting currency:", error);
