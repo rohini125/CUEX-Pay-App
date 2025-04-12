@@ -130,18 +130,18 @@ const SecurityScreen = () => {
 
       <TouchableOpacity
   style={styles.option}
-  onPress={() => router.push("/Sidebar/TwoFactorAuthScreen")}
+  onPress={() => router.push("/Sidebar/security/TwoFactorAuthScreen")}
 >
   <Ionicons name="shield-checkmark-outline" size={20} color="#555" />
   <Text style={styles.optionText}>Two-Factor Authentication</Text>
 </TouchableOpacity>
 
-      <TouchableOpacity style={styles.option} onPress={() => router.push("/Sidebar/BlockedAccountsScreen")}>
+      <TouchableOpacity style={styles.option} onPress={() => router.push("/Sidebar/security/BlockedAccountsScreen")}>
   <Ionicons name="person-remove-outline" size={20} color="#555" />
   <Text style={styles.optionText}>Blocked Accounts</Text>
 </TouchableOpacity>
 
-      <TouchableOpacity style={styles.option}>
+      <TouchableOpacity style={styles.option} onPress={() => router.push("/Sidebar/security/LoginHistoryScreen")}>
         <Ionicons name="time-outline" size={20} color="#555" />
         <Text style={styles.optionText}>Login History</Text>
       </TouchableOpacity>

@@ -52,22 +52,16 @@ const AccountingSettings = () => {
           <Text style={styles.arrow}>➔</Text>
         </TouchableOpacity>
 
-        {/* UPI PIN  */}
-        <View style={styles.option}>
-          <Text style={styles.optionTitle}>UPI PIN</Text>
+          {/* Security page */}
           <TouchableOpacity
-            activeOpacity={0.7}
-            onPress={() => router.push('/Sidebar/UpiSet')}
-          >
-            <Text style={styles.Button}> SET</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            activeOpacity={0.7}
-            onPress={() => router.push('/Sidebar/nominee-details')}
-          >
-            <Text style={styles.Button}> RESET</Text>
-          </TouchableOpacity>
-        </View>
+          style={styles.option}
+          onPress={() => router.push('/Sidebar/security/security')}
+        >
+          <Text style={styles.optionTitle}> Security</Text>
+          <Text style={styles.arrow}>➔</Text>
+        </TouchableOpacity>
+
+    
       </View>
     </View>
   );
