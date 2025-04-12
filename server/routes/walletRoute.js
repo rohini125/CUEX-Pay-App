@@ -1,10 +1,16 @@
-import express from "express";
-import { getWallet, depositMoney, withdrawMoney } from "../controllers/walletController.js";
-
+const express = require("express");
 const router = express.Router();
+const {
+  getUserWallet,
+  depositCurrency,
+  withdrawCurrency,
+} = require("../controllers/walletController");
 
-router.get("/currencies", getWallet);
-router.post("/deposit", depositMoney);
-router.post("/withdraw", withdrawMoney);
+// GET: Get all wallet currencies for a user
+router.get("/currencies", getUserWallet);
 
-export default router;
+// POST: Add or update currency balance
+router.post("/deposit", depositCurrency);
+router.post("/withdraw", withdrawCurrency);
+
+module.exports = router;
