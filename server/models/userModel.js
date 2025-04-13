@@ -5,6 +5,8 @@ const userSchema = new mongoose.Schema(
     name: { type: String, required: true },
     emailOrPhone: { type: String, required: true, unique: true },
     password: { type: String, required: true },
+    securityQuestion: { type: String, required: true },
+    securityAnswer: { type: String, required: true },
     otp: { type: String },
     otpExpiry: { type: Date },
     upiPin: { type: String }, // Store hashed UPI PIN

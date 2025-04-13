@@ -399,107 +399,58 @@ export const resendOtp = async (req, res) => {
 //   }
 // };
 
-//request to send link for reset  password
-
-export const requestPasswordReset = async (req, res) => {
+export const forgotPasswordInfo = async (req, res) => {
+  const { emailOrPhone } = req.body;
+  console.log("Received:", emailOrPhone);
   try {
-    const { emailOrPhone } = req.body;
+    const user = await User.findOne({ emailOrPhone: emailOrPhone.trim() });
 
-    // Validate input
-    if (!emailOrPhone) {
-      return res
-        .status(400)
-        .json({ message: "Email or phone number is required." });
-    }
-
-    // Find the user
-    const user = await User.findOne({ emailOrPhone });
     if (!user) {
-      return res.status(404).json({ message: "User not found." });
+      return res.status(404).json({ message: "User not found" });
     }
 
-    // Generate reset token
-
-    const resetToken = Math.random().toString(36).substring(2, 8).toUpperCase();
-    console.log("Generated fallback reset token:", resetToken);
-
-    const hashedToken = await bcrypt.hash(resetToken, 10);
-    console.log("Hashed token created successfully:", hashedToken);
-
-    // Save token and expiration in database
-    user.resetPasswordToken = hashedToken;
-    user.resetPasswordExpires = Date.now() + 3600000; // 1-hour expiration
-    await user.save();
-
-    console.log("reached");
-
-    const resetLink = `${req.protocol}://${req.get(
-      "host"
-    )}/reset-password?token=${resetToken}&emailOrPhone=${encodeURIComponent(
-      emailOrPhone
-    )}`;
-
-    // const resetLink = `${req.protocol}://${req.get('host')}/reset-password?token=${resetToken}&emailOrPhone=${emailOrPhone}`;
-
-    if (emailOrPhone.includes("+")) {
-      // Send OTP via SMS (for phone numbers)
-      await twilioClient.messages.create({
-        body: `Your password reset code is: ${resetToken}. This code will expire in 1 hour.`,
-        from: process.env.TWILIO_PHONE_NUMBER,
-        subject: "Reset Password Request",
-        to: emailOrPhone, // Mobile number should be in international format (e.g., +911234567890)
-      });
-      res
-        .status(200)
-        .json({ message: "Password reset code sent via SMS successfully." });
-    } else {
-      // Send OTP via Email (if it's an email address)
-      await transporter.sendMail({
-        from: process.env.EMAIL_USER,
-        to: emailOrPhone, // Email address
-        subject: "Reset Password Request",
-        text: `Use the following code to reset your password: ${resetToken}.\nAlternatively, click the link below:\n\n${resetLink}`,
-      });
-    }
-    res
-      .status(200)
-      .json({ message: "Password reset link sent via email successfully." });
-  } catch (error) {
-    res.status(500).json({ message: "Server error.", error });
+    // Return the security question for the user
+    res.status(200).json({
+      message: "Security question found",
+      securityQuestion: user.securityQuestion,
+    });
+  } catch (err) {
+    console.error(err); // Log error for debugging
+    res.status(500).json({ message: "Server error" });
   }
 };
 
 export const resetPassword = async (req, res) => {
+  const { emailOrPhone, answer, newPassword } = req.body;
+
   try {
-    const { token, newPassword, confirmPassword } = req.body;
+    // Find the user by email or phone
+    // const user = await User.findOne({
+    //   $or: [{ email: emailOrPhone }, { phone: emailOrPhone }],
+    // });
+    const user = await User.findOne({ emailOrPhone: emailOrPhone.trim() });
 
-    // Validate input fields
-    if (!token || !newPassword || !confirmPassword) {
-      return res.status(400).json({ message: "All fields are required." });
-    }
-    if (newPassword !== confirmPassword) {
-      return res.status(400).json({ message: "Passwords do not match." });
-    }
-
-    // Find the user using the reset token
-    const user = await User.findOne({
-      resetPasswordToken: token,
-      resetPasswordExpires: { $gt: Date.now() }, // Ensure token is not expired
-    });
     if (!user) {
-      return res.status(400).json({ message: "Invalid or expired token." });
+      return res.status(404).json({ message: "User not found" });
     }
 
-    // Update user's password
-    user.password = await bcrypt.hash(newPassword, 10);
-    user.resetPasswordToken = undefined; // Clear the reset token
-    user.resetPasswordExpires = undefined; // Clear the token expiry
+    // Check if the answer matches the stored answer
+    if (user.securityAnswer !== answer) {
+      return res.status(400).json({ message: "Incorrect answer" });
+    }
+
+    // If the answer is correct, reset the password (you should hash the password before storing)
+    // user.password = newPassword; // In a real app, hash this password first
+    // await user.save();
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+
     await user.save();
 
-    res.status(200).json({ message: "Password reset successfully." });
-  } catch (error) {
-    console.error("Error resetting password:", error);
-    res.status(500).json({ message: "Server error.", error: error.message });
+    res.status(200).json({ message: "Password reset successful" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
   }
 };
 
