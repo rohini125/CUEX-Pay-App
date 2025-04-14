@@ -41,9 +41,23 @@ const twilioClient = twilio(
 // User Signup
 export const registerUser = async (req, res) => {
   try {
-    const { name, emailOrPhone, password, confirmPassword } = req.body;
+    const {
+      name,
+      emailOrPhone,
+      password,
+      confirmPassword,
+      securityQuestion,
+      securityAnswer,
+    } = req.body;
 
-    if (!name || !emailOrPhone || !password || !confirmPassword) {
+    if (
+      !name ||
+      !emailOrPhone ||
+      !password ||
+      !confirmPassword ||
+      !securityQuestion ||
+      !securityAnswer
+    ) {
       return res.status(400).json({ message: "All fields are required." });
     }
     if (password !== confirmPassword) {
@@ -60,6 +74,8 @@ export const registerUser = async (req, res) => {
     const newUser = new User({
       name,
       emailOrPhone,
+      securityQuestion,
+      securityAnswer,
       password: hashedPassword,
     });
 
