@@ -63,7 +63,6 @@
 
 
 
-
 import React, { useEffect, useState } from "react";
 import {
   View,
@@ -71,6 +70,7 @@ import {
   Switch,
   StyleSheet,
   Alert,
+  StatusBar,
   TouchableOpacity,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -78,14 +78,22 @@ import * as LocalAuthentication from "expo-local-authentication";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 
-const router = useRouter(); 
+const router = useRouter();
+
 const SecurityScreen = () => {
   const [biometricEnabled, setBiometricEnabled] = useState(false);
 
   useEffect(() => {
     const loadSetting = async () => {
       const storedValue = await AsyncStorage.getItem("biometricEnabled");
-      setBiometricEnabled(storedValue === "true");
+
+      if (storedValue === null) {
+        // Set to false by default on first load
+        await AsyncStorage.setItem("biometricEnabled", "false");
+        setBiometricEnabled(false);
+      } else {
+        setBiometricEnabled(storedValue === "true");
+      }
     };
     loadSetting();
   }, []);
@@ -108,9 +116,17 @@ const SecurityScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Security Settings</Text>
+       <StatusBar backgroundColor="#004080" barStyle="light-content"  />
+            <View style={styles.header}>
+                <TouchableOpacity onPress={() => router.push('/Sidebar/menu')} style={styles.backButton}>
+                <Ionicons name="arrow-back" size={24} color="white" />
+              </TouchableOpacity>
+            <Text style={styles.headerTitle}> Security Settings </Text>
+            </View>
+      
 
-      <View style={styles.row}>
+      <View style={{margin:15}} >
+      <TouchableOpacity style={styles.row}>
         <Text style={styles.label}>Enable Biometric Login</Text>
         <Switch
           value={biometricEnabled}
@@ -118,33 +134,39 @@ const SecurityScreen = () => {
           thumbColor={biometricEnabled ? "#4CAF50" : "#888"}
           trackColor={{ false: "#767577", true: "#81C784" }}
         />
-      </View>
-
-      <View style={styles.divider} />
-
-      {/* Other Security Options */}
-      <TouchableOpacity style={styles.option} onPress={() => router.push("/Sidebar/Passcode/oldpasscod")}>
+    </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.option}
+        onPress={() => router.push("/Sidebar/security/Passcode/old")}
+      >
         <Ionicons name="lock-closed-outline" size={20} color="#555" />
         <Text style={styles.optionText}>Change Passcode</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
-  style={styles.option}
-  onPress={() => router.push("/Sidebar/security/TwoFactorAuthScreen")}
->
-  <Ionicons name="shield-checkmark-outline" size={20} color="#555" />
-  <Text style={styles.optionText}>Two-Factor Authentication</Text>
-</TouchableOpacity>
+        style={styles.option}
+        onPress={() => router.push("/Sidebar/security/TwoFactorAuthScreen")}
+      >
+        <Ionicons name="shield-checkmark-outline" size={20} color="#555" />
+        <Text style={styles.optionText}>Two-Factor Authentication</Text>
+      </TouchableOpacity>
 
-      <TouchableOpacity style={styles.option} onPress={() => router.push("/Sidebar/security/BlockedAccountsScreen")}>
-  <Ionicons name="person-remove-outline" size={20} color="#555" />
-  <Text style={styles.optionText}>Blocked Accounts</Text>
-</TouchableOpacity>
+      <TouchableOpacity
+        style={styles.option}
+        onPress={() => router.push("/Sidebar/security/BlockedAccountsScreen")}
+      >
+        <Ionicons name="person-remove-outline" size={20} color="#555" />
+        <Text style={styles.optionText}>Blocked Accounts</Text>
+      </TouchableOpacity>
 
-      <TouchableOpacity style={styles.option} onPress={() => router.push("/Sidebar/security/LoginHistoryScreen")}>
+      <TouchableOpacity
+        style={styles.option}
+        onPress={() => router.push("/Sidebar/security/LoginHistoryScreen")}
+      >
         <Ionicons name="time-outline" size={20} color="#555" />
         <Text style={styles.optionText}>Login History</Text>
       </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -154,19 +176,42 @@ export default SecurityScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 24,
-    backgroundColor: "#fff",
+    // padding: 24,
+    // backgroundColor: "#fff",
   },
-  title: {
-    fontSize: 22,
-    fontWeight: "bold",
-    marginBottom: 30,
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#004080',
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 3 },
+  },
+  headerTitle: {
+    fontSize: 20,
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  backButton: {
+    marginRight: 10,
   },
   row: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 20,
+    backgroundColor: '#fff',
+    padding: 16,
+    borderRadius: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   label: {
     fontSize: 16,
@@ -177,9 +222,18 @@ const styles = StyleSheet.create({
     marginVertical: 15,
   },
   option: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingVertical: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: '#fff',
+    padding: 16,
+    borderRadius: 8,
+    marginBottom: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   optionText: {
     fontSize: 16,

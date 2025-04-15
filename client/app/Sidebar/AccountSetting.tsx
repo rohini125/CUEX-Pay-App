@@ -57,7 +57,7 @@ const AccountingSettings = () => {
           style={styles.option}
           onPress={() => router.push('/Sidebar/security/security')}
         >
-          <Text style={styles.optionTitle}> Security</Text>
+          <Text style={styles.optionTitle}> SECURITY</Text>
           <Text style={styles.arrow}>➔</Text>
         </TouchableOpacity>
 
