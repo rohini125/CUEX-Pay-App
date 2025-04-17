@@ -258,10 +258,12 @@ import {
   Switch,
   StyleSheet,
   Alert,
+  StatusBar,
   TouchableOpacity,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
+import { Ionicons } from '@expo/vector-icons';
 
 const SecurityPage = () => {
   const [biometricEnabled, setBiometricEnabled] = useState(false);
@@ -303,21 +305,25 @@ const SecurityPage = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Security Settings</Text>
+
+          <StatusBar backgroundColor="#004080" barStyle="light-content"  />
+            <View style={styles.header}>
+                <TouchableOpacity onPress={() => router.push('/Sidebar/menu')} style={styles.backButton}>
+                <Ionicons name="arrow-back" size={24} color="white" />
+              </TouchableOpacity>
+            <Text style={styles.headerTitle}> Account Settings </Text>
+            </View>
+      
 
       <View style={styles.row}>
         <Text style={styles.label}>Enable Biometric Authentication</Text>
         <Switch value={biometricEnabled} onValueChange={toggleBiometric} />
       </View>
 
-      {/* <View style={styles.row}>
-        <Text style={styles.label}>Enable Pattern Lock</Text>
-        <Switch value={patternEnabled} onValueChange={togglePattern} />
-      </View> */}
-
-      <TouchableOpacity style={styles.button} onPress={() => router.back()}>
+    
+      {/* <TouchableOpacity style={styles.button} onPress={() => router.back()}>
         <Text style={styles.buttonText}>Go Back</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };
@@ -327,20 +333,35 @@ export default SecurityPage;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f8f8f8",
-    padding: 20,
-    paddingTop: 60,
+
   },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 30,
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#004080',
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 3 },
+  },
+  headerTitle: {
+    fontSize: 20,
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  backButton: {
+    marginRight: 10,
   },
   row: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 25,
+    margin: 20,
+    paddingVertical: 12,
+  
   },
   label: {
     fontSize: 18,
