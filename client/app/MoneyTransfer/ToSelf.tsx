@@ -1,9 +1,9 @@
-
+////////////////// code -1 ///////////////////////////////
 
 // import React, { useState } from 'react';
-// import { View, Text, TouchableOpacity, StyleSheet, TextInput, FlatList, Alert, StatusBar} from 'react-native';
+// import { View, Text, TouchableOpacity, StyleSheet, TextInput, FlatList, Alert, StatusBar } from 'react-native';
 // import { useRouter } from 'expo-router';
-// import { AntDesign } from '@expo/vector-icons'; // Icon library for React Native
+// import { AntDesign } from '@expo/vector-icons';
 
 // // Define the type for bank accounts
 // type BankAccount = {
@@ -12,16 +12,13 @@
 // };
 
 // const SelfAccountPage = () => {
-//   const router = useRouter(); // Hook for Expo Router navigation
-
-//   // State to manage the list of added bank accounts
+//   const router = useRouter();
 //   const [bankAccounts, setBankAccounts] = useState<BankAccount[]>([]);
 //   const [bankName, setBankName] = useState('');
 //   const [accountNumber, setAccountNumber] = useState('');
 //   const [amount, setAmount] = useState('');
 //   const [selectedAccount, setSelectedAccount] = useState<BankAccount | null>(null);
 
-//   // Function to add a new bank account
 //   const handleAddBankAccount = () => {
 //     if (bankName && accountNumber) {
 //       setBankAccounts([...bankAccounts, { bankName, accountNumber }]);
@@ -33,7 +30,6 @@
 //     }
 //   };
 
-//   // Function to transfer money
 //   const handleTransferMoney = () => {
 //     if (selectedAccount && amount) {
 //       Alert.alert(
@@ -49,37 +45,23 @@
 
 //   return (
 //     <View style={styles.container}>
-//        <StatusBar backgroundColor="#ADD8E6" barStyle="dark-content"  />
+//       <StatusBar backgroundColor="#004080" barStyle="light-content" />
 //       <View style={styles.header}>
-//         {/* Back Arrow */}
 //         <TouchableOpacity style={styles.backButton} onPress={() => router.push('/front')}>
-//           <AntDesign name="arrowleft" size={24} color="black" />
+//           <AntDesign name="arrowleft" size={24} color="white" />
 //         </TouchableOpacity>
-
 //         <Text style={styles.headerText}>Self Account</Text>
 //       </View>
-//       {/* Add Bank Account Section */}
+
 //       <View style={styles.section}>
 //         <Text style={styles.sectionTitle}>Add Bank Account</Text>
-//         <TextInput
-//           placeholder="Bank Name"
-//           value={bankName}
-//           onChangeText={setBankName}
-//           style={styles.input}
-//         />
-//         <TextInput
-//           placeholder="Account Number"
-//           value={accountNumber}
-//           onChangeText={setAccountNumber}
-//           style={styles.input}
-//           keyboardType="numeric"
-//         />
+//         <TextInput placeholder="Bank Name" value={bankName} onChangeText={setBankName} style={styles.input} />
+//         <TextInput placeholder="Account Number" value={accountNumber} onChangeText={setAccountNumber} style={styles.input} keyboardType="numeric" />
 //         <TouchableOpacity style={styles.button} onPress={handleAddBankAccount}>
 //           <Text style={styles.buttonText}>Add Bank</Text>
 //         </TouchableOpacity>
 //       </View>
 
-//       {/* Bank Account List */}
 //       {bankAccounts.length > 0 && (
 //         <View style={styles.section}>
 //           <Text style={styles.sectionTitle}>Your Bank Accounts</Text>
@@ -88,12 +70,8 @@
 //             keyExtractor={(item, index) => index.toString()}
 //             renderItem={({ item }) => (
 //               <TouchableOpacity
-//                 style={[
-//                   styles.bankAccount,
-//                   selectedAccount === item && { borderColor: '#007BFF' },
-//                 ]}
-//                 onPress={() => setSelectedAccount(item)}
-//               >
+//                 style={[styles.bankAccount, selectedAccount === item && { borderColor: '#004080' }]}
+//                 onPress={() => setSelectedAccount(item)}>
 //                 <Text style={styles.bankText}>{item.bankName}</Text>
 //                 <Text style={styles.bankText}>A/C: {item.accountNumber}</Text>
 //               </TouchableOpacity>
@@ -103,17 +81,10 @@
 //         </View>
 //       )}
 
-//       {/* Transfer Money Section */}
 //       {bankAccounts.length > 0 && (
 //         <View style={styles.section}>
 //           <Text style={styles.sectionTitle}>Transfer Money</Text>
-//           <TextInput
-//             placeholder="Amount (₹)"
-//             value={amount}
-//             onChangeText={setAmount}
-//             style={styles.input}
-//             keyboardType="numeric"
-//           />
+//           <TextInput placeholder="Amount (₹)" value={amount} onChangeText={setAmount} style={styles.input} keyboardType="numeric" />
 //           <TouchableOpacity style={styles.button} onPress={handleTransferMoney}>
 //             <Text style={styles.buttonText}>Transfer</Text>
 //           </TouchableOpacity>
@@ -126,14 +97,15 @@
 // const styles = StyleSheet.create({
 //   container: {
 //     flex: 1,
-//     backgroundColor: '#ADD8E6',
-//     paddingTop: 40,
-//     paddingHorizontal: 16,
+//     backgroundColor: '#F4F6F9',
+//     // paddingTop: 40,
+//     // paddingHorizontal: 16,
 //   },
 //   header: {
 //     flexDirection: 'row',
 //     alignItems: 'center',
-//     marginBottom: 30,
+//     backgroundColor: '#004080',
+//     padding: 15,
 //   },
 //   backButton: {
 //     marginRight: 10,
@@ -141,28 +113,26 @@
 //   headerText: {
 //     fontSize: 20,
 //     fontWeight: 'bold',
-//     color: '#222',
-//     marginLeft:10,
+//     color: 'white',
 //   },
 //   section: {
-//     marginVertical: 15,
+//     padding:10,
+//     margin: 10,
 //   },
 //   sectionTitle: {
 //     fontSize: 18,
 //     fontWeight: 'bold',
 //     marginBottom: 20,
-//     textAlign:'center',
-//     alignItems:'center',
+//     textAlign: 'center',
 //   },
 //   input: {
-//     // borderWidth: 1,
 //     backgroundColor: '#fff',
 //     borderRadius: 5,
 //     padding: 10,
 //     marginBottom: 10,
 //   },
 //   button: {
-//     backgroundColor: '#000000',
+//     backgroundColor: '#004080',
 //     padding: 12,
 //     borderRadius: 5,
 //     alignItems: 'center',
@@ -192,112 +162,170 @@
 // export default SelfAccountPage;
 
 
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, TextInput, FlatList, Alert, StatusBar } from 'react-native';
-import { useRouter } from 'expo-router';
-import { AntDesign } from '@expo/vector-icons';
 
-// Define the type for bank accounts
-type BankAccount = {
+////////////////// with backend ////////////////////////////
+
+
+import React, { useState, useEffect } from 'react';
+import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, Alert } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Ionicons } from '@expo/vector-icons'; // Import icons from react-icons
+import { useRouter } from 'expo-router';
+
+interface Account {
+  id: number;
   bankName: string;
   accountNumber: string;
-};
+  emailorphone: string;
+}
 
-const SelfAccountPage = () => {
+const SelfAccount = () => {
   const router = useRouter();
-  const [bankAccounts, setBankAccounts] = useState<BankAccount[]>([]);
+  const [accounts, setAccounts] = useState<Account[]>([]);
   const [bankName, setBankName] = useState('');
   const [accountNumber, setAccountNumber] = useState('');
-  const [amount, setAmount] = useState('');
-  const [selectedAccount, setSelectedAccount] = useState<BankAccount | null>(null);
+  const [emailorphone, setEmailOrPhone] = useState<string | null>(null);
 
-  const handleAddBankAccount = () => {
-    if (bankName && accountNumber) {
-      setBankAccounts([...bankAccounts, { bankName, accountNumber }]);
-      setBankName('');
-      setAccountNumber('');
-      Alert.alert('Success', 'Bank account added successfully!');
-    } else {
-      Alert.alert('Error', 'Please enter both bank name and account number.');
+  useEffect(() => {
+    const getUserIdentifier = async () => {
+      try {
+        const value = await AsyncStorage.getItem('emailOrPhone');
+        if (value) {
+          setEmailOrPhone(value);
+          fetchAccounts(value);
+        } else {
+          console.log('No emailOrPhone found in AsyncStorage.');
+        }
+      } catch (error) {
+        console.log('Error reading emailOrPhone from AsyncStorage:', error);
+      }
+    };
+
+    getUserIdentifier();
+  }, []);
+
+ 
+
+
+  // Fetch user-specific accounts from backend
+  const fetchAccounts = async (identifier: string) => {
+    try {
+      const response = await fetch(`http://192.168.52.190:7000/api/getaccounts?emailorphone=${identifier}`);
+      const data = await response.json();
+      setAccounts(data);
+    } catch (error) {
+      console.log('Error fetching accounts:', error);
     }
   };
 
-  const handleTransferMoney = () => {
-    if (selectedAccount && amount) {
-      Alert.alert(
-        'Success',
-        `Transferred ₹${amount} to ${selectedAccount.bankName} (Account: ${selectedAccount.accountNumber})`
-      );
-      setAmount('');
-      setSelectedAccount(null);
-    } else {
-      Alert.alert('Error', 'Please select a bank account and enter the amount.');
+  // Add new account to backend and update list
+  const addAccount = async () => {
+    if (!emailorphone) {
+      Alert.alert('Error', 'User not logged in.');
+      return;
+    }
+
+    const trimmedBank = bankName.trim().toLowerCase();
+    const userAccounts = accounts.filter(acc => acc.emailorphone === emailorphone);
+    const alreadyExists = userAccounts.some(
+      acc => acc.bankName.trim().toLowerCase() === trimmedBank
+    );
+
+    if (alreadyExists) {
+      Alert.alert('Account Exists', 'Only one account per bank is allowed.');
+      return;
+    }
+
+    if (bankName && accountNumber) {
+      const newAccount: Omit<Account, 'id'> = {
+        bankName,
+        accountNumber,
+        emailorphone,
+      };
+
+      try {
+        const response = await fetch('http://192.168.52.190:7000/api/accounts', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(newAccount),
+        });
+
+        if (response.ok) {
+          const savedAccount = await response.json();
+          setAccounts(prev => [...prev, savedAccount]);
+          setBankName('');
+          setAccountNumber('');
+        } else {
+          Alert.alert('Error', 'Failed to save account.');
+        }
+      } catch (error) {
+        console.log('Error saving account:', error);
+        Alert.alert('Error', 'Network error occurred.');
+      }
     }
   };
 
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor="#004080" barStyle="light-content" />
+      {/* Header with Back Arrow */}
       <View style={styles.header}>
-        <TouchableOpacity style={styles.backButton} onPress={() => router.push('/front')}>
-          <AntDesign name="arrowleft" size={24} color="white" />
+        <TouchableOpacity onPress={() => router.push('/front')} style={styles.backButton}>
+          <Ionicons name="arrow-back" size={24} color="#333" />
         </TouchableOpacity>
-        <Text style={styles.headerText}>Self Account</Text>
+        <Text style={styles.headerText}>Add Your Bank Account</Text>
       </View>
+      {/* <Text style={styles.heading}>Add Your Bank Account</Text> */}
 
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Add Bank Account</Text>
-        <TextInput placeholder="Bank Name" value={bankName} onChangeText={setBankName} style={styles.input} />
-        <TextInput placeholder="Account Number" value={accountNumber} onChangeText={setAccountNumber} style={styles.input} keyboardType="numeric" />
-        <TouchableOpacity style={styles.button} onPress={handleAddBankAccount}>
-          <Text style={styles.buttonText}>Add Bank</Text>
-        </TouchableOpacity>
-      </View>
+      <TextInput
+        style={styles.input}
+        placeholder="Bank Name"
+        value={bankName}
+        onChangeText={setBankName}
+      />
 
-      {bankAccounts.length > 0 && (
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Your Bank Accounts</Text>
-          <FlatList
-            data={bankAccounts}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                style={[styles.bankAccount, selectedAccount === item && { borderColor: '#004080' }]}
-                onPress={() => setSelectedAccount(item)}>
-                <Text style={styles.bankText}>{item.bankName}</Text>
-                <Text style={styles.bankText}>A/C: {item.accountNumber}</Text>
-              </TouchableOpacity>
-            )}
-            ListEmptyComponent={<Text style={styles.noAccount}>No accounts added yet.</Text>}
-          />
-        </View>
-      )}
+      <TextInput
+        style={styles.input}
+        placeholder="Account Number"
+        keyboardType="numeric"
+        value={accountNumber}
+        onChangeText={setAccountNumber}
+      />
 
-      {bankAccounts.length > 0 && (
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Transfer Money</Text>
-          <TextInput placeholder="Amount (₹)" value={amount} onChangeText={setAmount} style={styles.input} keyboardType="numeric" />
-          <TouchableOpacity style={styles.button} onPress={handleTransferMoney}>
-            <Text style={styles.buttonText}>Transfer</Text>
-          </TouchableOpacity>
-        </View>
-      )}
+      <TouchableOpacity style={styles.button} onPress={addAccount}>
+        <Text style={styles.buttonText}>Add Account</Text>
+      </TouchableOpacity>
+
+      <Text style={styles.subHeading}>Your Accounts</Text>
+
+      <FlatList
+        data={accounts.filter(acc => acc.emailorphone === emailorphone)}
+        // keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item, index) => item.id?.toString() || index.toString()}
+        renderItem={({ item }) => (
+          <View style={styles.accountBox}>
+            <Text style={styles.accountText}>{item.bankName}</Text>
+            <Text style={styles.numberText}>A/C: {item.accountNumber}</Text>
+          </View>
+        )}
+      />
     </View>
   );
 };
+
+export default SelfAccount;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F4F6F9',
-    // paddingTop: 40,
-    // paddingHorizontal: 16,
+    padding: 20,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#004080',
-    padding: 15,
+    marginBottom: 30,
   },
   backButton: {
     marginRight: 10,
@@ -305,50 +333,51 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: 'white',
+    color: '#333',
   },
-  section: {
-    padding:10,
-    margin: 10,
-  },
-  sectionTitle: {
+  // heading: {
+  //   fontSize: 22,
+  //   fontWeight: 'bold',
+  //   marginBottom: 15,
+  // },
+  subHeading: {
     fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-  input: {
-    backgroundColor: '#fff',
-    borderRadius: 5,
-    padding: 10,
+    fontWeight: '600',
+    marginTop: 25,
     marginBottom: 10,
   },
-  button: {
-    backgroundColor: '#004080',
+  input: { 
+    backgroundColor: 'white',
     padding: 12,
-    borderRadius: 5,
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  bankAccount: {
-    padding: 12,
+    borderRadius: 10,
+    marginBottom: 10,
     borderWidth: 1,
     borderColor: '#ccc',
-    borderRadius: 5,
+  },
+  button: {
+    backgroundColor: '#0D47A1',
+    padding: 14,
+    borderRadius: 10,
+    alignItems: 'center',
+    marginTop: 5,
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: '600',
+  },
+  accountBox: {
+    backgroundColor: '#fff',
+    padding: 15,
+    borderRadius: 10,
     marginBottom: 10,
   },
-  bankText: {
+  accountText: {
     fontSize: 16,
+    fontWeight: '500',
   },
-  noAccount: {
-    color: '#999',
-    textAlign: 'center',
-    marginTop: 10,
+  numberText: {
+    fontSize: 14,
+    color: '#666',
+    marginTop: 4,
   },
 });
-
-export default SelfAccountPage;
