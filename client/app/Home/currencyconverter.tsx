@@ -270,12 +270,12 @@ const CurrencyConverter = () => {
             >
               <Text style={styles.buttonText}>Convert</Text>
             </TouchableOpacity>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={[styles.button, styles.shadow]}
               activeOpacity={0.7}
             >
               <Text style={styles.buttonText}>Add Funds</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </>
       )}

@@ -167,7 +167,7 @@
 
 
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, Alert, StatusBar } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons'; // Import icons from react-icons
 import { useRouter } from 'expo-router';
@@ -269,34 +269,36 @@ const SelfAccount = () => {
 
   return (
     <View style={styles.container}>
+      <StatusBar backgroundColor="#004080" barStyle="light-content" />
       {/* Header with Back Arrow */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.push('/front')} style={styles.backButton}>
-          <Ionicons name="arrow-back" size={24} color="#333" />
+          <Ionicons name="arrow-back" size={24} color="#fff" />
         </TouchableOpacity>
         <Text style={styles.headerText}>Add Your Bank Account</Text>
       </View>
       {/* <Text style={styles.heading}>Add Your Bank Account</Text> */}
 
-      <TextInput
-        style={styles.input}
-        placeholder="Bank Name"
-        value={bankName}
-        onChangeText={setBankName}
-      />
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder="Bank Name"
+          value={bankName}
+          onChangeText={setBankName}
+        />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Account Number"
-        keyboardType="numeric"
-        value={accountNumber}
-        onChangeText={setAccountNumber}
-      />
+        <TextInput
+          style={styles.input}
+          placeholder="Account Number"
+          keyboardType="numeric"
+          value={accountNumber}
+          onChangeText={setAccountNumber}
+        />
 
-      <TouchableOpacity style={styles.button} onPress={addAccount}>
-        <Text style={styles.buttonText}>Add Account</Text>
-      </TouchableOpacity>
-
+        <TouchableOpacity style={styles.button} onPress={addAccount}>
+          <Text style={styles.buttonText}>Add Account</Text>
+        </TouchableOpacity>
+      </View>
       <Text style={styles.subHeading}>Your Accounts</Text>
 
       <FlatList
@@ -320,12 +322,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F4F6F9',
-    padding: 20,
+    // padding: 20,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 30,
+    backgroundColor: '#004080',
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 3 },
   },
   backButton: {
     marginRight: 10,
@@ -333,7 +342,7 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#fff',
   },
   // heading: {
   //   fontSize: 22,
@@ -343,14 +352,17 @@ const styles = StyleSheet.create({
   subHeading: {
     fontSize: 18,
     fontWeight: '600',
-    marginTop: 25,
-    marginBottom: 10,
+    // marginTop: 25,
+    margin: 15,
+  },
+  inputContainer:{
+    marginVertical:25,
   },
   input: { 
     backgroundColor: 'white',
     padding: 12,
     borderRadius: 10,
-    marginBottom: 10,
+    margin: 10,
     borderWidth: 1,
     borderColor: '#ccc',
   },
@@ -360,6 +372,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
     marginTop: 5,
+    marginHorizontal:10,
   },
   buttonText: {
     color: 'white',
@@ -369,7 +382,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     padding: 15,
     borderRadius: 10,
-    marginBottom: 10,
+    marginHorizontal: 10,
+    marginBottom:6,
+    
   },
   accountText: {
     fontSize: 16,

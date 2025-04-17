@@ -68,7 +68,8 @@ const Home = () => {
                       <FontAwesome5 name="wallet" size={18} color="black" />
                     </View>
                     <Text style={styles.iconText} numberOfLines={2}>
-                      To Self Account
+                      Add Bank Account
+                      {/* To Self Account */}
                     </Text>
                   </View>
                 </Link>
@@ -104,16 +105,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width:'100%',
-    // backgroundColor: '#F8F9FA',
     backgroundColor: '#F4F6F9',
+    // backgroundColor: '#F4F6F9',
     padding: 16,
   },
 
   Cardcontainer: {
   
     // justifyContent: 'center',
-    backgroundColor: '#e2f1ff',
-    // backgroundColor: '#E6F2FA',
+    // backgroundColor: '#e2f1ff',
+    backgroundColor: '#E6F2FA',
     borderRadius: 10,
     // shadowOpacity: 0.3,
     // shadowRadius: 8,
