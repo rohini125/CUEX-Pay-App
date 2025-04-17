@@ -310,10 +310,10 @@ const SecurityPage = () => {
         <Switch value={biometricEnabled} onValueChange={toggleBiometric} />
       </View>
 
-      <View style={styles.row}>
+      {/* <View style={styles.row}>
         <Text style={styles.label}>Enable Pattern Lock</Text>
         <Switch value={patternEnabled} onValueChange={togglePattern} />
-      </View>
+      </View> */}
 
       <TouchableOpacity style={styles.button} onPress={() => router.back()}>
         <Text style={styles.buttonText}>Go Back</Text>

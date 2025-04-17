@@ -207,7 +207,7 @@
 
 
 
-// app/index.tsx or screens/Index.tsx
+// // app/index.tsx or screens/Index.tsx
 // import React, { useEffect, useState } from "react";
 // import { View, Text, TouchableOpacity, ActivityIndicator, Alert, StyleSheet, ImageBackground, StatusBar } from "react-native";
 // import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -305,6 +305,146 @@
 
 
 
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ActivityIndicator,
+  Alert,
+  StyleSheet,
+  ImageBackground,
+  StatusBar,
+} from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as LocalAuthentication from "expo-local-authentication";
+import { useRouter } from "expo-router";
+import { BlurView } from "expo-blur";
+import * as Animatable from "react-native-animatable";
+
+const Index = () => {
+  const [loading, setLoading] = useState(true);
+  const [authenticated, setAuthenticated] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    checkBiometricAuth();
+  }, []);
+
+  const checkBiometricAuth = async () => {
+    const enabled = await AsyncStorage.getItem("biometricEnabled");
+
+    if (enabled === "true") {
+      const compatible = await LocalAuthentication.hasHardwareAsync();
+      const enrolled = await LocalAuthentication.isEnrolledAsync();
+
+      if (!compatible || !enrolled) {
+        Alert.alert("Biometric not supported");
+        setAuthenticated(true); // Allow access anyway
+        setLoading(false);
+        return;
+      }
+
+      const result = await LocalAuthentication.authenticateAsync({
+        promptMessage: "Authenticate to access CUEX",
+        fallbackLabel: "Use Passcode",
+      });
+
+      if (result.success) {
+        setAuthenticated(true);
+      } else {
+        Alert.alert("Authentication failed");
+      }
+    } else {
+      // biometric is disabled
+      setAuthenticated(true);
+    }
+
+    setLoading(false);
+  };
+
+  if (loading) {
+    return (
+      <View style={styles.loaderContainer}>
+        <ActivityIndicator size="large" color="#4CAF50" />
+      </View>
+    );
+  }
+
+  return authenticated ? (
+    <ImageBackground
+      source={require("../assets/images/StaringPage.jpg")}
+      style={styles.background}
+    >
+      <StatusBar barStyle="light-content" />
+      <BlurView intensity={15} style={styles.overlay}>
+        <Animatable.Text animation="zoomInUp" duration={2000} style={styles.text}>
+          Welcome to CUEX App
+        </Animatable.Text>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={styles.button}
+          onPress={() => router.push("/login")}
+        >
+          <Text style={styles.buttonText}>Get Started</Text>
+        </TouchableOpacity>
+      </BlurView>
+    </ImageBackground>
+  ) : null;
+};
+
+export default Index;
+
+const styles = StyleSheet.create({
+  loaderContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#000",
+  },
+  background: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
+    resizeMode: "cover",
+  },
+  overlay: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.6)",
+  },
+  text: {
+    fontSize: 28,
+    fontWeight: "bold",
+    color: "white",
+    marginBottom: 30,
+  },
+  button: {
+    backgroundColor: "#4CAF50",
+    borderRadius: 20,
+    paddingVertical: 12,
+    paddingHorizontal: 30,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+});
+
+
+
+
+
+
+
+
 // import React, { useEffect, useState } from "react";
 // import {
 //   View,
@@ -328,19 +468,20 @@
 //   const router = useRouter();
 
 //   useEffect(() => {
-//     checkBiometricAuth();
+//     checkAuthentication();
 //   }, []);
 
-//   const checkBiometricAuth = async () => {
-//     const enabled = await AsyncStorage.getItem("biometricEnabled");
+//   const checkAuthentication = async () => {
+//     const biometricEnabled = await AsyncStorage.getItem("biometricEnabled");
+//     const patternEnabled = await AsyncStorage.getItem("patternEnabled");
 
-//     if (enabled === "true") {
+//     if (biometricEnabled === "true") {
 //       const compatible = await LocalAuthentication.hasHardwareAsync();
 //       const enrolled = await LocalAuthentication.isEnrolledAsync();
 
 //       if (!compatible || !enrolled) {
 //         Alert.alert("Biometric not supported");
-//         setAuthenticated(true); // Allow access anyway
+//         setAuthenticated(true); // fallback
 //         setLoading(false);
 //         return;
 //       }
@@ -353,10 +494,14 @@
 //       if (result.success) {
 //         setAuthenticated(true);
 //       } else {
-//         Alert.alert("Authentication failed");
+//         Alert.alert("Biometric authentication failed");
 //       }
+//     } else if (patternEnabled === "true") {
+//       // Navigate to pattern verification screen
+//       router.replace("/Sidebar/security/Pattern");
+//       return;
 //     } else {
-//       // biometric is disabled
+//       // No auth enabled, allow access
 //       setAuthenticated(true);
 //     }
 
@@ -441,144 +586,3 @@
 
 
 
-
-
-
-
-import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  ActivityIndicator,
-  Alert,
-  StyleSheet,
-  ImageBackground,
-  StatusBar,
-} from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as LocalAuthentication from "expo-local-authentication";
-import { useRouter } from "expo-router";
-import { BlurView } from "expo-blur";
-import * as Animatable from "react-native-animatable";
-
-const Index = () => {
-  const [loading, setLoading] = useState(true);
-  const [authenticated, setAuthenticated] = useState(false);
-  const router = useRouter();
-
-  useEffect(() => {
-    checkAuthentication();
-  }, []);
-
-  const checkAuthentication = async () => {
-    const biometricEnabled = await AsyncStorage.getItem("biometricEnabled");
-    const patternEnabled = await AsyncStorage.getItem("patternEnabled");
-
-    if (biometricEnabled === "true") {
-      const compatible = await LocalAuthentication.hasHardwareAsync();
-      const enrolled = await LocalAuthentication.isEnrolledAsync();
-
-      if (!compatible || !enrolled) {
-        Alert.alert("Biometric not supported");
-        setAuthenticated(true); // fallback
-        setLoading(false);
-        return;
-      }
-
-      const result = await LocalAuthentication.authenticateAsync({
-        promptMessage: "Authenticate to access CUEX",
-        fallbackLabel: "Use Passcode",
-      });
-
-      if (result.success) {
-        setAuthenticated(true);
-      } else {
-        Alert.alert("Biometric authentication failed");
-      }
-    } else if (patternEnabled === "true") {
-      // Navigate to pattern verification screen
-      router.replace("/pattern-auth");
-      return;
-    } else {
-      // No auth enabled, allow access
-      setAuthenticated(true);
-    }
-
-    setLoading(false);
-  };
-
-  if (loading) {
-    return (
-      <View style={styles.loaderContainer}>
-        <ActivityIndicator size="large" color="#4CAF50" />
-      </View>
-    );
-  }
-
-  return authenticated ? (
-    <ImageBackground
-      source={require("../assets/images/StaringPage.jpg")}
-      style={styles.background}
-    >
-      <StatusBar barStyle="light-content" />
-      <BlurView intensity={15} style={styles.overlay}>
-        <Animatable.Text animation="zoomInUp" duration={2000} style={styles.text}>
-          Welcome to CUEX App
-        </Animatable.Text>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          style={styles.button}
-          onPress={() => router.push("/login")}
-        >
-          <Text style={styles.buttonText}>Get Started</Text>
-        </TouchableOpacity>
-      </BlurView>
-    </ImageBackground>
-  ) : null;
-};
-
-export default Index;
-
-const styles = StyleSheet.create({
-  loaderContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#000",
-  },
-  background: {
-    flex: 1,
-    width: "100%",
-    height: "100%",
-    resizeMode: "cover",
-  },
-  overlay: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.6)",
-  },
-  text: {
-    fontSize: 28,
-    fontWeight: "bold",
-    color: "white",
-    marginBottom: 30,
-  },
-  button: {
-    backgroundColor: "#4CAF50",
-    borderRadius: 20,
-    paddingVertical: 12,
-    paddingHorizontal: 30,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  buttonText: {
-    color: "white",
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-});
