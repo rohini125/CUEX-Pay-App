@@ -286,7 +286,7 @@ const SignUp = () => {
       return;
     }
     try {
-      const response = await axios.post('http://192.168.52.190:7000/api/auth/signup', {
+      const response = await axios.post('http://192.168.43.174:7000/api/auth/signup', {
         name,
         emailOrPhone,
         securityQuestion,
@@ -347,7 +347,7 @@ const SignUp = () => {
             <Picker.Item label="Select a Security Question" value="" />
             <Picker.Item label="Where did you have your primary education?" value="primary_education" />
             <Picker.Item label="What is your favorite actor?" value="favorite_actor" />
-            <Picker.Item label="What is your nick name?" value="nick_name" />
+            <Picker.Item label="what is your nick name?" value="nick_name" />
           </Picker>
         </View>
 
