@@ -1,8 +1,6 @@
 
 ///////////////////////////////////// With Backend ////////////////////////////////////////////////////////////////
 
-
-
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, ScrollView, Modal, StatusBar, Alert } from 'react-native';
 import axios from 'axios';
@@ -24,7 +22,7 @@ const Login = () => {
       return;
     }
     try {
-      const response = await axios.post('http://192.168.52.190:7000/api/auth/login', {
+      const response = await axios.post('http://192.168.43.174:7000/api/auth/login', {
         emailOrPhone,
         password,
       });
@@ -42,7 +40,7 @@ const handleForgotPassword = async () => {
   try {
     console.log(emailOrPhone);
     await AsyncStorage.setItem('emailOrPhone', emailOrPhone); // save in storage
-    router.push('/forgotpassword'); // मग navigate कर
+    router.push('/forgotpassword' as any); // मग navigate कर
   } catch (e) {
     Alert.alert('Error', 'Could not save data');
   }

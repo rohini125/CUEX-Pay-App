@@ -26,13 +26,13 @@ const AccountingSettings = () => {
         </TouchableOpacity>
 
         {/* Account Details */}
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={styles.option}
           onPress={() => router.push('/Sidebar/account-details')}
         >
           <Text style={styles.optionTitle}> ACCOUNT DETAILS</Text>
           <Text style={styles.arrow}>➔</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         {/* Request Account Delete */}
         <TouchableOpacity
@@ -57,7 +57,7 @@ const AccountingSettings = () => {
           style={styles.option}
           onPress={() => router.push('/Sidebar/security/security')}
         >
-          <Text style={styles.optionTitle}> Security</Text>
+          <Text style={styles.optionTitle}> SECURITY</Text>
           <Text style={styles.arrow}>➔</Text>
         </TouchableOpacity>
 
