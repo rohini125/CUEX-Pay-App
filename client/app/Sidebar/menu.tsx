@@ -41,7 +41,7 @@ const menu = () => {
         </TouchableOpacity>
 
         {/* Promotions */}
-        <TouchableOpacity style={styles.menuItem} onPress={() => navigateTo('/Sidebar/promotions')}>
+        <TouchableOpacity style={styles.menuItem} onPress={() => navigateTo('/Sidebar/Rewards')}>
           <Feather name="gift" size={20} color="black" />
           <Text style={styles.menuText}>Rewards</Text>
         </TouchableOpacity>
