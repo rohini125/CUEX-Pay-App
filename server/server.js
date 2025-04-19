@@ -14,6 +14,7 @@ import accountRoutes from "./routes/accountRoutes.js";
 import historyRoute from "./routes/historyRoute.js";
 import walletRoute from "./routes/walletRoute.js";
 import balanceRoute from "./routes/balanceRoutes.js";
+import transferRoute from "./routes/transferRoutes.js";
 import cookieParser from "cookie-parser";
 dotenv.config();
 
@@ -67,6 +68,9 @@ app.use("/balance", balanceRoute);
 
 //account Routes
 app.use("/api", accountRoutes);
+
+// Routes
+app.use("/bank", transferRoute);
 
 // Connect to MongoDB
 connectDB();

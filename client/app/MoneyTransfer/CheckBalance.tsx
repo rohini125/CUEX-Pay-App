@@ -6,7 +6,7 @@
 
 
 import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity, StatusBar } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -91,11 +91,11 @@ const CheckBalanceScreen: React.FC = () => {
   
   return (
     <View style={styles.container}>
-
+        <StatusBar backgroundColor="#004080" barStyle="light-content" />
       {/* Header with Back Arrow */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.push('/front')} style={styles.backButton}>
-          <Ionicons name="arrow-back" size={24} color="#333" />
+          <Ionicons name="arrow-back" size={24} color="#fff" />
         </TouchableOpacity>
         <Text style={styles.headerText}>Check Balance</Text>
       </View>
@@ -139,7 +139,7 @@ const CheckBalanceScreen: React.FC = () => {
                 onChangeText={setDepositAmount}
                 style={styles.input}
               />
-              <TouchableOpacity activeOpacity={0.7} style={styles.Button} onPress={handleDeposit}>
+              <TouchableOpacity activeOpacity={0.7} style={styles. ButtonDeposit} onPress={handleDeposit}>
                 <Text style={styles.ButtonText}>Deposit Amount</Text>
               </TouchableOpacity>
             </View>
@@ -153,12 +153,25 @@ const CheckBalanceScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
+    // padding: 20,
+    flex: 1,
+    backgroundColor: '#F4F6F9',
   },
   header: {
+    // backgroundColor:'#004080',
+    // flexDirection: 'row',
+    // alignItems: 'center',
+    // marginBottom: 30,
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 30,
+    backgroundColor: '#004080',
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 3 },
   },
   backButton: {
     marginRight: 10,
@@ -166,14 +179,17 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#fff',
   },
   picker: {
-    marginVertical: 10,
+    // marginVertical: 10,
+    marginTop:50,
+    margin:15,
     backgroundColor: '#f2f2f2',
   },
   input: {
     marginVertical: 15,
+    // marginHorizontal: 15,
     width:'100%',
     borderWidth: 1,
     borderColor: '#ccc',
@@ -195,20 +211,30 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop: 20,
+    marginTop:10,
+    marginHorizontal:15,
   },
   
   depositSection: {
-    marginTop: 20,
+    // marginTop: 20,
+    marginHorizontal: 15,
   },  
   resultContainer: {
     marginTop: 20,
+  },
+  ButtonDeposit: {
+    backgroundColor: '#004080',
+    borderRadius: 10,
+    alignItems: 'center',
+    paddingVertical: 10,
+    marginTop:8,
   },
   Button: {
     backgroundColor: '#004080',
     borderRadius: 10,
     alignItems: 'center',
     paddingVertical: 10,
+    margin:15,
   },
   ButtonText: {
     color: 'white',
