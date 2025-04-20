@@ -167,6 +167,7 @@ const CurrencyConverter = () => {
     const convertedAmountValue = numericAmount * conversionRate;
 
     saveConvertedCurrency(fromCurrency, toCurrency, numericAmount, convertedAmountValue);
+    // Alert.alert('Amount Converted Successfully');
     // setConvertedAmount(convertedAmountValue.toString()); // Convert back to string  (error is to currency symbol and from currency amount)
   };
 
@@ -270,12 +271,12 @@ const CurrencyConverter = () => {
             >
               <Text style={styles.buttonText}>Convert</Text>
             </TouchableOpacity>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={[styles.button, styles.shadow]}
               activeOpacity={0.7}
             >
               <Text style={styles.buttonText}>Add Funds</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </>
       )}
