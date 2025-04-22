@@ -13,7 +13,6 @@ import accountRoutes from "./routes/accountRoutes.js";
 
 import historyRoute from "./routes/historyRoute.js";
 import walletRoute from "./routes/walletRoute.js";
-import balanceRoute from "./routes/balanceRoutes.js";
 import transferRoute from "./routes/transferRoutes.js";
 import cookieParser from "cookie-parser";
 dotenv.config();
@@ -62,9 +61,6 @@ app.use("/api/wallet", walletRoute);
 
 // History Routes
 app.use("/history", historyRoute);
-
-//Balance Routes
-app.use("/balance", balanceRoute);
 
 //account Routes
 app.use("/api", accountRoutes);
