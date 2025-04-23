@@ -95,13 +95,9 @@ import { Tabs } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 
-// ✅ Import the AlertProvider
-import { AlertProvider } from "../Sidebar/PriceAlert/AlertContext"; // adjust this path!
-
 const TabRoot = () => {
   return (
-    // ✅ Wrap Tabs inside the AlertProvider
-    <AlertProvider>
+   
       <Tabs
         screenOptions={{
           tabBarActiveTintColor: "white",
@@ -173,7 +169,7 @@ const TabRoot = () => {
           }}
         />
       </Tabs>
-    </AlertProvider>
+   
   );
 };
 

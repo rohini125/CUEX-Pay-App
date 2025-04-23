@@ -18,6 +18,7 @@ const Home = () => {
   // };
 
   return (
+    
      <View style={{flex:1}}>
       <StatusBar backgroundColor="#004080" barStyle="light-content"  />
        <Header  />
@@ -95,6 +96,7 @@ const Home = () => {
           </View>
         </ScrollView>
       </View>
+      
     
   );
 };

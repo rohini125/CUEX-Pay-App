@@ -21,7 +21,7 @@ const Login = () => {
     }
 
     try {
-      const response = await axios.post('http://192.168.43.102:7000/api/auth/login', {
+      const response = await axios.post('http://192.168.43.174:7000/api/auth/login', {
         emailOrPhone,
         password,
       });

@@ -15,11 +15,14 @@ import historyRoute from "./routes/historyRoute.js";
 import walletRoute from "./routes/walletRoute.js";
 import balanceRoute from "./routes/balanceRoutes.js";
 import transferRoute from "./routes/transferRoutes.js";
+import alertRoutes from "./routes/alertRoutes.js"
 import cookieParser from "cookie-parser";
 dotenv.config();
 
-const app = express();
-const PORT = process.env.PORT;
+
+const app = express(); // Initialize the express app
+
+app.use(cors());
 
 // Middleware for CORS
 app.use(
@@ -72,9 +75,12 @@ app.use("/api", accountRoutes);
 // Routes
 app.use("/bank", transferRoute);
 
+//Alert
+app.use("/alerts", alertRoutes);
+
 // Connect to MongoDB
 connectDB();
-
+const PORT = 7000;
 // Start the server
 connectDB().then(() => {
   app.listen(PORT, "0.0.0.0", () => {

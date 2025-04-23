@@ -40,7 +40,7 @@ export default function VerificationPage() {
   const handleVerify = async () => {
     try {
       // Sending OTP to the backend for verification
-      const response = await axios.post('http://192.168.43.102:7000/api/otp/verify-otp', { otp });
+      const response = await axios.post('http://192.168.43.174:7000/api/otp/verify-otp', { otp });
       console.log(response.data); // Handle the response after verification
       // Navigate to another page on success
       router.navigate('/front');

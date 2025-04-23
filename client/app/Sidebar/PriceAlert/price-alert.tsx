@@ -1,503 +1,328 @@
-// import React, { useState } from 'react';
-// import { StyleSheet, View, Text, TouchableOpacity, Alert, FlatList, TextInput } from 'react-native';
-// import { useRouter } from 'expo-router'; // Import router for navigation
-// import { Ionicons } from '@expo/vector-icons';
+import React, { useEffect, useState } from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  FlatList,
+  StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
+  Alert,
+  ScrollView,
+} from 'react-native';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// // Define the AlertData interface
-// interface AlertData {
-//   type: 'price' | 'percentage'; // Type of alert (price or percentage)
-//   value: number | string;       // Value of the alert
-//   description: string;          // Description of the alert
-// }
+type AlertType = {
+  _id: string;
+  pair: string;
+  target: number;
+};
 
-// export default function PriceAlerts() {
-//   const router = useRouter(); // For navigation
+const PriceAlertPage = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [currencyList, setCurrencyList] = useState<[string, string][]>([]);
+  const [filteredCurrencies, setFilteredCurrencies] = useState<[string, string][]>([]);
+  const [selectedCurrency, setSelectedCurrency] = useState('');
+  const [currentPrice, setCurrentPrice] = useState(1.0);
+  const [alertPrice, setAlertPrice] = useState(1.0);
+  const [alerts, setAlerts] = useState<AlertType[]>([]);
+  const [alertPriceInput, setAlertPriceInput] = useState('1.0000');
 
-//   // List of currencies with their symbols
-//   const currencies = [
-//     { code: 'USD', name: 'US Dollar', symbol: '$' },
-//     { code: 'EUR', name: 'Euro', symbol: '€' },
-//     { code: 'GBP', name: 'British Pound', symbol: '£' },
-//     { code: 'INR', name: 'Indian Rupee', symbol: '₹' },
-//     { code: 'AUD', name: 'Australian Dollar', symbol: 'A$' },
-//     // Add more currencies as needed
-//   ];
-
-//   // State variables
-//   const [currentPrice, setCurrentPrice] = useState(1.0); // Example current price
-//   const [alertPrice, setAlertPrice] = useState(1.2); // Default alert price
-//   const [percentageChange, setPercentageChange] = useState(5); // Default percentage change
-//   const [selectedMode, setSelectedMode] = useState<'price' | 'percentage'>('price'); // Default mode
-//   const [alerts, setAlerts] = useState<AlertData[]>([]); // Array to store created alerts
-//   const [searchQuery, setSearchQuery] = useState(''); // For searching currencies
-//   const [selectedCurrency, setSelectedCurrency] = useState<{ code: string; name: string; symbol: string }>({
-//     code: 'USD',
-//     name: 'US Dollar',
-//     symbol: '$',
-//   });
-
-//   // Handle "By Price" selection
-//   const handleByPrice = () => {
-//     setSelectedMode('price');
-//     setAlertPrice(currentPrice + 0.2);
-//   };
-
-//   // Handle "By % Change" selection
-//   const handleByPercentageChange = () => {
-//     setSelectedMode('percentage');
-//     setPercentageChange(5);
-//   };
-
-//   // Adjust Price for "By Price" Mode
-//   const adjustAlertPrice = (amount: number) => {
-//     setAlertPrice((prev) => Math.max(0, prev + amount));
-//   };
-
-//   // Adjust Percentage for "By % Change" Mode
-//   const adjustPercentageChange = (amount: number) => {
-//     setPercentageChange((prev) => Math.max(0, prev + amount));
-//   };
-
-//   const handleDeleteAlert = (index: number) => {
-//     setAlerts((prev) => prev.filter((_, i) => i !== index));
-//     Alert.alert('Alert Deleted', 'The selected alert has been removed.');
-//   };
-
-// //handle create alert
-// const handleCreateAlert = () => {
-//   let alertData: AlertData;
-
-//   if (selectedMode === 'price') {
-//     alertData = {
-//       type: 'price',
-//       value: alertPrice.toFixed(2),
-//       description: `Alert when price reaches ${selectedCurrency.symbol}${alertPrice.toFixed(2)}`,
-//     };
-
-//     // Check if current price equals alert price
-//     if (alertPrice.toFixed(2) === currentPrice.toFixed(2)) {
-//       Alert.alert('Alert Triggered', `Price is already ${selectedCurrency.symbol}${alertPrice.toFixed(2)}!`);
-//       return;
-//     }
-//   } else {
-//     const targetPrice = currentPrice * (1 + percentageChange / 100);
-//     alertData = {
-//       type: 'percentage',
-//       value: percentageChange.toFixed(2),
-//       description: `Alert when price changes by ${percentageChange}% to ${selectedCurrency.symbol}${targetPrice.toFixed(2)}`,
-//     };
-
-//     // Check if current price equals target price for percentage
-//     if (targetPrice.toFixed(2) === currentPrice.toFixed(2)) {
-//       Alert.alert('Alert Triggered', `Price has already changed by ${percentageChange}% to ${selectedCurrency.symbol}${currentPrice.toFixed(2)}!`);
-//       return;
-//     }
-//   }
-
-//   // **Enhanced Duplicate Check**
-//   const isDuplicate = alerts.some(
-//     (alert) =>
-//       alert.type === alertData.type &&
-//       alert.value === alertData.value &&
-//       alert.description === alertData.description
-//   );
-
-//   if (isDuplicate) {
-//     Alert.alert('Duplicate Alert', 'This alert already exists.');
-//     return;
-//   }
-
-//   // Add the new alert
-//   setAlerts((prev) => [...prev, alertData]);
-
-//   // Show confirmation
-//   Alert.alert('Alert Created', alertData.description);
-// };
-
-  
-//   // Search currencies based on query
-//   const filteredCurrencies = currencies.filter((currency) =>
-//     currency.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-//     currency.code.toLowerCase().includes(searchQuery.toLowerCase())
-//   );
-
-//   // Handle currency selection
-//   const handleCurrencySelect = (currency: { code: string; name: string; symbol: string }) => {
-//     setSelectedCurrency(currency);
-//     setSearchQuery('');
-//     setCurrentPrice(1.0); // Reset price or set a real price here
-//   };
-
-//   return (
-//     <View style={styles.container}>
-//       <View style={styles.header}>
-//               <TouchableOpacity activeOpacity={0.7} onPress={() => router.push('/Sidebar/menu')} style={styles.backButton}>
-//                 <Ionicons name="arrow-back" size={24} color="white" />
-//               </TouchableOpacity>
-//             {/* Header */}
-//             <Text style={styles.headerTitle}> Price Alerts</Text>
-//             </View>
-//     <View style={styles.card}>
-//       {/* Currency Search Bar */}
-//       <TextInput
-//         style={styles.searchBar}
-//         placeholder="Search Currency"
-//         value={searchQuery}
-//         onChangeText={setSearchQuery}
-//       />
-
-//       {/* Currency List */}
-//       {searchQuery.length > 0 && (
-//         <FlatList
-//           data={filteredCurrencies}
-//           keyExtractor={(item) => item.code}
-//           renderItem={({ item }) => (
-//             <TouchableOpacity activeOpacity={0.7} style={styles.currencyItem} onPress={() => handleCurrencySelect(item)}>
-//               <Text style={styles.currencyCode}>{item.code}</Text>
-//               <Text style={styles.currencyName}>{item.name}</Text>
-//             </TouchableOpacity>
-//           )}
-//         />
-//       )}
-
-//       {/* Current Currency and Value */}
-//       <View style={styles.currencyRow}>
-//         <Text style={styles.currencyText}>{selectedCurrency.code}</Text>
-//         <Text style={styles.currencyValue}>
-//           {selectedCurrency.symbol}
-//           {currentPrice.toFixed(2)}
-//         </Text>
-//       </View>
-
-//       {/* Mode Selection */}
-//       <View style={styles.alertOptions}>
-//         <TouchableOpacity activeOpacity={0.7}
-//           style={[styles.alertButton, selectedMode === 'price' && styles.selectedButton]}
-//           onPress={handleByPrice}
-//         >
-//           <Text style={styles.alertButtonText}>BY PRICE</Text>
-//         </TouchableOpacity>
-//         <TouchableOpacity activeOpacity={0.7}
-//           style={[styles.alertButton, selectedMode === 'percentage' && styles.selectedButton]}
-//           onPress={handleByPercentageChange}
-//         >
-//           <Text style={styles.alertButtonText}>BY % CHANGE</Text>
-//         </TouchableOpacity>
-//       </View>
-
-//       {/* Alert Input Section */}
-//       {selectedMode === 'price' ? (
-//         <View>
-//           <Text style={styles.alertLabel}>ALERT PRICE:</Text>
-//           <View style={styles.priceAdjuster}>
-//             <TouchableOpacity activeOpacity={0.7} style={styles.adjustButton} onPress={() => adjustAlertPrice(-0.1)}>
-//               <Text style={styles.adjustButtonText}>-</Text>
-//             </TouchableOpacity>
-//             <Text style={styles.alertPrice}>
-//               {selectedCurrency.symbol}
-//               {alertPrice.toFixed(2)}
-//             </Text>
-//             <TouchableOpacity activeOpacity={0.7} style={styles.adjustButton} onPress={() => adjustAlertPrice(0.1)}>
-//               <Text style={styles.adjustButtonText}>+</Text>
-//             </TouchableOpacity>
-//           </View>
-//         </View>
-//       ) : (
-//         <View>
-//           <Text style={styles.alertLabel}>ALERT % CHANGE:</Text>
-//           <View style={styles.priceAdjuster}>
-//             <TouchableOpacity activeOpacity={0.7} style={styles.adjustButton} onPress={() => adjustPercentageChange(-1)}>
-//               <Text style={styles.adjustButtonText}>-</Text>
-//             </TouchableOpacity>
-//             <Text style={styles.alertPrice}>{percentageChange}%</Text>
-//             <TouchableOpacity activeOpacity={0.7} style={styles.adjustButton} onPress={() => adjustPercentageChange(1)}>
-//               <Text style={styles.adjustButtonText}>+</Text>
-//             </TouchableOpacity>
-//           </View>
-//         </View>
-//       )}
-
-//       {/* Create Alert Button */}
-//       <TouchableOpacity activeOpacity={0.7} style={styles.createButton} onPress={handleCreateAlert}>
-//         <Text style={styles.createButtonText}>CREATE ALERT</Text>
-//       </TouchableOpacity>
-
-//       {/* Display Created Alerts */}
-//       <View style={styles.alertsContainer}>
-//         <Text style={styles.alertsHeader}>Created Alerts:</Text>
-//         <FlatList
-//   data={alerts}
-//   keyExtractor={(_, index) => index.toString()} // Generates a unique key using the index
-//   renderItem={({ item, index }) => (
-//     <View style={styles.alertItem}>
-//       <Text style={styles.alertDescription}>{item.description}</Text>
-//       <TouchableOpacity activeOpacity={0.7}
-//         style={styles.deleteButton}
-//         onPress={() => handleDeleteAlert(index)} // Pass the index to handleDeleteAlert
-//       >
-//         <Ionicons name="trash" size={20} color="red" />
-//       </TouchableOpacity>
-      
-//     </View>
-    
-//   )}
-// />
-
-
-//       </View>
-//       </View>
-//     </View>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flexGrow: 1,
-//     backgroundColor:'white'
-//   },
-//   header: {
-//     flexDirection: 'row',
-//     alignItems: 'center',
-//     paddingVertical: 16,
-//     height:90,
-//     backgroundColor: '#004080',
-//     paddingHorizontal: 16,
-//     marginBottom:10
-//   },
-//   headerTitle: {
-//     fontSize: 25,
-//     color: 'white',
-//     fontWeight: 'bold',
-//   },
-//   backButton: {
-//     marginRight: 10,
-//     padding: 10,
-//   },
-//   searchBar: {
-//     height: 40,
-//     borderColor: 'black',
-//     borderWidth: 1,
-//     borderRadius: 5,
-//     paddingLeft: 10,
-//     marginBottom: 20,
-//   },
-//   card: {
-//     backgroundColor: "#e2f1ff",
-//     borderRadius: 12,
-//     padding: 16,
-//     shadowColor: "#000",
-//     shadowOpacity: 0.1,
-//     shadowRadius: 4,
-//     shadowOffset: { width: 0, height: 2 },
-//     elevation: 2,
-//     margin: 20,
-//   },
-//   currencyRow: {
-//     flexDirection: 'row',
-//     justifyContent: 'space-between',
-//     marginBottom: 20,
-//     alignItems: 'center',
-//   },
-//   currencyText: {
-//     fontSize: 18,
-//     fontWeight: 'bold',
-//   },
-//   currencyValue: {
-//     fontSize: 18,
-//     fontWeight: 'bold',
-//     color: '#000',
-//   },
-//   currencyItem: {
-//     padding: 10,
-//     borderBottomWidth: 1,
-//     borderBottomColor: '#ddd',
-//   },
-//   currencyCode: {
-//     fontSize: 16,
-//     fontWeight: 'bold',
-//   },
-//   currencyName: {
-//     fontSize: 14,
-//     color: '#555',
-//   },
-//   alertOptions: {
-//     flexDirection: 'row',
-//     justifyContent: 'space-between',
-//     marginBottom: 20,
-//   },
-//   alertButton: {
-//     backgroundColor: '#004080',
-//     padding: 10,
-//     borderRadius: 5,
-//     flex: 1,
-//     marginHorizontal: 5,
-//     alignItems: 'center',
-//   },
-//   selectedButton: {
-//     backgroundColor: '#004080',
-//   },
-//   alertButtonText: {
-//     color: '#fff',
-//     fontWeight: 'bold',
-//   },
-//   alertLabel: {
-//     fontSize: 16,
-//     fontWeight: 'bold',
-//     marginBottom: 10,
-//   },
-//   priceAdjuster: {
-//     flexDirection: 'row',
-//     justifyContent: 'space-between',
-//     alignItems: 'center',
-//     marginBottom: 10,
-//   },
-//   adjustButton: {
-//     backgroundColor: '#004080',
-//     borderRadius: 5,
-//     padding: 10,
-//   },
-//   adjustButtonText: {
-//     color: '#fff',
-//     fontSize: 18,
-//     fontWeight: 'bold',
-//   },
-//   alertPrice: {
-//     fontSize: 18,
-//     fontWeight: 'bold',
-//   },
-//   createButton: {
-//     backgroundColor: '#004080',
-//     padding: 15,
-//     borderRadius: 5,
-//     alignItems: 'center',
-//     marginTop: 20,
-//   },
-//   createButtonText: {
-//     color: '#fff',
-//     fontSize: 16,
-//     fontWeight: 'bold',
-//   },
-//   alertsContainer: {
-//     marginTop: 30,
-//   },
-//   alertsHeader: {
-//     fontSize: 18,
-//     fontWeight: 'bold',
-//     marginBottom: 10,
-//   },
-//   alertItem: {
-//     padding: 10,
-//     borderRadius: 5,
-//     backgroundColor: '#e2f1ff',
-//     borderColor: 'black',
-//     borderWidth: 1,
-//     marginBottom: 10,
-//   },
-//   alertDescription: {
-//     fontSize: 16,
-//   },
-//     deleteButton: {
-//     padding: 5,
-//   },
-// });
-
-
-
-
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, FlatList, StyleSheet } from 'react-native';
-import { useAlertContext, AlertData } from './AlertContext';
-
-const PriceAlerts = () => {
-  const { alerts, addAlert, deleteAlert } = useAlertContext();
-
-  const [alertValue, setAlertValue] = useState('');
-  const [currency, setCurrency] = useState('USD');
-  const [description, setDescription] = useState('');
-
-  const handleAddAlert = () => {
-    if (!alertValue) return;
-
-    const newAlert: AlertData = {
-      type: 'price',
-      value: parseFloat(alertValue),
-      description: description || `Alert when ${currency} hits ${alertValue}`,
-      currency,
+  useEffect(() => {
+    const fetchCurrencies = async () => {
+      try {
+        const response = await fetch('https://api.exchangerate-api.com/v4/latest/INR');
+        const data = await response.json();
+        const entries: [string, string][] = Object.entries(data.rates).map(
+          ([key, value]) => [key, (value as number).toString()]
+        );
+        setCurrencyList(entries);
+      } catch (err) {
+        console.log("Error fetching currencies:", err);
+      }
     };
 
-    addAlert(newAlert);
-    setAlertValue('');
-    setDescription('');
+    // Fetch saved alerts from AsyncStorage when the app loads
+    const loadAlerts = async () => {
+      try {
+        const savedAlerts = await AsyncStorage.getItem('alerts');
+        if (savedAlerts) {
+          setAlerts(JSON.parse(savedAlerts));
+        }
+      } catch (err) {
+        console.log('Error loading alerts:', err);
+      }
+    };
+
+    fetchCurrencies();
+    loadAlerts(); // Load saved alerts on app load
+  }, []);
+
+  useEffect(() => {
+    if (searchQuery.trim() === '') {
+      setFilteredCurrencies([]);
+    } else {
+      const query = searchQuery.toLowerCase();
+      const filtered = currencyList.filter(
+        ([code, name]) =>
+          code.toLowerCase().includes(query) || name.toLowerCase().includes(query)
+      );
+      setFilteredCurrencies(filtered);
+    }
+  }, [searchQuery, currencyList]);
+
+  const handleSelectCurrency = (code: string, name: string) => {
+    setSelectedCurrency(code);
+    setSearchQuery(code);
+    setCurrentPrice(1.0);
+    setAlertPrice(1.0);
+  };
+
+  const createAlert = async () => {
+    const isDuplicate = alerts.some(
+      (a) => a.pair === selectedCurrency && a.target === alertPrice
+    );
+    if (isDuplicate) {
+      Alert.alert('Duplicate Alert', 'This alert already exists.');
+      return;
+    }
+
+    try {
+      const res = await axios.post('http://192.168.43.174:7000/alerts', {
+        pair: selectedCurrency,
+        target: alertPrice,
+      });
+
+      // Add the new alert to the local state
+      const newAlerts = [...alerts, res.data];
+      setAlerts(newAlerts);
+
+      // Save the updated alerts to AsyncStorage
+      await AsyncStorage.setItem('alerts', JSON.stringify(newAlerts));
+    } catch (err) {
+      console.log("Error creating alert:", err);
+    }
+  };
+
+  const deleteAlert = async (id: string) => {
+    try {
+      await axios.delete(`http://192.168.43.174:7000/alerts/${id}`);
+
+      // Remove the alert from local state
+      const updatedAlerts = alerts.filter((alert) => alert._id !== id);
+      setAlerts(updatedAlerts);
+
+      // Save the updated alerts to AsyncStorage
+      await AsyncStorage.setItem('alerts', JSON.stringify(updatedAlerts));
+    } catch (err) {
+      console.log("Error deleting alert:", err);
+    }
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Set Price Alert</Text>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+    >
+      <ScrollView keyboardShouldPersistTaps="handled">
+        <Text style={styles.header}>Price Alerts</Text>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Currency (e.g. USD)"
-        value={currency}
-        onChangeText={setCurrency}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Alert Price"
-        value={alertValue}
-        onChangeText={setAlertValue}
-        keyboardType="numeric"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Optional Description"
-        value={description}
-        onChangeText={setDescription}
-      />
-      <Button title="Add Alert" onPress={handleAddAlert} />
+        <TextInput
+          placeholder="Search Currency"
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+          style={styles.input}
+        />
 
-      <Text style={styles.subHeader}>Active Alerts</Text>
-      <FlatList
-        data={alerts}
-        keyExtractor={(_, index) => index.toString()}
-        renderItem={({ item, index }) => (
-          <View style={styles.alertItem}>
-            <Text>{item.description}</Text>
-            <Button title="Delete" onPress={() => deleteAlert(index)} />
-          </View>
+        {/* Render the filtered list of currencies only when there are matching results */}
+        {filteredCurrencies.length > 0 && (
+          <FlatList
+            data={filteredCurrencies}
+            keyExtractor={(item) => item[0]}
+            renderItem={({ item }) => (
+              <TouchableOpacity onPress={() => handleSelectCurrency(item[0], item[1])} style={styles.listItem}>
+                <Text>{item[0]} - {item[1]}</Text>
+              </TouchableOpacity>
+            )}
+            keyboardShouldPersistTaps="handled"
+          />
         )}
-      />
-    </View>
+
+        <View style={styles.selectedBlock}>
+          <Text style={styles.currencyCode}>
+            {selectedCurrency !== '' ? selectedCurrency : 'Select a currency'}
+          </Text>
+          <Text style={styles.currentPrice}>${currentPrice.toFixed(2)}</Text>
+
+          <View style={styles.priceAdjustRow}>
+            <TouchableOpacity
+              onPress={() => {
+                const newValue = +(alertPrice + 0.1).toFixed(4);
+                setAlertPrice(newValue);
+                setAlertPriceInput(newValue.toFixed(4));
+              }}
+              style={styles.adjustBtn}
+            >
+              <Text style={styles.adjustBtnText}>+</Text>
+            </TouchableOpacity>
+            <TextInput
+              value={alertPriceInput}
+              keyboardType="decimal-pad"
+              onChangeText={(val) => {
+                // Allow only numbers and dot
+                const cleaned = val.replace(/[^0-9.]/g, '');
+                setAlertPriceInput(cleaned);
+              }}
+              onBlur={() => {
+                const parsed = parseFloat(alertPriceInput);
+                if (!isNaN(parsed)) {
+                  const fixed = parsed.toFixed(4);
+                  setAlertPrice(+fixed);
+                  setAlertPriceInput(fixed);
+                } else {
+                  setAlertPrice(0);
+                  setAlertPriceInput('0.0000');
+                }
+              }}
+              style={styles.alertPriceInput}
+              placeholder="Enter price"
+            />
+            <TouchableOpacity
+              onPress={() => {
+                const newValue = +(alertPrice - 0.1).toFixed(4);
+                setAlertPrice(newValue);
+                setAlertPriceInput(newValue.toFixed(4));
+              }}
+              style={styles.adjustBtn}
+            >
+              <Text style={styles.adjustBtnText}>-</Text>
+            </TouchableOpacity>
+          </View>
+
+          <TouchableOpacity
+            onPress={createAlert}
+            style={styles.createBtn}
+            disabled={selectedCurrency === ''}
+          >
+            <Text style={styles.createBtnText}>CREATE ALERT</Text>
+          </TouchableOpacity>
+        </View>
+
+        <Text style={styles.createdHeader}>Created Alerts:</Text>
+        {alerts.map((alert) => (
+          <View key={alert._id} style={styles.alertItem}>
+            <Text style={styles.alertText}>
+              {alert.pair}: ${alert.target.toFixed(2)}
+            </Text>
+            <TouchableOpacity onPress={() => deleteAlert(alert._id)}>
+              <Text style={styles.deleteText}>Delete</Text>
+            </TouchableOpacity>
+          </View>
+        ))}
+
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
-export default PriceAlerts;
-
 const styles = StyleSheet.create({
   container: {
+    padding: 16,
+    backgroundColor: '#fff',
     flex: 1,
-    padding: 20,
   },
   header: {
-    fontSize: 20,
-    marginBottom: 10,
+    fontSize: 22,
     fontWeight: 'bold',
-  },
-  subHeader: {
-    fontSize: 16,
-    marginTop: 20,
-    marginBottom: 5,
+    marginBottom: 12,
   },
   input: {
-    borderWidth: 1,
-    borderColor: '#999',
     padding: 10,
-    marginVertical: 5,
-    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 8,
+    marginBottom: 12,
+  },
+  listItem: {
+    backgroundColor: '#f3f3f3',
+    padding: 10,
+    borderRadius: 6,
+    marginBottom: 6,
+  },
+  selectedBlock: {
+    marginTop: 20,
+    padding: 14,
+    backgroundColor: '#e8f0fe',
+    borderRadius: 10,
+  },
+  currencyCode: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 6,
+  },
+  currentPrice: {
+    fontSize: 16,
+    marginBottom: 10,
+  },
+  priceAdjustRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  adjustBtn: {
+    backgroundColor: '#1e3a8a',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 6,
+  },
+  adjustBtnText: {
+    color: '#fff',
+    fontSize: 18,
+  },
+  alertPriceInput: {
+    borderBottomWidth: 1,
+    borderColor: '#ccc',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    minWidth: 80,
+    textAlign: 'center',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  createBtn: {
+    backgroundColor: '#1e3a8a',
+    padding: 12,
+    borderRadius: 8,
+  },
+  createBtnText: {
+    color: '#fff',
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+  createdHeader: {
+    marginTop: 20,
+    fontWeight: '600',
+    fontSize: 16,
   },
   alertItem: {
-    marginBottom: 10,
-    padding: 10,
-    backgroundColor: '#f2f2f2',
-    borderRadius: 5,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#f9fafb',
+    padding: 8,
+    borderRadius: 6,
+    marginTop: 4,
+  },
+  alertText: {
+    marginTop: 4,
+  },
+  deleteText: {
+    color: 'red',
+    fontWeight: 'bold',
   },
 });
+
+export default PriceAlertPage;
