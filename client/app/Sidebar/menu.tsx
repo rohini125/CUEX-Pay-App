@@ -35,7 +35,7 @@ const menu = () => {
         </TouchableOpacity>
 
         {/* Price Alerts */}
-        <TouchableOpacity style={styles.menuItem} onPress={() => navigateTo('/Sidebar/price-alert')}>
+        <TouchableOpacity style={styles.menuItem} onPress={() => navigateTo('/Sidebar/PriceAlert/price-alert')}>
           <Feather name="alert-circle" size={20} color="black" />
           <Text style={styles.menuText}>Price Alerts</Text>
         </TouchableOpacity>

@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 const conversionSchema = new mongoose.Schema({
+  emailOrPhone: { type: String, required: true },
   fromCurrency: { type: String, required: true },
   toCurrency: { type: String, required: true },
   amount: { type: Number, required: true },
