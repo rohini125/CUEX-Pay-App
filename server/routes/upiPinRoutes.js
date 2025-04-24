@@ -1,9 +1,10 @@
 import express from 'express';
-import { setUpiPin } from '../controllers/upiPinController.js';
+import { setUpiPin, resetUpiPin } from '../controllers/upiController.js';
+import { protect } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
 
-// Route to set UPI PIN
-router.post('/set-pin', setUpiPin);
+router.post('/set-upi-pin', protect, setUpiPin);
+router.post('/reset-upi-pin', protect, resetUpiPin);
 
 export default router;
