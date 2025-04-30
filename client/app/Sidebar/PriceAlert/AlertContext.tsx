@@ -1,71 +1,39 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// import React, { createContext, useContext, useState, ReactNode } from 'react';
 
-// Type for alerts
-export interface AlertData {
-  type: 'price' | 'percentage';
-  value: number | string;
-  description: string;
-  currency: string;
-  triggered?: boolean;
-}
+// type Notification = {
+//   id: string;
+//   message: string;
+//   triggeredAt: string;
+// };
 
-// Context props
-interface AlertContextProps {
-  alerts: AlertData[];
-  addAlert: (alert: AlertData) => void;
-  deleteAlert: (index: number) => void;
-  loadAlerts: () => void;
-}
+// type AlertContextType = {
+//   notifications: Notification[];
+//   addNotification: (message: string) => void;
+// };
 
-// Create context
-const AlertContext = createContext<AlertContextProps | undefined>(undefined);
+// const AlertContext = createContext<AlertContextType | undefined>(undefined);
 
-// Provider
-export const AlertProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [alerts, setAlerts] = useState<AlertData[]>([]);
+// export const AlertProvider = ({ children }: { children: ReactNode }) => {
+//   const [notifications, setNotifications] = useState<Notification[]>([]);
 
-  // Load alerts from AsyncStorage
-  const loadAlerts = async () => {
-    const stored = await AsyncStorage.getItem('alerts');
-    if (stored) {
-      setAlerts(JSON.parse(stored));
-    }
-  };
+//   const addNotification = (message: string) => {
+//     const newNotification: Notification = {
+//       id: Date.now().toString(),
+//       message,
+//       triggeredAt: new Date().toLocaleString(),
+//     };
+//     setNotifications((prev) => [newNotification, ...prev]);
+//   };
 
-  // Save alerts to AsyncStorage
-  const saveAlerts = async (newAlerts: AlertData[]) => {
-    await AsyncStorage.setItem('alerts', JSON.stringify(newAlerts));
-  };
+//   return (
+//     <AlertContext.Provider value={{ notifications, addNotification }}>
+//       {children}
+//     </AlertContext.Provider>
+//   );
+// };
 
-  const addAlert = (alert: AlertData) => {
-    const updated = [...alerts, alert];
-    setAlerts(updated);
-    saveAlerts(updated);
-  };
-
-  const deleteAlert = (index: number) => {
-    const updated = alerts.filter((_, i) => i !== index);
-    setAlerts(updated);
-    saveAlerts(updated);
-  };
-
-  useEffect(() => {
-    loadAlerts();
-  }, []);
-
-  return (
-    <AlertContext.Provider value={{ alerts, addAlert, deleteAlert, loadAlerts }}>
-      {children}
-    </AlertContext.Provider>
-  );
-};
-
-// Hook to use the context
-export const useAlertContext = () => {
-  const context = useContext(AlertContext);
-  if (!context) {
-    throw new Error('useAlertContext must be used within an AlertProvider');
-  }
-  return context;
-};
+// export const useAlertContext = () => {
+//   const context = useContext(AlertContext);
+//   if (!context) throw new Error('useAlertContext must be used within an AlertProvider');
+//   return context;
+// };
