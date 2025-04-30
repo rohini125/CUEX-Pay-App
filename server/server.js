@@ -1,5 +1,5 @@
 import express from "express";
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 import userRoute from "./routes/userRoute.js";
 import dotenv from "dotenv";
 import connectDB from "./db/index.js";
@@ -10,12 +10,13 @@ import kycRoutes from "./routes/kycRoutes.js";
 import upiPinRoutes from "./routes/upiPinRoutes.js";
 import contactRoute from "./routes/contactRoute.js";
 import accountRoutes from "./routes/accountRoutes.js";
-
 import historyRoute from "./routes/historyRoute.js";
 import walletRoute from "./routes/walletRoute.js";
 import transferRoute from "./routes/transferRoutes.js";
-import alertRoutes from "./routes/alertRoutes.js"
+import alertRoutes from "./routes/alertRoutes.js";
+// import notificationRoutes from "./routes/notificationsRoute.js";
 import cookieParser from "cookie-parser";
+
 dotenv.config();
 
 
@@ -73,6 +74,10 @@ app.use("/bank", transferRoute);
 
 //Alert
 app.use("/alerts", alertRoutes);
+
+//Notification
+// app.use('/notifications', notificationRoutes);
+
 
 // Connect to MongoDB
 connectDB();
