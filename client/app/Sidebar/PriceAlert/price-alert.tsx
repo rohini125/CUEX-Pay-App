@@ -473,7 +473,7 @@ const PriceAlertPage = () => {
     }
 
     try {
-      const res = await axios.post('http://192.168.43.174:7000/alerts', {
+      const res = await axios.post('http://192.168.43.174:9000/alerts', {
         pair: selectedCurrency,
         target: alertPrice,
       });
@@ -491,7 +491,7 @@ const PriceAlertPage = () => {
 
   const deleteAlert = async (id: string) => {
     try {
-      await axios.delete(`http://192.168.43.174:7000/alerts/${id}`);
+      await axios.delete(`http://192.168.43.174:9000/alerts/${id}`);
 
       // Remove the alert from local state
       const updatedAlerts = alerts.filter((alert) => alert._id !== id);
