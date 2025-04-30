@@ -13,6 +13,7 @@ import accountRoutes from "./routes/accountRoutes.js";
 import historyRoute from "./routes/historyRoute.js";
 import walletRoute from "./routes/walletRoute.js";
 import transferRoute from "./routes/transferRoutes.js";
+import alertRoutes from "./routes/alert.js"
 import alertRoutes from "./routes/alertRoutes.js";
 // import notificationRoutes from "./routes/notificationsRoute.js";
 import cookieParser from "cookie-parser";
