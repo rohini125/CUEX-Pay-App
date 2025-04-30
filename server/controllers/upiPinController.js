@@ -1,4 +1,4 @@
-import bcrypt from 'bcryptjs';
+// import bcrypt from 'bcryptjs';
 import User from '../models/userModel.js';
 
 export const setUpiPin = async (req, res) => {
