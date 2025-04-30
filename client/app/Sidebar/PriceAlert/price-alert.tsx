@@ -393,8 +393,11 @@ import {
   Platform,
   Alert,
   ScrollView,
+  StatusBar
 } from 'react-native';
 import axios from 'axios';
+import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type AlertType = {
@@ -412,7 +415,7 @@ const PriceAlertPage = () => {
   const [alertPrice, setAlertPrice] = useState(1.0);
   const [alerts, setAlerts] = useState<AlertType[]>([]);
   const [alertPriceInput, setAlertPriceInput] = useState('1.0000');
-
+   const router = useRouter();
   useEffect(() => {
     const fetchCurrencies = async () => {
       try {
@@ -510,8 +513,16 @@ const PriceAlertPage = () => {
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
       <ScrollView keyboardShouldPersistTaps="handled">
-        <Text style={styles.header}>Price Alerts</Text>
+      <StatusBar backgroundColor="#004080" barStyle="light-content" />
+      
+      <View style={styles.header}>
+        <TouchableOpacity activeOpacity={0.7} onPress={() => router.push('/Sidebar/menu')} style={styles.backButton}>
+          <Ionicons name="arrow-back" size={24} color="#fff" />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>Price Alert</Text>
+      </View>
 
+<View style={styles.card}>
         <TextInput
           placeholder="Search Currency"
           value={searchQuery}
@@ -603,8 +614,9 @@ const PriceAlertPage = () => {
               <Text style={styles.deleteText}>Delete</Text>
             </TouchableOpacity>
           </View>
+          
         ))}
-
+</View>
       </ScrollView>
     </KeyboardAvoidingView>
   );
@@ -612,14 +624,31 @@ const PriceAlertPage = () => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 16,
-    backgroundColor: '#fff',
+    // padding: 16,
+    // backgroundColor: '#fff',
     flex: 1,
   },
+  backButton: {
+    marginRight: 10,
+    padding: 10,
+  },
   header: {
-    fontSize: 22,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#004080',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 3 },
+  },
+  headerTitle: {
+    fontSize: 20,
+    color: '#fff',
+    marginLeft: 10,
     fontWeight: 'bold',
-    marginBottom: 12,
   },
   input: {
     padding: 10,
@@ -664,7 +693,19 @@ const styles = StyleSheet.create({
   adjustBtnText: {
     color: '#fff',
     fontSize: 18,
-  },
+  },  
+  card: {
+        backgroundColor: "#e2f1ff",
+        borderRadius: 12,
+        padding: 16,
+        shadowColor: "#000",
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        shadowOffset: { width: 0, height: 2 },
+        elevation: 2,
+        margin: 20,
+      },
+ 
   alertPriceInput: {
     borderBottomWidth: 1,
     borderColor: '#ccc',
