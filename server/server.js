@@ -82,7 +82,7 @@ app.use("/alerts", alertRoutes);
 
 // Connect to MongoDB
 connectDB();
-const PORT = 7000;
+const PORT = 9000;
 // Start the server
 connectDB().then(() => {
   app.listen(PORT, "0.0.0.0", () => {
