@@ -13,8 +13,10 @@ import accountRoutes from "./routes/accountRoutes.js";
 import historyRoute from "./routes/historyRoute.js";
 import walletRoute from "./routes/walletRoute.js";
 import transferRoute from "./routes/transferRoutes.js";
-import alertRoutes from "./routes/alertRoutes.js"
+import alertRoutes from "./routes/alertRoutes.js";
+import PriceAlertRoutes from "./routes/PriceAlertRoutes.js";
 import cookieParser from "cookie-parser";
+import notificationRoutes from "./routes/notificationsRoute.js"
 
 dotenv.config();
 
@@ -75,8 +77,11 @@ app.use("/bank", transferRoute);
 app.use("/alerts", alertRoutes);
 
 //Notification
-// app.use('/notifications', notificationRoutes);
+app.use('/notifications', notificationRoutes);
 
+
+// Use the price alert routes
+app.use('/api', PriceAlertRoutes);
 
 // Connect to MongoDB
 connectDB();

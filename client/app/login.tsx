@@ -21,7 +21,7 @@ const Login = () => {
     }
 
     try {
-      const response = await axios.post('http://192.168.43.174:7000/api/auth/login', {
+      const response = await axios.post('http://192.168.43.174:9000/api/auth/login', {
         emailOrPhone,
         password,
       });
@@ -41,7 +41,7 @@ const Login = () => {
     }
 
     try {
-      const response = await axios.post('http://192.168.43.174:7000/api/auth/verify-otp', {
+      const response = await axios.post('http://192.168.43.174:9000/api/auth/verify-otp', {
         otp,
         emailOrPhone,
       });
