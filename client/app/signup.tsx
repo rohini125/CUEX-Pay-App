@@ -145,114 +145,6 @@
 
 
 
-////////////////// simple backend correct code //////////////////////////////////////////
-
-
-
-// import React, { useState } from "react";
-// import { View, Text, TextInput, TouchableOpacity, Alert, StyleSheet } from "react-native";
-// import axios from "axios";
-
-// const RegisterScreen = () => {
-//   const [name, setName] = useState("");
-//   const [emailOrPhone, setEmailOrPhone] = useState("");
-//   const [password, setPassword] = useState("");
-//   const [confirmPassword, setConfirmPassword] = useState("");
-
-//   const handleRegister = async () => {
-//     if (!name || !emailOrPhone || !password || !confirmPassword) {
-//       Alert.alert("Error", "All fields are required.");
-//       return;
-//     }
-//     if (password !== confirmPassword) {
-//       Alert.alert("Error", "Passwords do not match.");
-//       return;
-//     }
-    
-//     try {
-//       const response = await axios.post("http://192.168.52.190:9000/api/auth/signup", {
-//         name,
-//         emailOrPhone,
-//         password,
-//         confirmPassword,
-//       });
-//       Alert.alert("Success", response.data.message);
-//     } catch (error) {
-//       Alert.alert("Error");
-//     }
-//   };
-
-//   return (
-//     <View style={styles.container}>
-//       <Text style={styles.title}>Register</Text>
-//       <TextInput
-//         style={styles.input}
-//         placeholder="Name"
-//         value={name}
-//         onChangeText={setName}
-//       />
-//       <TextInput
-//         style={styles.input}
-//         placeholder="Email or Phone"
-//         value={emailOrPhone}
-//         onChangeText={setEmailOrPhone}
-//       />
-//       <TextInput
-//         style={styles.input}
-//         placeholder="Password"
-//         secureTextEntry
-//         value={password}
-//         onChangeText={setPassword}
-//       />
-//       <TextInput
-//         style={styles.input}
-//         placeholder="Confirm Password"
-//         secureTextEntry
-//         value={confirmPassword}
-//         onChangeText={setConfirmPassword}
-//       />
-//       <TouchableOpacity style={styles.button} onPress={handleRegister}>
-//         <Text style={styles.buttonText}>Register</Text>
-//       </TouchableOpacity>
-//     </View>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     justifyContent: "center",
-//     alignItems: "center",
-//     padding: 20,
-//   },
-//   title: {
-//     fontSize: 24,
-//     fontWeight: "bold",
-//     marginBottom: 20,
-//   },
-//   input: {
-//     width: "100%",
-//     padding: 10,
-//     borderWidth: 1,
-//     borderColor: "#ccc",
-//     borderRadius: 5,
-//     marginBottom: 10,
-//   },
-//   button: {
-//     backgroundColor: "#007bff",
-//     padding: 10,
-//     borderRadius: 5,
-//   },
-//   buttonText: {
-//     color: "white",
-//     fontSize: 16,
-//   },
-// });
-
-// export default RegisterScreen;
-
-
-
 ////////////////// with security question backend ////////////////////////
 
 import React, { useState } from 'react';
@@ -262,6 +154,7 @@ import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Picker } from '@react-native-picker/picker';
+import { API_URL } from '@env';
 
 const SignUp = () => {
   const router = useRouter();
@@ -286,7 +179,7 @@ const SignUp = () => {
       return;
     }
     try {
-      const response = await axios.post('http://192.168.43.174:7000/api/auth/signup', {
+      const response = await axios.post(`${ API_URL }/api/auth/signup`, {
         name,
         emailOrPhone,
         securityQuestion,

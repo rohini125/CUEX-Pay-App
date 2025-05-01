@@ -4,6 +4,8 @@ import axios from 'axios';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { API_URL } from '@env';
+
 
 const Login = () => {
   const router = useRouter();
@@ -21,7 +23,7 @@ const Login = () => {
     }
 
     try {
-      const response = await axios.post('http://192.168.43.174:9000/api/auth/login', {
+      const response = await axios.post(`${API_URL}/api/auth/login`, {
         emailOrPhone,
         password,
       });
@@ -41,7 +43,7 @@ const Login = () => {
     }
 
     try {
-      const response = await axios.post('http://192.168.43.174:9000/api/auth/verify-otp', {
+      const response = await axios.post(`${API_URL}/api/auth/verify-otp`, {
         otp,
         emailOrPhone,
       });
