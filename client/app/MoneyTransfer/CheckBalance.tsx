@@ -12,6 +12,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons'; // Import icons from react-icons
+import { API_URL } from '@env';
 
 type Account = {
   _id: string;
@@ -49,7 +50,7 @@ const CheckBalanceScreen: React.FC = () => {
     if (!emailOrPhone) return;
 
     axios
-      .get(`http://192.168.52.190:7000/api/getaccounts?emailorphone=${emailOrPhone}`)
+      .get(`${ API_URL }/api/getaccounts?emailorphone=${emailOrPhone}`)
       .then((res) => setAccounts(res.data))
       .catch((err) => console.error('Error fetching accounts:', err));
   }, [emailOrPhone]);
@@ -58,7 +59,7 @@ const CheckBalanceScreen: React.FC = () => {
     if (!selectedAccount) return;
 
     axios
-      .get(`http://192.168.52.190:7000/api/account/${selectedAccount}/balance`)
+      .get(`${ API_URL }/api/account/${selectedAccount}/balance`)
       .then((res) => setBalance(res.data.balance))
       .catch((err) => console.error('Error fetching balance:', err));
   };
@@ -67,7 +68,7 @@ const CheckBalanceScreen: React.FC = () => {
     if (!selectedAccount || !depositAmount) return;
 
     axios
-      .post(`http://192.168.52.190:7000/api/account/${selectedAccount}/deposit`, {
+      .post(`${ API_URL }/api/account/${selectedAccount}/deposit`, {
         amount: parseFloat(depositAmount),
       })
       .then((res) => {

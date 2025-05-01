@@ -13,6 +13,7 @@ import Header from "../Header";
 import axios from "axios"; // Assuming axios is installed
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useIsFocused } from '@react-navigation/native';
+import { API_URL } from '@env';
 
 interface Currency {
   emailOrPhone: string;
@@ -54,7 +55,7 @@ const Wallet = () => {
     // useEffect(() => {
       const fetchCurrencies = async (id:any) => {
         try {
-          const response = await axios.get("http://192.168.52.190:7000/api/wallet/currencies" ,{
+          const response = await axios.get(`${ API_URL }/api/wallet/currencies` ,{
             params: { emailOrPhone: id },
           });
           const currencyData: Currency[] = response.data;
@@ -145,7 +146,7 @@ const Wallet = () => {
     });
   
     try {
-      const response = await axios.post("http://192.168.52.190:7000/api/wallet/deposit", {
+      const response = await axios.post(`${ API_URL }/api/wallet/deposit`, {
         emailOrPhone,
         accountNumber,
         amount: numericAmount,
@@ -180,7 +181,7 @@ const Wallet = () => {
     }
 
     try {
-      const response = await axios.post("http://192.168.52.190:7000/api/wallet/withdraw", {
+      const response = await axios.post(`${ API_URL }/api/wallet/withdraw`, {
         emailOrPhone,
         accountNumber,
         amount: numericAmount,
