@@ -4,6 +4,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingVi
 import axios from 'axios';
 import { Ionicons } from '@expo/vector-icons';
 import { Router, useRouter } from 'expo-router';
+import { API_URL } from '@env';
 // import { useNavigation } from '@react-navigation/native'; // Import navigation
 
 const ForgotPassword = () => {
@@ -22,7 +23,7 @@ const ForgotPassword = () => {
 
   const handleSubmitEmailPhone = async () => {
     try {
-      const response = await axios.post('http://192.168.52.190:7000/api/auth/forgot-password', {
+      const response = await axios.post(`${ API_URL }/api/auth/forgot-password`, {
         emailOrPhone,
       });
 
@@ -42,7 +43,7 @@ const ForgotPassword = () => {
     }
 
     try {
-      const response = await axios.post('http://192.168.52.190:7000/api/auth/reset-password', {
+      const response = await axios.post(`${ API_URL }/api/auth/reset-password`, {
         emailOrPhone,
         answer,
         newPassword,

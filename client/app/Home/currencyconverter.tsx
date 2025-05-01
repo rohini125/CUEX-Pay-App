@@ -18,6 +18,7 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CountryFlag from 'react-native-country-flag'; // Import the flag library
+import { API_URL } from '@env';
 
 const currencySymbols: { [key: string]: string } = {
   INR: '₹', USD: '$', EUR: '€', GBP: '£', JPY: '¥', AUD: 'A$', CAD: 'C$', CHF: 'Fr.', CNY: '¥', SEK: 'kr', NZD: 'NZ$', SGD: 'S$', ZAR: 'R', MXN: '$', BRL: 'R$', RUB: '₽', KRW: '₩', AED: 'د.إ', HKD: 'HK$', MYR: 'RM', THB: '฿', IDR: 'Rp', PHP: '₱', VND: '₫', COP: '$', ARS: '$', CLP: '$', PEN: 'S/', TRY: '₺', NOK: 'kr', DKK: 'kr',  PLN: 'zł', HUF: 'Ft', CZK: 'Kč', ILS: '₪', KES: 'KSh', EGP: '£', PKR: '₨', LKR: 'Rs', BDT: '৳', QAR: 'ر.ق', 
@@ -179,7 +180,7 @@ const CurrencyConverter = () => {
   ) => {
     try {
       console.log({emailOrPhone,fromCurrency,toCurrency,amount,});
-      const response = await fetch('http://192.168.52.190:7000/api/convert', {
+      const response = await fetch(`${ API_URL }/api/convert`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -193,8 +194,6 @@ const CurrencyConverter = () => {
       console.error('Error saving currency:', error);
     }
   };
-
-    
 
 
   return (

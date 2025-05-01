@@ -139,6 +139,7 @@ import { useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Picker } from '@react-native-picker/picker';
 import axios from 'axios';
+import { API_URL } from '@env';
 
 const BankAccount = () => {
   const [accountNumber, setAccountNumber] = useState('');
@@ -176,7 +177,7 @@ const BankAccount = () => {
     if (!emailOrPhone) return;
 
     axios
-      .get(`http://192.168.52.190:7000/api/getaccounts?emailorphone=${emailOrPhone}`)
+      .get(`${ API_URL }/api/getaccounts?emailorphone=${emailOrPhone}`)
       .then((res) => setAccounts(res.data))
       .catch((err) => console.error('Error fetching accounts:', err));
   }, [emailOrPhone]);
@@ -195,7 +196,7 @@ const BankAccount = () => {
 
   
     try {
-      const response = await axios.post('http://192.168.52.190:7000/bank/transfer', {
+      const response = await axios.post(`${ API_URL }/bank/transfer`, {
         fromAccountId: selectedAccount,
         toAccountNumber: accountNumber,
         ifscCode:ifscCode,
