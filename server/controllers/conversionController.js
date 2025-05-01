@@ -98,13 +98,26 @@ export const convertCurrency = async (req, res) => {
 };
 
 // Get conversion history
+// export const getHistory = async (req, res) => {
+//   try {
+//     const history = await Conversion.find().sort({ date: -1 });
+//     res.status(200).json(history);
+//   } catch (error) {
+//     console.error("Error fetching history:", error);
+//     res.status(500).json({ error: "Failed to fetch conversion history" });
+//   }
+// };
+
+// Get Conversion History
 export const getHistory = async (req, res) => {
   try {
-    const history = await Conversion.find().sort({ date: -1 });
-    res.status(200).json(history);
+    const { user } = req.params;
+    const history = await Conversion.find({ emailOrPhone: user }).sort({
+      date: -1,
+    });
+    res.json(history);
   } catch (error) {
-    console.error("Error fetching history:", error);
-    res.status(500).json({ error: "Failed to fetch conversion history" });
+    res.status(500).json({ error: "Failed to fetch history" });
   }
 };
 

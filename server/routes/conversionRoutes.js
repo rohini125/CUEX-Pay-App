@@ -1,5 +1,9 @@
 import express from "express";
-import { convertCurrency, getHistory, clearHistory } from "../controllers/conversionController.js";
+import {
+  convertCurrency,
+  getHistory,
+  clearHistory,
+} from "../controllers/conversionController.js";
 
 const router = express.Router();
 
@@ -7,7 +11,10 @@ const router = express.Router();
 router.post("/convert", convertCurrency);
 
 // Get conversion history
-router.get("/history", getHistory);
+// router.get("/history", getHistory);
+
+// Get conversion history (Updated with the correct route)
+router.get("/history/:user", getHistory);
 
 // Clear history
 router.delete("/history", clearHistory);
