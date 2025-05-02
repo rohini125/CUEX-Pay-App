@@ -399,7 +399,7 @@ import axios from 'axios';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import {API_URL} from '@env'; 
 type AlertType = {
   _id: string;
   pair: string;
@@ -476,7 +476,7 @@ const PriceAlertPage = () => {
     }
 
     try {
-      const res = await axios.post('http://192.168.43.174:9000/alerts', {
+      const res = await axios.post(`${API_URL}/alerts`, {
         pair: selectedCurrency,
         target: alertPrice,
       });
