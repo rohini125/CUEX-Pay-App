@@ -73,14 +73,13 @@ const depositCurrency = async (req, res) => {
   }
 };
 
-// 💸 Withdraw Amount
 const withdrawCurrency = async (req, res) => {
   const { emailOrPhone, accountNumber, amount } = req.body;
 
   try {
     const wallet = await Wallet.findOne({
       emailOrPhone,
-      currency: accountNumber,
+      currency: "INR", // 🛠️ FIXED: previously it was accountNumber
     });
 
     if (!wallet) {
@@ -88,11 +87,23 @@ const withdrawCurrency = async (req, res) => {
     }
 
     if (wallet.amount < amount) {
-      return res.status(400).json({ error: "Insufficient balance" });
+      return res.status(400).json({ error: "Insufficient wallet balance" });
     }
 
     wallet.amount -= amount;
     await wallet.save();
+
+    const account = await Account.findOne({
+      emailorphone: emailOrPhone,
+      accountNumber,
+    });
+
+    if (!account) {
+      return res.status(404).json({ error: "Bank account not found" });
+    }
+
+    account.balance += amount;
+    await account.save();
 
     res.status(200).json({ message: "Amount withdrawn successfully" });
   } catch (err) {

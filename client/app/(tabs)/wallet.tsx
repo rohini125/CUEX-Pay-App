@@ -181,7 +181,7 @@ const Wallet = () => {
     }
 
     try {
-      const response = await axios.post(`${ API_URL }/api/wallet/withdraw`, {
+      const response = await axios.post(`${API_URL}/api/wallet/withdraw`, {
         emailOrPhone,
         accountNumber,
         amount: numericAmount,

@@ -7,6 +7,7 @@ import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, Alert, S
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons'; // Import icons from react-icons
 import { useRouter } from 'expo-router';
+import { API_URL } from '@env';
 
 interface Account {
   id: number;
@@ -48,7 +49,7 @@ const SelfAccount = () => {
   // Fetch user-specific accounts from backend
   const fetchAccounts = async (identifier: string) => {
     try {
-      const response = await fetch(`http://192.168.52.190:7000/api/getaccounts?emailorphone=${identifier}`);
+      const response = await fetch(`${ API_URL }/api/getaccounts?emailorphone=${identifier}`);
       const data = await response.json();
       setAccounts(data);
     } catch (error) {
@@ -83,7 +84,7 @@ const SelfAccount = () => {
       };
 
       try {
-        const response = await fetch('http://192.168.52.190:7000/api/accounts', {
+        const response = await fetch(`${ API_URL }/api/accounts`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
