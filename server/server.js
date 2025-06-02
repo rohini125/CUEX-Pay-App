@@ -85,10 +85,15 @@ app.use('/api', PriceAlertRoutes);
 
 // Connect to MongoDB
 connectDB();
-const PORT = 9000;
+
+
+const PORT = process.env.PORT ;
+
 // Start the server
 connectDB().then(() => {
   app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Server is running on port: ${PORT}`);
+    console.log(`Server running on http://localhost:${PORT}`);
+
   });
 });
+
