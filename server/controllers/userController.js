@@ -13,14 +13,14 @@ const generateAccessToken = (userId) => {
 const generateRefreshToken = (userId) => {
   return jwt.sign({ id: userId }, process.env.JWT_REFRESH_SECRET, {
     expiresIn: "7d",
-  }); 
+  });
 };
 
-const OTP_EXPIRY = 180000; 
+const OTP_EXPIRY = 180000;
 const JWT_SECRET = process.env.JWT_SECRET;
 
 const transporter = nodemailer.createTransport({
-  service: "gmail", 
+  service: "gmail",
 
   auth: {
     user: process.env.EMAIL_USER,
@@ -94,11 +94,13 @@ export const loginUser = async (req, res) => {
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      return res.status(401).json({ message: "Invalid email/phone or password." });
+      return res
+        .status(401)
+        .json({ message: "Invalid email/phone or password." });
     }
 
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    const otpExpiry = Date.now() + 3 * 60 * 1000; 
+    const otpExpiry = Date.now() + 3 * 60 * 1000;
     user.otp = otp;
     user.otpExpiry = otpExpiry;
     await user.save();
@@ -118,47 +120,50 @@ export const loginUser = async (req, res) => {
       });
     }
 
-    return res.status(200).json({ message: "OTP sent successfully.", emailOrPhone });
+    return res
+      .status(200)
+      .json({ message: "OTP sent successfully.", emailOrPhone });
   } catch (error) {
     return res.status(500).json({ message: "Server error.", error });
   }
 };
 
-
 // Verify OTP
-export const verifyOtp= async (req, res) => {
+export const verifyOtp = async (req, res) => {
   const { otp } = req.body;
 
   if (!otp) {
-      return res.status(400).json({ message: 'OTP is required' });
+    return res.status(400).json({ message: "OTP is required" });
   }
 
   try {
-      const user = await User.findOne({ otp });
+    const user = await User.findOne({ otp });
 
-      if (!user) {
-          return res.status(400).json({ message: 'Invalid OTP' });
-      }
+    if (!user) {
+      return res.status(400).json({ message: "Invalid OTP" });
+    }
 
-      if (user.otpExpires < Date.now()) {
-          return res.status(400).json({ message: 'OTP expired' });
-      }
+    if (user.otpExpires < Date.now()) {
+      return res.status(400).json({ message: "OTP expired" });
+    }
 
-      const token = jwt.sign({ userId: user._id }, 'your_jwt_secret', { expiresIn: '1h' });
-      res.status(200).json({ message: 'OTP verified successfully', token });
+    const token = jwt.sign({ userId: user._id }, "your_jwt_secret", {
+      expiresIn: "1h",
+    });
+    res.status(200).json({ message: "OTP verified successfully", token });
   } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Server error' });
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
   }
 };
 
-// logout user 
+// logout user
 export const logoutUser = (req, res) => {
   try {
-    return res.status(200).json({ message: 'Logged out successfully' });
+    return res.status(200).json({ message: "Logged out successfully" });
   } catch (error) {
-    console.error('Logout Error:', error);
-    res.status(500).json({ message: 'Logout failed' ,error});
+    console.error("Logout Error:", error);
+    res.status(500).json({ message: "Logout failed", error });
   }
 };
 
@@ -183,7 +188,7 @@ export const resendOtp = async (req, res) => {
         .json({ message: "Please wait, OTP is still valid." });
     }
     const newOtp = Math.floor(100000 + Math.random() * 900000).toString();
-    const otpExpiry = Date.now() + 3 * 60 * 1000; 
+    const otpExpiry = Date.now() + 3 * 60 * 1000;
 
     user.otp = newOtp;
     user.otpExpiry = otpExpiry;
@@ -264,7 +269,6 @@ export const resetPassword = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
-
 
 // Delete user
 export const deleteUserAccount = async (req, res) => {
