@@ -1,5 +1,7 @@
 
 
+
+
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Tabs } from "expo-router";
@@ -35,6 +37,7 @@ const TabRoot = () => {
             ),
           }}
         />
+
         <Tabs.Screen
           name="wallet"
           options={{
