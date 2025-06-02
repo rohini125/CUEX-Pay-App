@@ -7,6 +7,7 @@ import {
   FlatList,
   TextInput,
   Alert,
+  StatusBar
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import Header from "../Header";
@@ -14,6 +15,7 @@ import axios from "axios"; // Assuming axios is installed
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useIsFocused } from '@react-navigation/native';
 import { API_URL } from '@env';
+import { useRouter } from "expo-router";
 
 interface Currency {
   emailOrPhone: string;
@@ -35,6 +37,7 @@ const Wallet = () => {
   const [balance, setBalance] = useState<number>(0);
   const [amount, setAmount] = useState<string>("");
   const [accountNumber, setAccountNumber] = useState<string>("");
+  const router = useRouter();
  
 
       const getExchangeRate = async (currency: string): Promise<number> => {
@@ -199,8 +202,13 @@ const Wallet = () => {
     }
   };
 
+  const handleTransfer = async () =>{
+     router.push('../Home/walletAmountTransfer');
+   }
+
   return (
     <View style={{ flex: 1 }}>
+      <StatusBar backgroundColor={'#004080'} barStyle={'light-content'} />
       <View>
         <Header /> 
       </View>
@@ -246,6 +254,14 @@ const Wallet = () => {
             activeOpacity={0.7}
           >
             <Text style={styles.actionText}>Withdraw</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.actionButton}
+            onPress={handleTransfer}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.actionText}>Transfer</Text>
           </TouchableOpacity>
         </View>
 
