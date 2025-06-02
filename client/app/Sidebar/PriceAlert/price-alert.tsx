@@ -548,7 +548,7 @@ const PriceAlertPage = () => {
           <Text style={styles.currencyCode}>
             {selectedCurrency !== '' ? selectedCurrency : 'Select a currency'}
           </Text>
-          <Text style={styles.currentPrice}>${currentPrice.toFixed(2)}</Text>
+          {/* <Text style={styles.currentPrice}>{currentPrice.toFixed(2)}</Text> */}
 
           <View style={styles.priceAdjustRow}>
             <TouchableOpacity
@@ -672,7 +672,7 @@ const styles = StyleSheet.create({
   currencyCode: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 6,
+    marginBottom: 10,
   },
   currentPrice: {
     fontSize: 16,

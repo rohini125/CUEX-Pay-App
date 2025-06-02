@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, Image, TextInput, TouchableOpacity, Alert,StatusBar } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
+import { API_URL } from '@env';
 
 const contact = () => {
   const router = useRouter();
@@ -37,7 +38,7 @@ const contact = () => {
     try {
       console.log("Sending request to API:", formData);
   
-      const response = await fetch('http://192.168.43.174:7000/user', {  
+      const response = await fetch(`${API_URL}/user`, {  
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),

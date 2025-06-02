@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet, Status
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router'; // Import router for navigation
 import axios from 'axios';
+import { API_URL } from '@env'; 
 
 export default function NomineeDetails() {
   const router = useRouter();
@@ -10,7 +11,6 @@ export default function NomineeDetails() {
   const [relationship, setRelationship] = useState("");
   const [contactNumber, setContactNumber] = useState("");
 
-  const API_URL = 'http://172.20.80.1:7000/api/nominees/N';
 
   // Function to validate 10-digit phone number
   const isValidPhoneNumber = (number: string) => { 
@@ -31,7 +31,7 @@ export default function NomineeDetails() {
     }
 
     try {
-      const response = await axios.post(API_URL, {
+      const response = await axios.post(`${API_URL}/api/nominees/N`, {
         nomineeName,
         relationship,
         contactNumber,

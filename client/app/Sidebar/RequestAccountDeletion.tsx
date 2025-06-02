@@ -8,7 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 import { useFocusEffect } from '@react-navigation/native';
-
+import { API_URL } from '@env';
 
 const DeleteAccount = () => {
   const [emailOrPhone, setEmailOrPhone] = useState('');
@@ -42,7 +42,7 @@ const DeleteAccount = () => {
     }
 
     try {
-      const res = await axios.post(`http://192.168.52.190:7000/api/auth/deleteAccount`, {
+      const res = await axios.post(`${API_URL}/api/auth/deleteAccount`, {
         emailOrPhone
       });
 

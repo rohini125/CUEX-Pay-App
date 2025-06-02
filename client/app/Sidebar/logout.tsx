@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import { API_URL } from '@env';
 
 export type RootParamList = {
     Login: undefined;
@@ -17,7 +18,7 @@ const LogoutPage = () => {
       const router = useRouter();
     const navigation = useNavigation<LogoutScreenNavigationProp>();
     const [isLoggingOut, setIsLoggingOut] = useState(false);
-    const API_URL = 'http://172.27.16.1:7000/api/auth/logout'; // Backend logout URL
+
 
     const handleLogout = async () => {
         Alert.alert(
@@ -31,7 +32,7 @@ const LogoutPage = () => {
                         setIsLoggingOut(true);
 
                         try {
-                            const response = await fetch(API_URL, {
+                            const response = await fetch(`${API_URL}/api/auth/logout`, {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json',

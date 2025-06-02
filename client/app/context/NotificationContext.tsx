@@ -121,6 +121,7 @@ import axios from 'axios';
 type Notification = {
   id: string;
   message: string;
+  time: string,
 };
 
 type NotificationContextType = {
@@ -160,6 +161,7 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
   return (
     <NotificationContext.Provider value={{ notifications, addNotification, clearNotifications }}>
       {children}
+      
     </NotificationContext.Provider>
   );
 };

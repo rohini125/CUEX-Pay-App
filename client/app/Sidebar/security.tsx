@@ -122,11 +122,11 @@ const SecurityScreen = () => {
 
       <View style={styles.divider} />
 
-      {/* Other Security Options */}
-      <TouchableOpacity style={styles.option} onPress={() => router.push("/Sidebar/Passcode/oldpasscod")}>
+      Other Security Options
+      {/* <TouchableOpacity style={styles.option} onPress={() => router.push("/Sidebar/Passcode/oldpasscod")}>
         <Ionicons name="lock-closed-outline" size={20} color="#555" />
         <Text style={styles.optionText}>Change Passcode</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       <TouchableOpacity
   style={styles.option}
@@ -136,10 +136,10 @@ const SecurityScreen = () => {
   <Text style={styles.optionText}>Two-Factor Authentication</Text>
 </TouchableOpacity>
 
-      <TouchableOpacity style={styles.option} onPress={() => router.push("/Sidebar/BlockedAccountsScreen")}>
+      {/* <TouchableOpacity style={styles.option} onPress={() => router.push("/Sidebar/BlockedAccountsScreen")}>
   <Ionicons name="person-remove-outline" size={20} color="#555" />
   <Text style={styles.optionText}>Blocked Accounts</Text>
-</TouchableOpacity>
+</TouchableOpacity> */}
 
       <TouchableOpacity style={styles.option}>
         <Ionicons name="time-outline" size={20} color="#555" />
