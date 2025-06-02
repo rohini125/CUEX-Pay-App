@@ -31,35 +31,6 @@ const DeleteAccount = () => {
       getEmailOrPhone();
     }, [])
   );
-  
-
-  // const handleDelete = async () => {
-  //   console.log('handleDelete called');
-
-  //   if (!emailOrPhone) {
-  //     Alert.alert('Error', 'No account info found.');
-  //     return;
-  //   }
-
-  //   try {
-  //     const res = await axios.post(`${ API_URL }/api/auth/deleteAccount`, {
-  //       emailOrPhone
-  //     });
-
-  //   //   await AsyncStorage.clear();
-  //    await AsyncStorage.removeItem('emailOrPhone');
-  //     console.log('Response from server:', res.data);
-  //     Alert.alert('Success', res.data.message, [
-  //       {
-  //         text: 'OK',
-  //         onPress: () => router.replace('/signup'),
-  //       }
-  //     ]);
-  //   } catch (err: any) {
-  //     console.log('Delete error:', err.response?.data || err.message);
-  //     Alert.alert('Error', err.response?.data?.message || 'Something went wrong.');
-  //   }
-  // };
 
   const handleDelete = async () => {
     console.log('handleDelete called');
