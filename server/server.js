@@ -6,7 +6,7 @@ import connectDB from "./db/index.js";
 import cors from "cors";
 import conversionRoutes from "./routes/conversionRoutes.js";
 import nomineeRoutes from "./routes/nomineeRoutes.js";
-import kycRoutes from "./routes/kycRoutes.js";
+// import kycRoutes from "./routes/kycRoutes.js";
 import upiPinRoutes from "./routes/upiPinRoutes.js";
 import contactRoute from "./routes/contactRoute.js";
 import accountRoutes from "./routes/accountRoutes.js";
