@@ -1,5 +1,5 @@
 import express from "express";
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 import userRoute from "./routes/userRoute.js";
 import dotenv from "dotenv";
 import connectDB from "./db/index.js";
@@ -16,10 +16,9 @@ import transferRoute from "./routes/transferRoutes.js";
 import alertRoutes from "./routes/alertRoutes.js";
 import PriceAlertRoutes from "./routes/PriceAlertRoutes.js";
 import cookieParser from "cookie-parser";
-import notificationRoutes from "./routes/notificationsRoute.js"
+import notificationRoutes from "./routes/notificationsRoute.js";
 
 dotenv.config();
-
 
 const app = express(); // Initialize the express app
 
@@ -77,23 +76,17 @@ app.use("/bank", transferRoute);
 app.use("/alerts", alertRoutes);
 
 //Notification
-app.use('/notifications', notificationRoutes);
-
+app.use("/notifications", notificationRoutes);
 
 // Use the price alert routes
-app.use('/api', PriceAlertRoutes);
+app.use("/api", PriceAlertRoutes);
 
 // Connect to MongoDB
 connectDB();
-
-
-const PORT = process.env.PORT ;
-
+const PORT = 9000;
 // Start the server
 connectDB().then(() => {
   app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-
+    console.log(`Server is running on port: ${PORT}`);
   });
 });
-
