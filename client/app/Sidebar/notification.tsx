@@ -1,83 +1,84 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
-import * as Notifications from 'expo-notifications';
-import axios from 'axios';
+// // import React, { useEffect, useState } from 'react';
+// // import { View, Text, FlatList, StyleSheet } from 'react-native';
+// // import * as Notifications from 'expo-notifications';
+// // import axios from 'axios';
+// // import { API_URL } from '@env';
 
-const NotificationsPage = () => {
-  type NotificationItem = {
-    message: string;
-    triggeredAt: string;
-  };
-  const [notifications, setNotifications] = useState<NotificationItem[]>([]);
-  const [pushToken, setPushToken] = useState('');
+// // const NotificationsPage = () => {
+// //   type NotificationItem = {
+// //     message: string;
+// //     triggeredAt: string;
+// //   };
+// //   const [notifications, setNotifications] = useState<NotificationItem[]>([]);
+// //   const [pushToken, setPushToken] = useState('');
 
-  useEffect(() => {
-    const getTokenAndLoad = async () => {
-      const tokenData = await Notifications.getExpoPushTokenAsync();
-      const token = tokenData.data;
-      setPushToken(token);
+// //   useEffect(() => {
+// //     const getTokenAndLoad = async () => {
+// //       const tokenData = await Notifications.getExpoPushTokenAsync();
+// //       const token = tokenData.data;
+// //       setPushToken(token);
 
-      const res = await axios.get(`http://YOUR_SERVER_IP:7000/notifications/${token}`);
-      setNotifications(res.data);
-    };
+// //       const res = await axios.get(`${API_URL}/notifications/`);
+// //       setNotifications(res.data);
+// //     };
 
-    getTokenAndLoad();
-  }, []);
+// //     getTokenAndLoad();
+// //   }, []);
 
-  return (
-    <View style={styles.container}>
-      <Text style={styles.heading}>🔔 Notifications</Text>
-      <FlatList
-  data={notifications}
-  keyExtractor={(_, index) => index.toString()}
-  renderItem={({ item }) => (
-    <View style={styles.card}>
-      <Text style={styles.message}>{item.message}</Text>
-      <Text style={styles.date}>
-        {new Date(item.triggeredAt).toLocaleString()}
-      </Text>
-    </View>
-  )}
-/>
+// //   return (
+// //     <View style={styles.container}>
+// //       <Text style={styles.heading}>🔔 Notifications</Text>
+// //       <FlatList
+// //   data={notifications}
+// //   keyExtractor={(_, index) => index.toString()}
+// //   renderItem={({ item }) => (
+// //     <View style={styles.card}>
+// //       <Text style={styles.message}>{item.message}</Text>
+// //       <Text style={styles.date}>
+// //         {new Date(item.triggeredAt).toLocaleString()}
+// //       </Text>
+// //     </View>
+// //   )}
+// // />
 
-    </View>
-  );
-};
+// //     </View>
+// //   );
+// // };
 
-export default NotificationsPage;
+// // export default NotificationsPage;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-    backgroundColor: '#f9f9f9',
-  },
-  heading: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    marginBottom: 12,
-  },
-  card: {
-    backgroundColor: '#ffffff',
-    padding: 14,
-    marginBottom: 10,
-    borderRadius: 8,
-    shadowColor: '#000',
-    shadowOpacity: 0.05,
-    shadowRadius: 4,
-    shadowOffset: { width: 0, height: 2 },
-    elevation: 2,
-  },
-  message: {
-    fontSize: 16,
-    fontWeight: '500',
-  },
-  date: {
-    marginTop: 4,
-    fontSize: 12,
-    color: '#555',
-  },
-});
+// // const styles = StyleSheet.create({
+// //   container: {
+// //     flex: 1,
+// //     padding: 16,
+// //     backgroundColor: '#f9f9f9',
+// //   },
+// //   heading: {
+// //     fontSize: 22,
+// //     fontWeight: 'bold',
+// //     marginBottom: 12,
+// //   },
+// //   card: {
+// //     backgroundColor: '#ffffff',
+// //     padding: 14,
+// //     marginBottom: 10,
+// //     borderRadius: 8,
+// //     shadowColor: '#000',
+// //     shadowOpacity: 0.05,
+// //     shadowRadius: 4,
+// //     shadowOffset: { width: 0, height: 2 },
+// //     elevation: 2,
+// //   },
+// //   message: {
+// //     fontSize: 16,
+// //     fontWeight: '500',
+// //   },
+// //   date: {
+// //     marginTop: 4,
+// //     fontSize: 12,
+// //     color: '#555',
+// //   },
+// // });
 
 
 
