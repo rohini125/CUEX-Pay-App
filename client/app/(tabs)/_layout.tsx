@@ -1,7 +1,5 @@
 
 
-
-
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Tabs } from "expo-router";
@@ -72,9 +70,5 @@ const styles = StyleSheet.create({
     marginBottom: 25,
   },
 });
-
-
-
-
 
 

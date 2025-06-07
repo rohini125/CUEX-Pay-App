@@ -16,8 +16,8 @@ const help = () => {
     { id: '1', title: 'Payment Issues', icon: require('../../../assets/images/payment_issues.png') },
     { id: '2', title: 'Profile Issues', icon: require('../../../assets/images/profile_payments.png') },
     { id: '3', title: 'Money Transfer', icon: require('../../../assets/images/money_transfer.png') },
-    { id: '4', title: 'Recharge & Bill Payments', icon: require('../../../assets/images/recharge_bills.png') },
-    { id: '5', title: 'Rewards & Refer and Earn', icon: require('../../../assets/images/rewards.png') },
+    // { id: '4', title: 'Recharge & Bill Payments', icon: require('../../../assets/images/recharge_bills.png') },
+    // { id: '5', title: 'Rewards & Refer and Earn', icon: require('../../../assets/images/rewards.png') },
     { id: '6', title: 'Others', icon: require('../../../assets/images/others.png') },
   ];
 
@@ -36,13 +36,13 @@ const help = () => {
     router.push('./money_transfer');
   };
 
-  const handleRechargeBillsClick = () => {
-    router.push('./recharge_bills');
-  };
+  // const handleRechargeBillsClick = () => {
+  //   router.push('./recharge_bills');
+  // };
 
-  const handleRewardsClick = () => {
-    router.push('./rewards');
-  };
+  // const handleRewardsClick = () => {
+  //   router.push('./rewards');
+  // };
 
   const handleOthersClick = () => {
     router.push('./others');
@@ -55,8 +55,8 @@ const help = () => {
       '1': handlePaymentIssuesClick,
       '2': handleProfilePaymentsClick,
       '3': handleMoneyTransferClick,
-      '4': handleRechargeBillsClick,
-      '5': handleRewardsClick,
+      // '4': handleRechargeBillsClick,
+      // '5': handleRewardsClick,
       '6': handleOthersClick,
     };
 
@@ -73,7 +73,7 @@ const help = () => {
 
   return (
     <GestureHandlerRootView>
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       <StatusBar backgroundColor="#004080" barStyle="light-content" />
       
       <View style={styles.header}>
@@ -104,7 +104,7 @@ const help = () => {
           <Text style={styles.callButtonText}>Call Us</Text>
         </TouchableOpacity>
       </View>
-    </ScrollView>
+    </View>
   </GestureHandlerRootView> 
   );
 };
