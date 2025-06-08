@@ -184,7 +184,7 @@ const CommonHeader: React.FC = () => {
 
         {/* Right */}
         <View style={styles.headerRightView}>
-          <TouchableOpacity onPress={handleNotificationPress} style={{ position: 'relative' }}>
+          <TouchableOpacity onPress={handleNotificationPress}  style={{ position: 'relative' }}>
             <Image
               source={require('../assets/images/bell.png')}
               style={[styles.icons, { marginHorizontal: moderateScale(20) }]}

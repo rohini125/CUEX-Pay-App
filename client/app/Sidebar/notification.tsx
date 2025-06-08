@@ -330,7 +330,8 @@ import {
   View, Text, FlatList, TouchableOpacity, StyleSheet,
 } from 'react-native';
 import { API_URL } from '@env';
-
+import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router'; 
 interface Notification {
   _id: string;
   message: string;
@@ -341,6 +342,7 @@ interface Notification {
 const NotificationPage = () => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
+    const router = useRouter();
 
   const fetchNotifications = async () => {
     try {
@@ -375,14 +377,19 @@ const NotificationPage = () => {
   // or when NotificationPage is opened if you want auto mark as read
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>
+ <View style={styles.container}>
+      <View style={styles.header}>
+        <TouchableOpacity activeOpacity={0.7} onPress={() => router.push('/front')} style={styles.backButton}>
+          <Ionicons name="arrow-back" size={24} color="#fff" />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}> Notifications {unreadCount > 0 ? `(${unreadCount})` : ''} </Text>
+      </View>
+   
+      {/* <Text style={styles.header}>
         Notifications {unreadCount > 0 ? `(${unreadCount})` : ''}
-      </Text>
+      </Text> */}
 
-      <TouchableOpacity onPress={markAllAsRead} style={{ marginBottom: 10 }}>
-        <Text style={{ color: 'blue' }}>Mark all as read</Text>
-      </TouchableOpacity>
+     
 
       {notifications.length === 0 ? (
         <Text style={styles.noData}>No notifications found</Text>
@@ -409,6 +416,9 @@ const NotificationPage = () => {
           )}
         />
       )}
+       <TouchableOpacity onPress={markAllAsRead} style={styles.button}>
+        <Text style={{ color: 'white' }}>Mark all as read</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -417,14 +427,52 @@ const NotificationPage = () => {
 export default NotificationPage;
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20, backgroundColor: '#fff' },
-  header: { fontSize: 24, fontWeight: 'bold', marginBottom: 15 },
+  container: { flex: 1,  },
+   header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#004080',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 3 },
+  },
+ 
+   headerTitle: {
+    fontSize: 20,
+    color: '#fff',
+    marginLeft: 10,
+    fontWeight: 'bold',
+  },
+    backButton: {
+    marginRight: 10,
+    padding: 10,
+  },
   notificationItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 12,
     borderBottomWidth: 1,
     borderColor: '#ccc',
+    alignItems: 'center',
+    backgroundColor: '#f9fafb',
+    borderRadius: 6,
+    marginTop: 4,
+  
+  },
+    button: {
+    backgroundColor: '#004080',
+    paddingVertical: 15,
+    marginTop:10,
+    borderRadius: 6,
+    position: 'absolute',
+    bottom: 20,
+    left: 20,
+    right: 20,
+    alignItems: 'center',
   },
   delete: { fontSize: 16, color: 'red' },
   noData: { textAlign: 'center', color: 'gray', marginTop: 20 },
