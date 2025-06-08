@@ -36,27 +36,39 @@ const Login = () => {
     }
   };
 
+  
+
   const handleOtpVerification = async () => {
-    if (!otp) {
-      Alert.alert('Error', 'Please enter the OTP');
-      return;
-    }
+  if (!otp) {
+    Alert.alert('Error', 'Please enter the OTP');
+    return;
+  }
 
+  try {
+    const response = await axios.post(`${API_URL}/api/auth/verify-otp`, {
+      otp,
+      emailOrPhone,
+    });
+
+    const { token } = response.data;
+    await AsyncStorage.setItem('token', token);
+    setIsOtpVerified(true);
+    Alert.alert('Success', 'OTP Verified. Login successful!');
+
+    // Add this block to create the notification once on successful login
     try {
-      const response = await axios.post(`${API_URL}/api/auth/verify-otp`, {
-        otp,
-        emailOrPhone,
+      await axios.post(`${API_URL}/notifications`, {
+        message: 'Login Successfully',
       });
-
-      const { token } = response.data;
-      await AsyncStorage.setItem('token', token);
-      setIsOtpVerified(true);
-      Alert.alert('Success', 'OTP Verified. Login successful!');
-      router.push('/front');
-    } catch (error) {
-      Alert.alert('OTP verification failed', 'Invalid or expired OTP');
+    } catch (notifError) {
+      console.error('Failed to create login notification:', notifError);
     }
-  };
+
+    router.push('/front');
+  } catch (error) {
+    Alert.alert('OTP verification failed', 'Invalid or expired OTP');
+  }
+};
 
   return (
     <ScrollView style={styles.container}>

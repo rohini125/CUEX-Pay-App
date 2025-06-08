@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, Image, TextInput, TouchableOpacity, Alert,StatusBar } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
+import { API_URL } from '@env';
 
 const About = () => {
   const router = useRouter();
@@ -15,20 +16,61 @@ const About = () => {
   const handleInputChange = (field: string, value: string) => {
     setFormData({ ...formData, [field]: value });
   };
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const [loading, setLoading] = useState(false);
 
-  const handleSubmit = () => {
-    if (formData.name && formData.email && formData.subject && formData.message) {
-      Alert.alert('Form Submitted', 'Thank you for contacting us!');
-      setFormData({ name: '', email: '', subject: '', message: '' });
-    } else {
-      Alert.alert('Error', 'Please fill in all required fields.');
-    }
-  };
+ 
+ 
+   const handleSubmit = async () => {
+   const { name, email, subject, message } = formData;
+ 
+   if (!name || !email || !subject || !message) {
+     Alert.alert('Error', 'Please fill in all required fields.');
+     return;
+   }
+ 
+   if (!emailRegex.test(email)) {
+     Alert.alert('Error', 'Please enter a valid email address.');
+     return;
+   }
+ 
+   setLoading(true);
+ 
+   try {
+     const response = await fetch(`${API_URL}/newuser`, {
+       method: 'POST',
+       headers: { 'Content-Type': 'application/json' },
+       body: JSON.stringify(formData),
+     });
+ 
+     const contentType = response.headers.get('content-type');
+     const isJson = contentType && contentType.includes('application/json');
+     const data = isJson ? await response.json() : null;
+ 
+     if (response.ok) {
+       Alert.alert('Success', data?.message || 'Message sent!');
+       setFormData({ name: '', email: '', subject: '', message: '' });
+     } else {
+       const errorMsg = data?.message || 'Something went wrong.';
+       Alert.alert('Error', errorMsg);
+     }
+   }  catch (error: unknown) {
+   if (error instanceof Error) {
+     console.error('Submit Error:', error.message);
+   } else {
+     console.error('Unknown Submit Error:', error);
+   }
+   Alert.alert('Error', 'Failed to send message. Check your server and network.');
+ }
+  finally {
+     setLoading(false);
+   }
+ };
 
   const developers = [
     { name: 'Parkale Sakshi Mohan', role: 'Frontend Developer', image: require('../../assets/images/sakshi.jpg') },
     { name: 'Navale Komal Jalindar', role: 'Backend Developer', image: require('../../assets/images/sakshi.jpg') },
-    { name: 'Salunke Yash Sudarshan', role: 'Project Manager', image: require('../../assets/images/sakshi.jpg') },
+    { name: 'Salunke Yash Sudarshan', role: 'Project Manager', image: require('../../assets/images/yash.jpg') },
     { name: 'Kandekar Rohini Sukhadev', role: 'UI/UX Designer', image: require('../../assets/images/sakshi.jpg') },
   ];
 

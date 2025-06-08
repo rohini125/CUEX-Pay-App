@@ -6,7 +6,7 @@ import connectDB from "./db/index.js";
 import cors from "cors";
 import conversionRoutes from "./routes/conversionRoutes.js";
 import nomineeRoutes from "./routes/nomineeRoutes.js";
-import kycRoutes from "./routes/kycRoutes.js";
+// import kycRoutes from "./routes/kycRoutes.js";
 import upiPinRoutes from "./routes/upiPinRoutes.js";
 import contactRoute from "./routes/contactRoute.js";
 import accountRoutes from "./routes/accountRoutes.js";
@@ -17,7 +17,7 @@ import alertRoutes from "./routes/alertRoutes.js";
 import PriceAlertRoutes from "./routes/PriceAlertRoutes.js";
 import cookieParser from "cookie-parser";
 import notificationRoutes from "./routes/notificationsRoute.js";
-
+import profileRoutes from "./routes/profileRoutes.js"
 dotenv.config();
 
 const app = express(); // Initialize the express app

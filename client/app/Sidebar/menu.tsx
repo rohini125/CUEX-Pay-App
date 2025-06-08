@@ -40,11 +40,11 @@ const menu = () => {
           <Text style={styles.menuText}>Price Alerts</Text>
         </TouchableOpacity>
 
-        {/* Promotions */}
+        {/* Promotions
         <TouchableOpacity style={styles.menuItem} onPress={() => navigateTo('/Sidebar/Rewards')}>
           <Feather name="gift" size={20} color="black" />
           <Text style={styles.menuText}>Rewards</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         {/* Help */}
         <TouchableOpacity style={styles.menuItem} onPress={() => navigateTo('/Sidebar/help/help')}>

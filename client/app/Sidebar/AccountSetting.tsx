@@ -15,15 +15,16 @@ const AccountingSettings = () => {
         </TouchableOpacity>
       <Text style={styles.headerTitle}> Account Settings </Text>
       </View>
-      {/* KYC Verification */}
-      < View style={{margin:15}}>
+     
+     < View style={{margin:15}}>
+      {/* KYC Verification
         <TouchableOpacity
           style={styles.option}
           onPress={() => router.push('/Sidebar/kycVerification/introduction')}
         >
           <Text style={styles.optionTitle}> KYC VERIFICATION</Text>
           <Text style={styles.arrow}>➔</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         {/* Account Details */}
         {/* <TouchableOpacity
