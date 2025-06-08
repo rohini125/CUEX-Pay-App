@@ -75,7 +75,12 @@ const [loading, setLoading] = useState(false);
   ];
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView
+  style={styles.container}
+  contentContainerStyle={{ paddingBottom: 50 }}
+  keyboardShouldPersistTaps="handled"
+>
+
       <StatusBar backgroundColor="#004080" barStyle="light-content" />
       
       <View style={styles.header}>
