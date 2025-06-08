@@ -17,7 +17,7 @@ import alertRoutes from "./routes/alertRoutes.js";
 import PriceAlertRoutes from "./routes/PriceAlertRoutes.js";
 import cookieParser from "cookie-parser";
 import notificationRoutes from "./routes/notificationsRoute.js";
-
+import profileRoutes from "./routes/profileRoutes.js"
 dotenv.config();
 
 const app = express(); // Initialize the express app
