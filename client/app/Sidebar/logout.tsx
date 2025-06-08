@@ -1,165 +1,138 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Alert,StatusBar } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Modal,
+  Alert,
+  ScrollView,
+  StatusBar
+} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 import { useRouter } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
-
-export type RootParamList = {
-    Login: undefined;
-    Home: undefined;
-    Profile: undefined;
-};
-
-type LogoutScreenNavigationProp = NativeStackNavigationProp<RootParamList, 'Login'>;
+import Header from '../Header';
 
 const LogoutPage = () => {
-      const router = useRouter();
-    const navigation = useNavigation<LogoutScreenNavigationProp>();
-    const [isLoggingOut, setIsLoggingOut] = useState(false);
-    const API_URL = 'http://172.27.16.1:7000/api/auth/logout'; // Backend logout URL
+  const [modalVisible, setModalVisible] = useState(false);
+  const router = useRouter();
 
-    const handleLogout = async () => {
-        Alert.alert(
-            'Confirm Logout',
-            'Are you sure you want to log out?',
-            [
-                { text: 'Cancel', style: 'cancel' },
-                {
-                    text: 'Logout',
-                    onPress: async () => {
-                        setIsLoggingOut(true);
+  const handleLogout = async () => {
+    try {
+      await axios.post('http://192.168.43.102:9000/api/auth/logout');
+      await AsyncStorage.removeItem('token');
+      setModalVisible(false);
+      Alert.alert('Logout', 'You have been logged out.');
+      router.replace('/login');
+    } catch (error) {
+      console.error('Logout error:', error);
+      Alert.alert('Error', 'Failed to logout. Try again.');
+    }
+  };
 
-                        try {
-                            const response = await fetch(API_URL, {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
-                            });
+  return (
+    <View style={{ flex: 1 }}>
+      <StatusBar backgroundColor="#004080" barStyle="light-content" />
+      <Header />
 
-                            const data = await response.json();
+      <ScrollView contentContainerStyle={styles.container}>
+        {/* ✅ Only show logout button when modal is NOT visible */}
+        {!modalVisible && (
+          <TouchableOpacity
+            style={styles.logoutBtn}
+            onPress={() => setModalVisible(true)}
+          >
+            <Text style={styles.logoutText}>Logout</Text>
+          </TouchableOpacity>
+        )}
+      </ScrollView>
 
-                            if (response.ok) {
-                                Alert.alert('Logged out', data.message);
-                                navigation.reset({
-                                    index: 0,
-                                    routes: [{ name: 'Login', params: { path: '/login' } }],
-                                });
-                            } else {
-                                Alert.alert('Error', data.message || 'Failed to log out');
-                            }
-                        } catch (error) {
-                            Alert.alert('Error', 'Something went wrong. Please try again.');
-                            console.error('Logout error:', error);
-                        } finally {
-                            setIsLoggingOut(false);
-                        }
-                    },
-                },
-            ]
-        );
-    };
-
-    return (
-        <View style={styles.container}>
-              <StatusBar backgroundColor="#004080" barStyle="light-content"  />
-            
-              <View style={styles.header}>
-                    <TouchableOpacity activeOpacity={0.7} onPress={() => router.push('/Sidebar/menu')} style={styles.backButton}>
-                      <Ionicons name="arrow-back" size={24} color="#fff" />
-                    </TouchableOpacity>
-                  {/* Header */}
-                  <Text style={styles.headerTitle}>Logout</Text>
-                 
-                  </View>
-            <View style={styles.card}>
-                <Text style={styles.subheader}>Logout</Text>
-                <Text style={styles.subText}>Are you sure you want to log out of your account?</Text>
-                <TouchableOpacity activeOpacity={0.7}
-                    style={styles.logoutButton}
-                    onPress={handleLogout}
-                    disabled={isLoggingOut}
-                >
-                    <Text style={styles.logoutButtonText}>
-                        {isLoggingOut ? 'Logging Out...' : 'Log Out'}
-                    </Text>
-                </TouchableOpacity>
+      {/* Confirm Logout Modal */}
+      <Modal
+        visible={modalVisible}
+        transparent
+        animationType="slide"
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalText}>Confirm logout?</Text>
+            <View style={styles.buttonRow}>
+              <TouchableOpacity style={styles.confirmBtn} onPress={handleLogout}>
+                <Text style={styles.btnText}>Confirm</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.cancelBtn}
+                onPress={() => setModalVisible(false)}
+              >
+                <Text style={styles.btnText}>Cancel</Text>
+              </TouchableOpacity>
             </View>
+          </View>
         </View>
-    );
+      </Modal>
+    </View>
+  );
 };
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        // justifyContent: 'center',
-        // alignItems: 'center',
-        // backgroundColor: '#fff',
-        // padding: 20,
-    },
-    header: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        backgroundColor: '#004080',
-        paddingVertical: 15,
-        paddingHorizontal: 20,
-        elevation: 5,
-        shadowColor: '#000',
-        shadowOpacity: 0.3,
-        shadowRadius: 5,
-        shadowOffset: { width: 0, height: 3 },
-      },
-      headerTitle: {
-       fontSize: 20,
-        fontWeight: 'bold',
-        color: '#fff',
-        marginLeft: 10,
-       
-    
-      },
-      backButton: {
-        marginRight: 10,
-       
-      },
-    subheader:{
-        fontSize: 20,
-        fontWeight: 'bold',
-        marginBottom: 10,
-        color: 'black',
-        textAlign: 'center',
-      },
-    card: {
-        backgroundColor: '#e2f1ff',
-        borderRadius: 12,
-        padding: 16,
-        marginTop:'50%',
-        shadowColor: '#000',
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-        shadowOffset: { width: 0, height: 2 },
-        elevation: 2,
-        margin: 50,
-    },
-    subText: {
-        fontSize: 16,
-        textAlign: 'center',
-        color: 'black',
-        marginBottom: 40,
-    },
-    logoutButton: {
-        backgroundColor: '#d9534f',
-        paddingVertical: 15,
-        paddingHorizontal: 40,
-        borderRadius: 10,
-        textAlign:'center'
-    },
-    logoutButtonText: {
-        color: '#fff',
-        fontSize: 18,
-        fontWeight: 'bold',
-        textAlign:'center'
-    },
-});
-
 export default LogoutPage;
+
+const styles = StyleSheet.create({
+  container: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+    backgroundColor: '#F4F6F9'
+  },
+  logoutBtn: {
+    backgroundColor: '#ff3b30',
+    padding: 15,
+    borderRadius: 10
+  },
+  logoutText: {
+    color: '#fff',
+    fontSize: 16
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'transparent'
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    padding: 25,
+    borderRadius: 12,
+    alignItems: 'center',
+    width: '80%',
+    elevation: 5
+  },
+  modalText: {
+    fontSize: 18,
+    marginBottom: 20
+  },
+  buttonRow: {
+    flexDirection: 'row',
+    gap: 10
+  },
+  confirmBtn: {
+    backgroundColor: '#007bff',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    marginRight: 10
+  },
+  cancelBtn: {
+    backgroundColor: '#6c757d',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8
+  },
+  btnText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 14
+  }
+});
