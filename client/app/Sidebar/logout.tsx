@@ -12,7 +12,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { useRouter } from 'expo-router';
-import Header from '../Header';
+import { Ionicons } from '@expo/vector-icons';
 
 const LogoutPage = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -34,20 +34,14 @@ const LogoutPage = () => {
   return (
     <View style={{ flex: 1 }}>
       <StatusBar backgroundColor="#004080" barStyle="light-content" />
-      <Header />
-
+        <View style={styles.header}>
+        <TouchableOpacity activeOpacity={0.7} onPress={() => router.push('/Sidebar/menu')} style={styles.backButton}>
+          <Ionicons name="arrow-back" size={24} color="#fff" />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>Log Out</Text>
+      </View>
       <ScrollView contentContainerStyle={styles.container}>
-        {/* ✅ Only show logout button when modal is NOT visible
-        {!modalVisible && (
-          <TouchableOpacity
-            style={styles.logoutBtn}
-            onPress={() => setModalVisible(true)}
-          >
-            <Text style={styles.logoutText}>Logout</Text>
-          </TouchableOpacity>
-        )} */}
-
-        {/* ✅ Only show logout button when modal is NOT visible */}
+       
 {!modalVisible && (
   <View style={styles.logoutCard}> {/* Card-style wrapper */}
    <Text style={styles.subheader}>Logout</Text>
@@ -101,6 +95,27 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 20,
     backgroundColor: '#F4F6F9'
+  }, backButton: {
+    marginRight: 10,
+    padding: 10,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#004080',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 3 },
+  },
+  headerTitle: {
+    fontSize: 20,
+    color: '#fff',
+    marginLeft: 10,
+    fontWeight: 'bold',
   },
    subheader:{
         fontSize: 20,
