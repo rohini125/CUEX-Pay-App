@@ -1,27 +1,38 @@
-// with backend complete 
-
 import { router } from 'expo-router';
 import React, { useState, useEffect, useRef } from 'react';
-import { View, StyleSheet, Text, TextInput, TouchableOpacity, StatusBar } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StatusBar,
+  Alert,
+} from 'react-native';
 import axios from 'axios';
+import { API_URL } from '@env';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function VerificationPage() {
   const [otp, setOtp] = useState('');
-  const [timer, setTimer] = useState(120); // 2 minutes = 120 seconds
-  const [serverOtp, setServerOtp] = useState(''); // Simulate OTP received from server
-  const [error, setError] = useState(''); // Error state for OTP verification
-  const otpRefs = useRef<(TextInput | null)[]>([]); // Ref for OTP inputs
+  const [timer, setTimer] = useState(120);
+  const [error, setError] = useState('');
+  const [emailOrPhone, setEmailOrPhone] = useState('');
+  const otpRefs = useRef<(TextInput | null)[]>([]);
 
+  // Fetch emailOrPhone from AsyncStorage
   useEffect(() => {
-    setTimeout(() => setServerOtp('123456'), 2000); // Simulate server OTP
+    (async () => {
+      const storedValue = await AsyncStorage.getItem('emailOrPhone');
+      if (storedValue) setEmailOrPhone(storedValue);
+    })();
   }, []);
 
+  // Countdown timer logic
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
     if (timer > 0) {
-      interval = setInterval(() => {
-        setTimer((prev) => prev - 1);
-      }, 1000);
+      interval = setInterval(() => setTimer((prev) => prev - 1), 1000);
     } else if (interval) {
       clearInterval(interval);
     }
@@ -30,22 +41,30 @@ export default function VerificationPage() {
     };
   }, [timer]);
 
+  // Resend OTP
   const handleResendOtp = async () => {
     setTimer(120); // Reset the timer
-    setServerOtp('123456'); // Simulate new OTP
-    // Send request to backend to resend OTP (if needed)
-    // You can call your backend here using axios or fetch
+    try {
+      const res = await axios.post(`${API_URL}/api/auth/resend-otp`, { emailOrPhone });
+      Alert.alert('OTP Resent', 'A new OTP has been sent.');
+    } catch (err) {
+      Alert.alert('Failed', 'Could not resend OTP.');
+    }
   };
 
+  // Verify OTP
   const handleVerify = async () => {
+    if (otp.length !== 6) {
+      Alert.alert('Invalid OTP', 'Please enter a valid 6-digit OTP.');
+      return;
+    }
     try {
-      // Sending OTP to the backend for verification
-      const response = await axios.post('http://192.168.43.174:9000/api/otp/verify-otp', { otp });
-      console.log(response.data); // Handle the response after verification
-      // Navigate to another page on success
-      router.navigate('/front');
+      const response = await axios.post(`${API_URL}/api/auth/verify-otp`, { otp, emailOrPhone });
+      await AsyncStorage.setItem('token', response.data.token);
+      Alert.alert('Success', 'OTP verified successfully.');
+      router.push('/front');
     } catch (err) {
-      setError('Something went wrong'); // Show error if OTP verification fails
+      setError('Invalid or expired OTP');
     }
   };
 
@@ -54,7 +73,6 @@ export default function VerificationPage() {
     newOtp[index] = value;
     setOtp(newOtp.join(''));
 
-    // Move focus to next input when value is entered
     if (value && otpRefs.current[index + 1]) {
       otpRefs.current[index + 1]?.focus();
     }
@@ -65,7 +83,6 @@ export default function VerificationPage() {
     newOtp[index] = '';
     setOtp(newOtp.join(''));
 
-    // Move focus to previous input when a value is deleted
     if (!otp[index] && otpRefs.current[index - 1]) {
       otpRefs.current[index - 1]?.focus();
     }
@@ -74,16 +91,17 @@ export default function VerificationPage() {
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor={'#F4F6F9'} barStyle={'dark-content'} />
-      <View style={styles.Content}>
-        <Text style={styles.header}>OTP</Text>
+      <View style={styles.content}>
+        <Text style={styles.header}>OTP Verification</Text>
         <Text style={styles.description}>
-          Please wait for an SMS confirmation code and enter it.
+          Please enter the 6-digit code sent to your registered email or phone.
         </Text>
+
         <View style={styles.otpContainer}>
           {[...Array(6)].map((_, index) => (
             <TextInput
               key={index}
-              ref={(ref) => (otpRefs.current[index] = ref)} // Reference for OTP input fields
+              ref={(ref) => (otpRefs.current[index] = ref)}
               style={styles.otpBox}
               keyboardType="numeric"
               maxLength={1}
@@ -97,6 +115,7 @@ export default function VerificationPage() {
             />
           ))}
         </View>
+
         <TouchableOpacity
           activeOpacity={0.7}
           style={styles.verifyButton}
@@ -107,12 +126,10 @@ export default function VerificationPage() {
 
         <Text style={styles.retryText}>
           {timer > 0
-            ? `Didn't receive OTP? Retry in (${Math.floor(timer / 60)
+            ? `Resend OTP in ${Math.floor(timer / 60)
                 .toString()
-                .padStart(2, '0')}:${(timer % 60)
-                .toString()
-                .padStart(2, '0')})`
-            : "Didn't receive OTP?"}
+                .padStart(2, '0')}:${(timer % 60).toString().padStart(2, '0')}`
+            : 'Didn’t receive OTP?'}
         </Text>
 
         {timer === 0 && (
@@ -138,14 +155,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#F4F6F9',
     justifyContent: 'center',
   },
-  Content: {
+  content: {
     backgroundColor: '#E6F2FA',
     borderRadius: 15,
     padding: 20,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    shadowOffset: { width: 0, height: 2 },
     elevation: 5,
   },
   header: {
