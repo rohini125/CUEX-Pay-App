@@ -4,6 +4,8 @@ import userRoute from "./routes/userRoute.js";
 import dotenv from "dotenv";
 import connectDB from "./db/index.js";
 import cors from "cors";
+import profileRoute from "./routes/profileRoute.js";
+import path from "path";
 import conversionRoutes from "./routes/conversionRoutes.js";
 import nomineeRoutes from "./routes/nomineeRoutes.js";
 // import kycRoutes from "./routes/kycRoutes.js";
@@ -17,7 +19,6 @@ import alertRoutes from "./routes/alertRoutes.js";
 import PriceAlertRoutes from "./routes/PriceAlertRoutes.js";
 import cookieParser from "cookie-parser";
 import notificationRoutes from "./routes/notificationsRoute.js";
-
 dotenv.config();
 
 const app = express(); // Initialize the express app
@@ -41,6 +42,12 @@ app.use(cookieParser());
 
 // Middleware to parse JSON
 app.use(express.json());
+
+// Serve static uploads
+app.use("/uploads", express.static(path.join("uploads")));
+
+// Profile API
+app.use("/api/profile", profileRoute);
 
 // contact routes
 app.use("/newuser", contactRoute);
