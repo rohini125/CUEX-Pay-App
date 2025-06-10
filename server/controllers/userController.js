@@ -167,14 +167,13 @@ export const logoutUser = (req, res) => {
   }
 };
 
+// Resend OTP
 export const resendOtp = async (req, res) => {
   try {
-    const emailOrPhone = req.session?.emailOrPhone;
+    const { emailOrPhone } = req.body;
 
     if (!emailOrPhone) {
-      return res
-        .status(400)
-        .json({ message: "Session expired. Please log in again." });
+      return res.status(400).json({ message: "Email or phone is required." });
     }
 
     const user = await User.findOne({ emailOrPhone });
@@ -182,21 +181,15 @@ export const resendOtp = async (req, res) => {
       return res.status(404).json({ message: "User not found." });
     }
 
-    if (user.otp && user.otpExpiry > Date.now()) {
-      return res
-        .status(400)
-        .json({ message: "Please wait, OTP is still valid." });
-    }
-    const newOtp = Math.floor(100000 + Math.random() * 900000).toString();
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
     const otpExpiry = Date.now() + 3 * 60 * 1000;
-
-    user.otp = newOtp;
+    user.otp = otp;
     user.otpExpiry = otpExpiry;
     await user.save();
 
     if (emailOrPhone.includes("+")) {
       await twilioClient.messages.create({
-        body: `Your OTP is ${newOtp}. It is valid for 3 minutes.`,
+        body: `Your OTP is ${otp}. It is valid for 3 minutes.`,
         from: process.env.TWILIO_PHONE_NUMBER,
         to: emailOrPhone,
       });
@@ -204,14 +197,15 @@ export const resendOtp = async (req, res) => {
       await transporter.sendMail({
         from: process.env.EMAIL_USER,
         to: emailOrPhone,
-        subject: "Your OTP for Login Verification",
-        text: `Your OTP is ${newOtp}. It is valid for 3 minutes.`,
+        subject: "Your OTP for Verification",
+        text: `Your OTP is ${otp}. It is valid for 3 minutes.`,
       });
     }
 
-    res.status(200).json({ message: "New OTP sent successfully." });
+    res.status(200).json({ message: "OTP resent successfully." });
   } catch (error) {
-    res.status(500).json({ message: "Server error.", error });
+    console.error("Resend OTP error:", error);
+    res.status(500).json({ message: "Failed to resend OTP", error });
   }
 };
 
@@ -300,6 +294,6 @@ export const deleteUserAccount = async (req, res) => {
     console.error("Error deleting user:", error);
     return res
       .status(500)
-      .json({ message: "Internal server error.", error: error.message });
-  }
+      .json({ message: "Internal server error.", error: error.message });
+  }
 };
