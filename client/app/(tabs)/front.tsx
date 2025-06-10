@@ -9,14 +9,6 @@ import Header from '../Header';
 const Home = () => {
   const router = useRouter();
 
-  // const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  // const handleProfilePress = () => {
-  //   setIsSidebarOpen(true); // Open sidebar when profile is pressed
-  // };
-  // const handleCloseSidebar = () => {
-  //   setIsSidebarOpen(false); // Close sidebar
-  // };
-
   return (
     
      <View style={{flex:1}}>
@@ -53,7 +45,7 @@ const Home = () => {
                     <MaterialIcons name="account-balance" size={18} color="black" />
                   </View>
                   <Text style={styles.iconText} numberOfLines={2}>
-                    To Bank/UPI ID
+                    To Bank
                   </Text>
                 </View>
               </Link>
